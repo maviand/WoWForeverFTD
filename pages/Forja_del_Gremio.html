@@ -1,0 +1,486 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Forja del Gremio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;600&display=swap">
+<style>
+:root{
+  color-scheme: light dark;
+  --void:#EDF1F8; --deep:#F7F9FD; --panel:#FFFFFF; --panel2:#F0F3FA; --line:#D3DBEA; --line2:#B7C3DC;
+  --gold:#8F6300; --goldfill:#F2C14E; --azure:#2F62D6; --sky:#2B4E9E;
+  --text:#101A33; --text2:#33415F; --muted:#586582; --ok:#1B7F4E; --warn:#A85A08;
+  --wash:rgba(16,26,51,.045); --warnbg:rgba(168,90,8,.09); --warnline:rgba(168,90,8,.35);
+  --shadowc:rgba(16,26,51,.18); --navbg:rgba(237,241,248,.86);
+  --hero-text:#ECE7D8; --hero-text2:#C5CEE3; --hero-muted:#9EABC6; --hero-line:#33436A; --hero-card:rgba(12,18,32,.78);
+  --sans:"Google Sans","Google Sans Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Google Sans Code","Google Sans",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]):not([data-ff-theme="light"]){
+    --void:#070B14; --deep:#0C1220; --panel:#121B2E; --panel2:#182339; --line:#26324D; --line2:#33436A;
+    --gold:#F2C14E; --azure:#3B7BFF; --sky:#9FB6E8;
+    --text:#ECE7D8; --text2:#C5CEE3; --muted:#95A2BE; --ok:#6FD39A; --warn:#F0A04B;
+    --wash:rgba(255,255,255,.035); --warnbg:rgba(240,160,75,.08); --warnline:rgba(240,160,75,.3);
+    --shadowc:rgba(0,0,0,.55); --navbg:rgba(7,11,20,.84);
+  }
+}
+:root[data-theme="dark"],:root[data-ff-theme="dark"]{
+  --void:#070B14; --deep:#0C1220; --panel:#121B2E; --panel2:#182339; --line:#26324D; --line2:#33436A;
+  --gold:#F2C14E; --azure:#3B7BFF; --sky:#9FB6E8;
+  --text:#ECE7D8; --text2:#C5CEE3; --muted:#95A2BE; --ok:#6FD39A; --warn:#F0A04B;
+  --wash:rgba(255,255,255,.035); --warnbg:rgba(240,160,75,.08); --warnline:rgba(240,160,75,.3);
+  --shadowc:rgba(0,0,0,.55); --navbg:rgba(7,11,20,.84);
+}
+:root[data-ff-theme="light"]{
+  --void:#EDF1F8; --deep:#F7F9FD; --panel:#FFFFFF; --panel2:#F0F3FA; --line:#D3DBEA; --line2:#B7C3DC;
+  --gold:#8F6300; --azure:#2F62D6; --sky:#2B4E9E;
+  --text:#101A33; --text2:#33415F; --muted:#586582; --ok:#1B7F4E; --warn:#A85A08;
+  --wash:rgba(16,26,51,.045); --warnbg:rgba(168,90,8,.09); --warnline:rgba(168,90,8,.35);
+  --shadowc:rgba(16,26,51,.18); --navbg:rgba(237,241,248,.86);
+}
+:root[data-ff-theme="dark"]{color-scheme:dark}
+:root[data-ff-theme="light"]{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-inline:20px}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+h1,h2,h3{margin:0;text-wrap:balance}
+.wrap{width:100%;max-width:1180px;margin-inline:auto}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:650}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;margin-inline:-20px;padding-inline:20px;background:var(--navbg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:12px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;font-size:12px;color:var(--gold);white-space:nowrap}
+.brand svg{width:22px;height:22px;flex:none}
+.nav nav{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none;min-width:0}
+.nav nav::-webkit-scrollbar{display:none}
+.nav nav a{color:var(--muted);text-decoration:none;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:9px 10px;border-radius:999px;white-space:nowrap}
+.nav nav a:hover{color:var(--text);background:var(--wash)}
+.iconbtn{min-width:40px;min-height:40px;display:inline-grid;place-content:center;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);flex:none}
+.iconbtn svg{width:18px;height:18px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;margin-inline:-20px;padding-inline:20px;border-bottom:1px solid var(--line);background:radial-gradient(120% 100% at 50% 0%,#14284f 0%,#0b1630 42%,#070B14 78%);color:var(--hero-text)}
+.ridge{position:absolute;left:0;right:0;bottom:0;width:100%;height:52%;pointer-events:none}
+.hero .wrap{position:relative;padding-block:52px 40px}
+.hero .eyebrow{color:#F2C14E}
+.hero h1{font-size:clamp(32px,6vw,58px);line-height:1.03;font-weight:800;letter-spacing:-.02em;max-width:16ch;margin-top:14px;
+  background:linear-gradient(180deg,#FFE9A8 0%,#F2C14E 46%,#B98A2B 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{max-width:60ch;color:var(--hero-text2);font-size:16px;margin:16px 0 0}
+.hero p.lede b{color:var(--hero-text)}
+.herostats{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--hero-line);border-radius:999px;background:var(--hero-card);font-size:12.5px;color:var(--hero-text)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--c,#F2C14E);display:inline-block}
+
+/* sections */
+section.blk{padding-block:56px 8px}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.sh h2{font-size:clamp(24px,3.6vw,34px);font-weight:750;letter-spacing:-.015em;margin-top:6px}
+.sh p{margin:0;max-width:56ch;color:var(--muted)}
+.panel{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:22px;min-width:0}
+.panel.tight{padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 14px;border-radius:10px;border:1px solid var(--line2);background:var(--panel);color:var(--text);font-weight:600;font-size:13.5px}
+.btn:hover{border-color:var(--gold)}
+.btn.gold{background:var(--goldfill);border-color:var(--goldfill);color:#1a1200}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+
+/* toolbar */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.toolbar input[type=search],.toolbar select{min-height:40px;padding:8px 12px;border-radius:10px;border:1px solid var(--line2);background:var(--panel);color:var(--text);font-size:13.5px;min-width:0}
+.toolbar input[type=search]{flex:1 1 220px}
+
+/* names layout */
+.names{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:22px;align-items:start}
+.pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pk{display:flex;align-items:flex-start;gap:12px;padding:12px;border:1px solid var(--line2);border-radius:14px;background:var(--panel);text-align:left;min-width:0;position:relative}
+.pk svg.rune{width:30px;height:30px;flex:none;color:var(--c)}
+.pk .t{min-width:0;flex:1}
+.pk b{display:block;font-size:14.5px;color:var(--c);overflow-wrap:anywhere;line-height:1.2}
+.pk .blurb{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.4}
+.pk .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.pk[aria-pressed="true"]{background:color-mix(in srgb,var(--c) 14%,var(--panel));border-color:var(--c);box-shadow:0 0 0 1px var(--c)}
+.copybtn{flex:none;min-width:30px;min-height:30px;border-radius:8px;border:1px solid var(--line2);background:var(--deep);display:inline-grid;place-content:center;color:var(--muted)}
+.copybtn:hover{color:var(--text);border-color:var(--gold)}
+.copybtn svg{width:15px;height:15px}
+.chip{font-size:10.5px;padding:2px 8px;border-radius:99px;border:1px solid var(--line2);color:var(--text2);background:var(--wash);white-space:nowrap;letter-spacing:.02em}
+.chip.cat{font-weight:700;text-transform:uppercase;font-size:9.5px;letter-spacing:.1em;border-color:var(--c);color:var(--c)}
+.empty{grid-column:1/-1;padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line2);border-radius:14px}
+
+/* shortlist */
+.slots{display:flex;flex-direction:column;gap:9px}
+.slot{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px dashed var(--line2);min-height:58px;color:var(--muted)}
+.slot.full{border-style:solid;border-color:var(--c);background:color-mix(in srgb,var(--c) 9%,var(--panel));color:var(--text)}
+.slot .no{font-family:var(--mono);color:var(--gold);font-size:12px;flex:none}
+.slot .nm{flex:1;min-width:0}
+.slot b{color:var(--c);display:block;line-height:1.2;overflow-wrap:anywhere}
+.slot small{color:var(--muted);display:block;font-size:11.5px}
+.slot .rm{flex:none;min-width:30px;min-height:30px;border-radius:8px;border:1px solid var(--line2);background:var(--deep);display:inline-grid;place-content:center;color:var(--muted)}
+.slot .rm:hover{color:#E2555A;border-color:#E2555A}
+
+/* motto */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.two .panel h3{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.motto{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.motto:last-child{border-bottom:0}
+.motto span{flex:1}
+
+/* rules */
+.rules{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.rules li{display:flex;gap:10px;font-size:13.5px;color:var(--text2)}
+.rules li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:7px;flex:none}
+
+footer{margin-top:64px;padding-block:28px 60px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;background:var(--text);color:var(--void);padding:10px 16px;border-radius:12px;font-size:13.5px;max-width:calc(100% - 32px);box-shadow:0 10px 30px var(--shadowc);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
+
+@media(max-width:900px){
+  .names{grid-template-columns:minmax(0,1fr)}
+  .pick{grid-template-columns:minmax(0,1fr)}
+  .two{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<a href="../index.html" class="wf-home" style="position:fixed;left:14px;bottom:14px;z-index:60;padding:7px 12px;border-radius:999px;border:1px solid #33436A;background:rgba(12,18,32,.9);color:#F2C14E;font:600 12px/1 system-ui,sans-serif;letter-spacing:.06em;text-decoration:none;text-transform:uppercase">&larr; Hub</a><div class="nav"><div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 20 6.5v8L12 22 4 14.5v-8Z"/><path d="M12 7v8M8.5 10.5h7"/></svg>
+    <span>Warcraft Forever</span>
+  </div>
+  <nav aria-label="Secciones">
+    <a href="#names">Nombres</a><a href="#shortlist">Favoritos</a><a href="#motto">Lemas</a><a href="#rules">Reglas</a>
+  </nav>
+  <button type="button" class="iconbtn" id="themeBtn" aria-label="Tema: automático. Actívalo para cambiar."></button>
+</div></div>
+
+<div class="hero">
+  <svg class="ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="rg1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#132a57"/><stop offset="1" stop-color="#070B14"/></linearGradient>
+      <linearGradient id="rg2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0d1b3a"/><stop offset="1" stop-color="#070B14"/></linearGradient>
+    </defs>
+    <path d="M0 210 L90 150 L160 190 L260 100 L340 170 L430 120 L520 190 L640 90 L730 160 L820 110 L930 190 L1030 130 L1120 180 L1200 140 V300 H0Z" fill="url(#rg1)" opacity=".85"/>
+    <path d="M0 250 L110 200 L210 240 L330 180 L450 240 L560 200 L700 250 L820 190 L960 245 L1080 205 L1200 240 V300 H0Z" fill="url(#rg2)"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow">Warcraft Forever · Kit de nombres de gremio</div>
+    <h1>20 nombres para un solo gremio</h1>
+    <p class="lede">Nombres dominicanos, bilingües y en inglés para el gremio — con doble sentido, sabor criollo y jerga de Azeroth. <b>Filtra, guarda tus favoritos y cópialos</b> listos para pegar en el creador de gremio.</p>
+    <div class="herostats">
+      <span class="pill" style="--c:#F2C14E"><i></i>10 dominicanos</span>
+      <span class="pill" style="--c:#3B7BFF"><i></i>6 bilingües</span>
+      <span class="pill" style="--c:#9FB6E8"><i></i>4 en inglés</span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="main">
+<section class="blk" id="names">
+  <div class="sh">
+    <div><div class="eyebrow">El listado</div><h2>Elige y guarda tus favoritos</h2></div>
+    <p>Toca una tarjeta para añadirla a tus favoritos, o usa el ícono para copiar el nombre directamente.</p>
+  </div>
+  <div class="toolbar" role="search">
+    <input type="search" id="q" placeholder="Buscar por nombre o significado" aria-label="Buscar nombre">
+    <select id="fCat" aria-label="Filtrar por idioma">
+      <option value="">Todos los idiomas</option>
+      <option value="es">Dominicano</option>
+      <option value="bi">Bilingüe</option>
+      <option value="en">Inglés</option>
+    </select>
+    <select id="fVibe" aria-label="Filtrar por estilo">
+      <option value="">Todos los estilos</option>
+      <option value="pvp">PvP</option>
+      <option value="pve">PvE</option>
+      <option value="rp">RP</option>
+      <option value="social">Social</option>
+      <option value="meme">Meme</option>
+    </select>
+    <button type="button" class="btn" id="fClear">Limpiar</button>
+  </div>
+  <div class="names">
+    <div class="pick" id="pick"></div>
+    <div>
+      <div class="panel" id="shortlist" style="position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)">
+        <div class="sh" style="margin-bottom:14px">
+          <div><div class="eyebrow">Favoritos</div><h3 style="font-size:18px;margin-top:4px" class="mono"><span id="favCount">0</span> / 8</h3></div>
+        </div>
+        <div class="slots" id="slots"></div>
+        <div class="btnrow" style="margin-top:16px">
+          <button type="button" class="btn gold" id="copyAll">Copiar favoritos</button>
+          <button type="button" class="btn" id="clearAll">Vaciar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="motto">
+  <div class="sh"><div><div class="eyebrow">Bonus</div><h2>Lemas para el MOTD</h2></div><p>Frases cortas ya listas para el mensaje del día o la descripción de reclutamiento.</p></div>
+  <div class="two">
+    <div class="panel">
+      <h3><span class="chip cat" style="--c:#8F6300">ES</span>Español</h3>
+      <div id="mottoEs"></div>
+    </div>
+    <div class="panel">
+      <h3><span class="chip cat" style="--c:#2B4E9E">EN</span>English</h3>
+      <div id="mottoEn"></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="rules">
+  <div class="sh"><div><div class="eyebrow">Antes de fundar</div><h2>Cosas a revisar</h2></div><p>Consejos generales de naming en WoW — verifica siempre las reglas específicas del servidor.</p></div>
+  <div class="panel">
+    <ul class="rules">
+      <li>El nombre debe ser único por reino o servidor — confirma que nadie lo tenga ya antes de decidirte.</li>
+      <li>Evita marcas registradas, insultos o nombres que puedan confundirse con GMs o streamers reales.</li>
+      <li>La mayoría de los clientes de WoW limitan el nombre de gremio a unos 24 caracteres, contando espacios.</li>
+      <li>Ten 2 o 3 alternativas listas por si la primera opción ya está tomada al fundar.</li>
+      <li>Cambiar el nombre después de fundado suele costar oro o requerir votación del liderazgo, según el servidor — decide con calma.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <p>Forja del Gremio — kit de nombres para Warcraft Forever. Guarda esta página para volver cuando toque fundar.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+var NAMES = [
+  {id:"n1",name:"Los Tígueres del Azeroth",cat:"es",vibes:["pvp","social"],blurb:"\"Tíguere\" es el swagger dominicano puro — doble sentido con los jefes de raid."},
+  {id:"n2",name:"Sancocho de Élite",cat:"es",vibes:["social","meme"],blurb:"Todo el mundo cabe en la olla, como en un buen raid de 40."},
+  {id:"n3",name:"Motoconcho Raiders",cat:"es",vibes:["pvp","meme"],blurb:"Llega tarde pero llega rápido — la esencia del pull sorpresa."},
+  {id:"n4",name:"Los Mañosos de Orgrimmar",cat:"es",vibes:["rp","pvp"],blurb:"Mañoso = pícaro; ideal para un gremio de rogues y ladrones de loot."},
+  {id:"n5",name:"Chin Chin Wipeout",cat:"es",vibes:["meme","social"],blurb:"El grito dominicano de sorpresa, ahora el saludo oficial de cada wipe."},
+  {id:"n6",name:"Tumbagente Tavern Crawlers",cat:"es",vibes:["social"],blurb:"\"Tumbagente\" reciclado como gremio de barra y trivia los viernes."},
+  {id:"n7",name:"Los del Colmado",cat:"es",vibes:["social","rp"],blurb:"El colmado resuelve todo; este gremio resuelve tus dungeons."},
+  {id:"n8",name:"Habichuela Horde",cat:"es",vibes:["pve","social"],blurb:"La habichuela como emblema culinario — puro sabor de la Horda."},
+  {id:"n9",name:"Chapiadores de Azeroth",cat:"es",vibes:["pve","meme"],blurb:"Jerga criolla para \"los que sacan provecho\" — perfecto para el gremio farmer de oro."},
+  {id:"n10",name:"Tíguere Múltiple",cat:"es",vibes:["social","pve"],blurb:"El que hace de todo un poco, sin especialización fija — como debe ser."},
+  {id:"n11",name:"Mangú & Mayhem",cat:"bi",vibes:["social","meme"],blurb:"Desayuno nacional más caos de raid, en un solo nombre pegajoso."},
+  {id:"n12",name:"Presidente Pull",cat:"bi",vibes:["pvp","meme"],blurb:"La cerveza nacional más el chiste eterno de quién pulleó sin avisar."},
+  {id:"n13",name:"Alta Tensión Alliance",cat:"bi",vibes:["pvp","rp"],blurb:"\"Estar en alta tensión\" es puro drama dominicano, ahora aplicado a la facción."},
+  {id:"n14",name:"Merengue Murder Squad",cat:"bi",vibes:["pvp"],blurb:"El ritmo nacional convertido en escuadrón de PvP sin piedad."},
+  {id:"n15",name:"Fugitivos del Deber (AFK)",cat:"bi",vibes:["social","meme"],blurb:"El eterno \"fugitivo del deber\" — el gremio que siempre está AFK."},
+  {id:"n16",name:"Tostones de Hierro",cat:"bi",vibes:["pve","social"],blurb:"El snack criollo fusionado con Ironforge — sólido por fuera y por dentro."},
+  {id:"n17",name:"Salt & Sancocho",cat:"en",vibes:["rp","social"],blurb:"Nombre con gancho internacional, sabor 100% criollo por dentro."},
+  {id:"n18",name:"Last Call at the Colmado",cat:"en",vibes:["social"],blurb:"La última vuelta antes de cerrar — ideal para los raids que se alargan."},
+  {id:"n19",name:"Warlords of Bávaro",cat:"en",vibes:["rp","pve"],blurb:"La playa turística más famosa, fusionada con Warlords of Draenor."},
+  {id:"n20",name:"Island Time Guild",cat:"en",vibes:["social","meme"],blurb:"El eterno \"ahorita\" dominicano, oficializado como filosofía de gremio."}
+];
+
+var CAT_LABEL = {es:"ES", bi:"BI", en:"EN"};
+var CAT_COLOR = {es:"var(--gold)", bi:"var(--azure)", en:"var(--sky)"};
+var VIBE_LABEL = {pvp:"PvP", pve:"PvE", rp:"RP", social:"Social", meme:"Meme"};
+var MAX_SLOTS = 8;
+
+var favorites = [];
+try{
+  var saved = JSON.parse(localStorage.getItem("forjaGremioFavoritos") || "[]");
+  if(Array.isArray(saved)) favorites = saved.filter(function(id){ return NAMES.some(function(n){ return n.id===id; }); });
+}catch(e){}
+
+function saveFavorites(){
+  try{ localStorage.setItem("forjaGremioFavoritos", JSON.stringify(favorites)); }catch(e){}
+}
+
+function runeSvg(){
+  return '<svg class="rune" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 21 7.5v9L12 22 3 16.5v-9Z"/><path d="M12 7v10M8 9.5l8 5M16 9.5l-8 5"/></svg>';
+}
+function copyIconSvg(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+}
+function removeIconSvg(){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+}
+
+var toastTimer = null;
+function toast(msg){
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 1800);
+  var live = document.getElementById("live");
+}
+
+function copyText(str){
+  function fallback(){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = str; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      return true;
+    }catch(e){ return false; }
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(str).then(function(){ toast("Copiado: " + (str.length>40? str.slice(0,40)+"…" : str)); }).catch(function(){ if(fallback()) toast("Copiado"); });
+  } else if(fallback()){ toast("Copiado"); }
+}
+
+function toggleFavorite(id){
+  var i = favorites.indexOf(id);
+  if(i>=0){ favorites.splice(i,1); }
+  else{
+    if(favorites.length >= MAX_SLOTS){ toast("Ya tienes " + MAX_SLOTS + " favoritos — quita uno primero"); return; }
+    favorites.push(id);
+  }
+  saveFavorites();
+  renderPick();
+  renderSlots();
+}
+
+function renderPick(){
+  var q = (document.getElementById("q").value || "").toLowerCase().trim();
+  var cat = document.getElementById("fCat").value;
+  var vibe = document.getElementById("fVibe").value;
+  var list = NAMES.filter(function(n){
+    if(cat && n.cat !== cat) return false;
+    if(vibe && n.vibes.indexOf(vibe) === -1) return false;
+    if(q && n.name.toLowerCase().indexOf(q)===-1 && n.blurb.toLowerCase().indexOf(q)===-1) return false;
+    return true;
+  });
+  var host = document.getElementById("pick");
+  if(!list.length){
+    host.innerHTML = '<div class="empty">Ningún nombre coincide con ese filtro. Prueba con otra búsqueda.</div>';
+    return;
+  }
+  host.innerHTML = list.map(function(n){
+    var pressed = favorites.indexOf(n.id) >= 0;
+    var tags = n.vibes.map(function(v){ return '<span class="chip">'+VIBE_LABEL[v]+'</span>'; }).join("");
+    return '<button type="button" class="pk" style="--c:'+CAT_COLOR[n.cat]+'" aria-pressed="'+pressed+'" data-id="'+n.id+'">' +
+      runeSvg() +
+      '<span class="t"><b>'+n.name+'</b><span class="blurb">'+n.blurb+'</span>' +
+      '<span class="tags"><span class="chip cat">'+CAT_LABEL[n.cat]+'</span>'+tags+'</span></span>' +
+      '<span class="copybtn" role="button" tabindex="0" aria-label="Copiar '+n.name+'" data-copy="'+n.id+'">'+copyIconSvg()+'</span>' +
+    '</button>';
+  }).join("");
+
+  Array.prototype.forEach.call(host.querySelectorAll(".pk"), function(el){
+    el.addEventListener("click", function(ev){
+      if(ev.target.closest("[data-copy]")) return;
+      toggleFavorite(el.getAttribute("data-id"));
+    });
+  });
+  Array.prototype.forEach.call(host.querySelectorAll("[data-copy]"), function(el){
+    el.addEventListener("click", function(ev){
+      ev.stopPropagation();
+      var n = NAMES.find(function(x){ return x.id === el.getAttribute("data-copy"); });
+      if(n) copyText(n.name);
+    });
+    el.addEventListener("keydown", function(ev){
+      if(ev.key==="Enter" || ev.key===" "){ ev.preventDefault(); el.click(); }
+    });
+  });
+}
+
+function renderSlots(){
+  var host = document.getElementById("slots");
+  document.getElementById("favCount").textContent = favorites.length;
+  var rows = [];
+  for(var i=0;i<MAX_SLOTS;i++){
+    var id = favorites[i];
+    var n = id ? NAMES.find(function(x){ return x.id===id; }) : null;
+    if(n){
+      rows.push('<div class="slot full" style="--c:'+CAT_COLOR[n.cat]+'"><span class="no mono">'+(i+1)+'</span><span class="nm"><b>'+n.name+'</b><small>'+CAT_LABEL[n.cat]+'</small></span><button type="button" class="rm" aria-label="Quitar '+n.name+'" data-rm="'+n.id+'">'+removeIconSvg()+'</button></div>');
+    } else {
+      rows.push('<div class="slot"><span class="no mono">'+(i+1)+'</span><span class="nm">Vacío — elige un nombre a la izquierda</span></div>');
+    }
+  }
+  host.innerHTML = rows.join("");
+  Array.prototype.forEach.call(host.querySelectorAll("[data-rm]"), function(el){
+    el.addEventListener("click", function(){ toggleFavorite(el.getAttribute("data-rm")); });
+  });
+  document.getElementById("copyAll").disabled = favorites.length===0;
+  document.getElementById("clearAll").disabled = favorites.length===0;
+}
+
+document.getElementById("q").addEventListener("input", renderPick);
+document.getElementById("fCat").addEventListener("change", renderPick);
+document.getElementById("fVibe").addEventListener("change", renderPick);
+document.getElementById("fClear").addEventListener("click", function(){
+  document.getElementById("q").value = "";
+  document.getElementById("fCat").value = "";
+  document.getElementById("fVibe").value = "";
+  renderPick();
+});
+document.getElementById("copyAll").addEventListener("click", function(){
+  var text = favorites.map(function(id){ return NAMES.find(function(n){ return n.id===id; }).name; }).join("\n");
+  if(text) copyText(text);
+});
+document.getElementById("clearAll").addEventListener("click", function(){
+  favorites = [];
+  saveFavorites();
+  renderPick();
+  renderSlots();
+});
+
+var MOTTO_ES = [
+  "Aquí no hay jefe que no caiga ni sancocho que no se acabe.",
+  "Se sube de nivel de día, se goza de noche — bienvenido al gremio.",
+  "Tígueres de Azeroth: llegamos tarde, pero llegamos con loot."
+];
+var MOTTO_EN = [
+  "No boss survives the sancocho squad.",
+  "Level by day, fiesta by night.",
+  "Island time raiding — we pull when we're ready."
+];
+function renderMottos(id, list){
+  document.getElementById(id).innerHTML = list.map(function(m){
+    return '<div class="motto"><span>“'+m+'”</span><button type="button" class="copybtn" data-motto="'+encodeURIComponent(m)+'" aria-label="Copiar frase">'+copyIconSvg()+'</button></div>';
+  }).join("");
+  Array.prototype.forEach.call(document.getElementById(id).querySelectorAll("[data-motto]"), function(el){
+    el.addEventListener("click", function(){ copyText(decodeURIComponent(el.getAttribute("data-motto"))); });
+  });
+}
+renderMottos("mottoEs", MOTTO_ES);
+renderMottos("mottoEn", MOTTO_EN);
+
+/* theme toggle: auto -> claro -> oscuro -> auto, stored per-viewer only */
+var THEMES = [null, "light", "dark"];
+var THEME_LABEL = {null:"automático", light:"claro", dark:"oscuro"};
+function themeIcon(mode){
+  if(mode==="light") return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>';
+  if(mode==="dark") return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>';
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>';
+}
+var savedTheme = null;
+try{ savedTheme = localStorage.getItem("forjaGremioTema"); }catch(e){}
+if(savedTheme && THEMES.indexOf(savedTheme) === -1) savedTheme = null;
+var themeIdx = THEMES.indexOf(savedTheme);
+if(themeIdx < 0) themeIdx = 0;
+function applyTheme(){
+  var mode = THEMES[themeIdx];
+  if(mode) document.documentElement.setAttribute("data-ff-theme", mode);
+  else document.documentElement.removeAttribute("data-ff-theme");
+  var btn = document.getElementById("themeBtn");
+  btn.innerHTML = themeIcon(mode);
+  btn.setAttribute("aria-label", "Tema: " + THEME_LABEL[mode] + ". Actívalo para cambiar.");
+  try{ if(mode) localStorage.setItem("forjaGremioTema", mode); else localStorage.removeItem("forjaGremioTema"); }catch(e){}
+}
+document.getElementById("themeBtn").addEventListener("click", function(){
+  themeIdx = (themeIdx + 1) % THEMES.length;
+  applyTheme();
+});
+applyTheme();
+
+renderPick();
+renderSlots();
+})();
+</script>
+
+</body></html>

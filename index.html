@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WoW Forever FTD</title>
+<meta name="description" content="Planning hub for the Future Divorced Committee: roster, reservation day, launch night, planners and the La Fogata guild kit for Warcraft Forever.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;600&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F2C14E' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 2 20 6.5v8L12 22 4 14.5v-8Z'/%3E%3Cpath d='M12 7v8M8.5 10.5h7'/%3E%3C/svg%3E">
+<style>
+:root{
+--void:#EDF1F8;--deep:#F7F9FD;--panel:#FFFFFF;--panel2:#F0F3FA;--line:#D3DBEA;--line2:#B7C3DC;
+--gold:#8F6300;--goldfill:#F2C14E;--azure:#2F62D6;--sky:#2B4E9E;
+--text:#101A33;--text2:#33415F;--muted:#586582;--ok:#1B7F4E;--warn:#A85A08;--bad:#B4303A;
+--wash:rgba(16,26,51,.045);--navbg:rgba(237,241,248,.88);--shadowc:rgba(16,26,51,.18);
+--sans:"Google Sans","Google Sans Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+--mono:"Google Sans Code","Google Sans",ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-ff="light"]){
+--void:#070B14;--deep:#0C1220;--panel:#121B2E;--panel2:#182339;--line:#26324D;--line2:#33436A;
+--gold:#F2C14E;--azure:#3B7BFF;--sky:#9FB6E8;--text:#ECE7D8;--text2:#C5CEE3;--muted:#95A2BE;--ok:#6FD39A;--warn:#F0A04B;--bad:#F07A82;
+--wash:rgba(255,255,255,.035);--navbg:rgba(7,11,20,.86);--shadowc:rgba(0,0,0,.55)}}
+:root[data-ff="dark"]{
+--void:#070B14;--deep:#0C1220;--panel:#121B2E;--panel2:#182339;--line:#26324D;--line2:#33436A;
+--gold:#F2C14E;--azure:#3B7BFF;--sky:#9FB6E8;--text:#ECE7D8;--text2:#C5CEE3;--muted:#95A2BE;--ok:#6FD39A;--warn:#F0A04B;--bad:#F07A82;
+--wash:rgba(255,255,255,.035);--navbg:rgba(7,11,20,.86);--shadowc:rgba(0,0,0,.55)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-inline:20px}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3{margin:0;text-wrap:balance}p{margin:0}
+.wrap{width:100%;max-width:1120px;margin-inline:auto}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:650}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.nav{position:sticky;top:0;z-index:50;margin-inline:-20px;padding-inline:20px;background:var(--navbg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:10px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--gold);white-space:nowrap}
+.brand svg{width:22px;height:22px;flex:none}
+.nav nav{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none;min-width:0}
+.nav nav::-webkit-scrollbar{display:none}
+.nav nav a{color:var(--muted);text-decoration:none;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;padding:9px 10px;border-radius:999px;white-space:nowrap}
+.nav nav a:hover{color:var(--text);background:var(--wash)}
+.iconbtn{min-width:40px;min-height:40px;display:inline-grid;place-content:center;border-radius:10px;border:1px solid var(--line);background:var(--panel)}
+.iconbtn svg{width:18px;height:18px}
+.hero{position:relative;overflow:hidden;margin-inline:-20px;padding-inline:20px;border-bottom:1px solid var(--line);background:radial-gradient(120% 120% at 50% 0%,#14284f 0%,#0b1630 46%,#070B14 82%);color:#ECE7D8}
+.hero .wrap{position:relative;padding-block:64px 52px}.ridge{position:absolute;left:0;right:0;bottom:0;width:100%;height:52%;pointer-events:none}
+.hero .eyebrow{color:#F2C14E}
+.hero h1{font-size:clamp(34px,6.4vw,64px);line-height:1.02;font-weight:800;letter-spacing:-.025em;max-width:16ch;margin-top:10px;background:linear-gradient(180deg,#FFE9A8,#F2C14E 48%,#B98A2B);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{max-width:62ch;color:#C5CEE3;font-size:16px;margin-top:14px}
+.hero p.lede b{color:#ECE7D8}
+.cd{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.cd>div{border:1px solid #33436A;border-radius:12px;background:rgba(12,18,32,.78);padding:10px 14px;min-width:150px}
+.cd small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#95A2BE}
+.cd b{font-size:19px;color:#F2C14E;font-weight:700}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid #33436A;border-radius:999px;background:rgba(12,18,32,.78);font-size:12.5px;color:#ECE7D8}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--c,#F2C14E)}
+section.blk{padding-block:44px 4px}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.sh h2{font-size:clamp(22px,3.2vw,30px);font-weight:750;letter-spacing:-.015em;margin-top:4px}
+.sh p{max-width:54ch;color:var(--muted);font-size:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:860px){.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.g2,.g3{grid-template-columns:minmax(0,1fr)}}
+a.card{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:18px 18px 16px;color:inherit;text-decoration:none;min-width:0;position:relative;transition:border-color .15s,transform .15s}
+a.card:hover{border-color:var(--gold);transform:translateY(-2px)}
+a.card::before{content:"";position:absolute;left:18px;top:0;width:34px;height:3px;border-radius:0 0 3px 3px;background:var(--c,var(--goldfill))}
+a.card h3{font-size:17px;font-weight:720;margin-top:4px;display:flex;align-items:center;gap:8px}
+a.card h3 svg{width:15px;height:15px;opacity:.55;flex:none;margin-left:auto}
+a.card p{font-size:13.5px;color:var(--text2)}
+a.card .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.chip{font-size:10.5px;padding:2px 8px;border-radius:99px;border:1px solid var(--line2);color:var(--text2);background:var(--wash);white-space:nowrap}
+.chip.es{border-color:var(--gold);color:var(--gold)}
+.files{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:600px){.files{grid-template-columns:minmax(0,1fr)}}
+.files a{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:11px 14px;color:inherit;text-decoration:none;font-size:14px;min-width:0}
+.files a:hover{border-color:var(--gold)}
+.files .ext{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:3px 7px;border-radius:6px;background:var(--wash);border:1px solid var(--line2);color:var(--gold);flex:none}
+.files span.d{display:block;color:var(--muted);font-size:12px}
+.note{border:1px solid var(--line);border-left:3px solid var(--goldfill);border-radius:12px;background:var(--panel);padding:14px 16px;font-size:13.5px;color:var(--text2)}
+.note b{color:var(--text)}
+footer{margin-top:56px;padding-block:24px 56px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+footer a{color:var(--sky)}
+</style>
+<script>
+(function(){var m=null;try{m=localStorage.getItem("wf_theme")}catch(e){}if(m==="light"||m==="dark")document.documentElement.setAttribute("data-ff",m)})();
+</script>
+</head>
+<body>
+<div class="nav"><div class="wrap"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 20 6.5v8L12 22 4 14.5v-8Z"/><path d="M12 7v8M8.5 10.5h7"/></svg><span>Warcraft Forever</span></div><nav aria-label="Sections"><a href="#plan">Plan</a><a href="#tools">Tools</a><a href="#fogata">La Fogata</a><a href="#files">Files</a></nav><button type="button" class="iconbtn" id="themeBtn" aria-label="Theme"></button></div></div>
+
+<div class="hero"><svg class="ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="rg1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#132a57"/><stop offset="1" stop-color="#070B14"/></linearGradient><linearGradient id="rg2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0d1b3a"/><stop offset="1" stop-color="#070B14"/></linearGradient></defs><path d="M0 210 L90 150 L160 190 L260 100 L340 170 L430 120 L520 190 L640 90 L730 160 L820 110 L930 190 L1030 130 L1120 180 L1200 140 V300 H0Z" fill="url(#rg1)" opacity=".85"/><path d="M0 250 L110 200 L210 240 L330 180 L450 240 L560 200 L700 250 L820 190 L960 245 L1080 205 L1200 240 V300 H0Z" fill="url(#rg2)"/></svg><div class="wrap">
+<div class="eyebrow">Future Divorced Committee · Alliance · Level cap 60</div>
+<h1>One hub for the whole Forever plan.</h1>
+<p class="lede">Nine names, nine professions, one launch night. Everything the committee built for <b>Warcraft Forever</b> lives here: the roster, reservation and launch plans, planners, the patch notes analyzer and the <b>La Fogata</b> guild kit.</p>
+<div class="cd"><div><small id="cdLabel">Launch, Nov 4 · 3:00 PM PST</small><b class="mono" id="cdLaunch">—</b></div><div><small id="cdResLabel">Name reservation</small><b class="mono" id="cdRes">—</b></div></div>
+<div class="stats"><span class="pill"><i style="--c:#6FD39A"></i>Facts checked Oct 31, 2026</span><span class="pill"><i></i>9 characters</span><span class="pill"><i style="--c:#3B7BFF"></i>14 pages</span><span class="pill"><i style="--c:#F07A82"></i>EN + ES</span></div>
+</div></div>
+
+<main class="wrap">
+
+<section class="blk" id="plan">
+<div class="sh"><div><div class="eyebrow">Plan</div><h2>Roster and launch</h2></div><p>Start with the roster, then walk through reservation and launch night in order.</p></div>
+<div class="grid g2">
+<a class="card" href="pages/Forever_Roster_Page.html" style="--c:#F2C14E"><h3>Forever Roster<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>The nine-character alt roster with specs, races, professions, talent builds, a timeline and a Latest changes section synced to ForeverChanges.</p><div class="tags"><span class="chip">Main page</span><span class="chip">Timeline</span><span class="chip">Talent builds</span></div></a>
+<a class="card" href="pages/Reservation_Day.html" style="--c:#3B7BFF"><h3>Reservation Day<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Three slots, nine names, one shot. Pick your three, keep spellings one tap away and log each result.</p><div class="tags"><span class="chip">Oct 27 – Nov 3</span><span class="chip">Checklist</span></div></a>
+<a class="card" href="pages/Launch_Night_Playbook.html" style="--c:#F0A04B"><h3>Launch Night Playbook<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Launch night, minute by minute, in your own time zone. Two mains reserved, seven alts claimed in order.</p><div class="tags"><span class="chip">Nov 4 · 3:00 PM PST</span></div></a>
+<a class="card" href="pages/Class_Card_Vault.html" style="--c:#C679E8"><h3>Class Card Vault<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Name cards and transparent class art, plus share text in English or Dominican Spanish.</p><div class="tags"><span class="chip">9 cards</span><span class="chip">Images</span></div></a>
+</div>
+</section>
+
+<section class="blk" id="tools">
+<div class="sh"><div><div class="eyebrow">Tools</div><h2>Planners and trackers</h2></div><p>Spend Legacy points, track crafting chains, log what the beta taught you and see what each patch changes.</p></div>
+<div class="grid g3">
+<a class="card" href="pages/Legacy_Optimizer.html" style="--c:#6FD39A"><h3>Legacy Optimizer<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>65 challenges account-wide, 16 spendable per character. Enforces both limits and tracks milestones.</p></a>
+<a class="card" href="pages/Profession_Ledger.html" style="--c:#F0A04B"><h3>Profession Ledger<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Skill for every character, the 150, 225 and 300 thresholds, and who is waiting on which gatherer.</p></a>
+<a class="card" href="pages/Beta_Lab_Notebook.html" style="--c:#9FB6E8"><h3>Beta Lab Notebook<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>The beta ended Oct 23 and wiped everything. This holds the answers the roster depends on.</p></a>
+<a class="card" href="pages/Patch_Notes_Analyzer.html" style="--c:#F07A82;grid-column:1/-1"><h3>Patch Notes Analyzer<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Every Forever change from Blizzard's notes, Wowhead and ForeverChanges, scored against each talent tree and traced into stat weights. Bilingual, with a paste box for new notes.</p><div class="tags"><span class="chip">EN</span><span class="chip es">ES</span><span class="chip">Latest: Oct 30 build</span></div></a>
+</div>
+</section>
+
+<section class="blk" id="fogata">
+<div class="sh"><div><div class="eyebrow">La Fogata · en español</div><h2>El kit del gremio</h2></div><p>Un gremio casual de 10 a 20 jugadores, con horario en AST de Santo Domingo.</p></div>
+<div class="grid g3">
+<a class="card" href="pages/La_Fogata.html" style="--c:#F07A82"><h3>La Fogata<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>La guía de preparación del gremio: ruleset, roles, cambios por clase, profesiones, estructura, horario y el camino hasta el Tier 1.</p><div class="tags"><span class="chip es">ES</span><span class="chip">EN</span></div></a>
+<a class="card" href="pages/Forja_del_Gremio.html" style="--c:#F2C14E"><h3>Forja del Gremio<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>20 nombres para un solo gremio. Filtra, guarda favoritos y cópialos.</p><div class="tags"><span class="chip es">ES</span></div></a>
+<a class="card" href="pages/Reclutamiento_La_Fogata.html" style="--c:#6FD39A"><h3>Reclutamiento<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Del primer contacto a la fogata: candidato, entrevista, invitado, en el gremio.</p><div class="tags"><span class="chip es">ES</span></div></a>
+<a class="card" href="pages/Estatutos_La_Fogata.html" style="--c:#3B7BFF"><h3>Estatutos<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Reglas claras para que el gremio dure: trato, loot y ausencias.</p><div class="tags"><span class="chip es">ES</span></div></a>
+<a class="card" href="pages/Fogata_Discord.html" style="--c:#C679E8"><h3>Fogata Discord<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Categorías, canales, roles, reglas y bienvenidas listos para copiar.</p><div class="tags"><span class="chip es">ES</span></div></a>
+<a class="card" href="pages/Noches_de_Raid.html" style="--c:#F0A04B"><h3>Noches de Raid<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></h3><p>Mapa de calor de disponibilidad semanal para elegir las mejores noches.</p><div class="tags"><span class="chip es">ES</span></div></a>
+</div>
+</section>
+
+<section class="blk" id="files">
+<div class="sh"><div><div class="eyebrow">Files</div><h2>Printables and spreadsheets</h2></div><p>Download for offline use or to print.</p></div>
+<div class="files">
+<a href="files/Roster_OnePager.pdf"><span class="ext">PDF</span><div>Roster one-pager<span class="d">All nine at a glance</span></div></a>
+<a href="files/Name_Reservation_Cheat_Sheet.pdf"><span class="ext">PDF</span><div>Name reservation cheat sheet<span class="d">Rules, order, day-of checklist</span></div></a>
+<a href="files/Class_Guides.pdf"><span class="ext">PDF</span><div>Class guides<span class="d">One page per character</span></div></a>
+<a href="files/Roster_Planner.xlsx"><span class="ext">XLSX</span><div>Roster planner<span class="d">Roster table and notes</span></div></a>
+<a href="files/Profession_Leveling_Planner.xlsx"><span class="ext">XLSX</span><div>Profession leveling planner<span class="d">Skill tracker, coverage, campsites</span></div></a>
+<a href="files/Legacy_Points_Planner.xlsx"><span class="ext">XLSX</span><div>Legacy points planner<span class="d">65 account points, 16 per character</span></div></a>
+<a href="files/Beta_Findings_Log.xlsx"><span class="ext">XLSX</span><div>Beta findings log<span class="d">Findings and open questions</span></div></a>
+<a href="files/Guild_Names_Log.xlsx"><span class="ext">XLSX</span><div>Guild names log<span class="d">Template for guild-name sessions</span></div></a>
+<a href="files/Changelog.md"><span class="ext">MD</span><div>Changelog<span class="d">What changed and when</span></div></a>
+<a href="files/Sources_Archive.md"><span class="ext">MD</span><div>Sources archive<span class="d">Where each fact came from</span></div></a>
+</div>
+</section>
+
+<section class="blk"><div class="note"><b>About the data.</b> Dates and class changes were re-checked on Oct 31, 2026 against <a href="https://foreverchanges.pro/" style="color:var(--sky)">ForeverChanges</a> (beta build 1.60.1.70707), a community tracker rather than Blizzard. Hardcore and raid details are unconfirmed. Anything you log on these pages is saved in your own browser only.</div></section>
+
+</main>
+<footer class="wrap">Warcraft Forever planning hub · Future Divorced Committee. Fan-made. World of Warcraft is a trademark of Blizzard Entertainment.</footer>
+
+<script>
+(function(){
+var T={launch:Date.UTC(2026,10,4,23,0,0),resOpen:Date.UTC(2026,9,27,20,0,0),resClose:Date.UTC(2026,10,4,7,59,0)};
+function fmt(ms){if(ms<=0)return"now";var s=Math.floor(ms/1e3),d=Math.floor(s/86400);s%=86400;var h=Math.floor(s/3600);s%=3600;var m=Math.floor(s/60);s%=60;
+return(d?d+"d ":"")+String(h).padStart(2,"0")+"h "+String(m).padStart(2,"0")+"m "+String(s).padStart(2,"0")+"s"}
+function tick(){var n=Date.now(),a=document.getElementById("cdLaunch"),b=document.getElementById("cdRes"),l=document.getElementById("cdResLabel");
+if(n>=T.launch){a.textContent="Live";document.getElementById("cdLabel").textContent="Launch, Nov 4"}else a.textContent=fmt(T.launch-n);
+if(n<T.resOpen){l.textContent="Reservation opens";b.textContent=fmt(T.resOpen-n)}
+else if(n<T.resClose){l.textContent="Reservation closes";b.textContent=fmt(T.resClose-n)}
+else{l.textContent="Name reservation";b.textContent="Closed"}}
+tick();setInterval(tick,1000);
+var TH=[null,"light","dark"],ti=0;try{ti=Math.max(0,TH.indexOf(localStorage.getItem("wf_theme")))}catch(e){}
+function ico(m){if(m==="light")return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>';if(m==="dark")return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>';return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>'}
+function ap(){var m=TH[ti],b=document.getElementById("themeBtn");if(m)document.documentElement.setAttribute("data-ff",m);else document.documentElement.removeAttribute("data-ff");b.innerHTML=ico(m);b.setAttribute("aria-label","Theme: "+(m||"auto"));try{m?localStorage.setItem("wf_theme",m):localStorage.removeItem("wf_theme")}catch(e){}}
+document.getElementById("themeBtn").addEventListener("click",function(){ti=(ti+1)%3;ap()});ap();
+})();
+</script>
+</body>
+</html>

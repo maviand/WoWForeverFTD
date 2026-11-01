@@ -1,0 +1,1461 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><a href="../index.html" class="wf-home" style="position:fixed;left:14px;bottom:14px;z-index:9999;padding:7px 12px;border-radius:999px;border:1px solid #33436A;background:rgba(12,18,32,.9);color:#F2C14E;font:600 12px/1 system-ui,sans-serif;letter-spacing:.06em;text-decoration:none;text-transform:uppercase">&larr; Hub</a>
+
+<title>La Fogata</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400;500;600&display=swap');
+
+  :root{
+    /* dark palette (default) — Wowhead-style dark UI, accents = real WoW item-quality colors */
+    --bg:#composited; /* placeholder overwritten below, ignore */
+  }
+  :root{
+    /* Navy + gold — shared identity with the Forever Roster page, the
+       one-pager and the class name cards in this folder */
+    --bg:#070B14;
+    --surface:#121B2E;
+    --surface-2:#182339;
+    --border:#26324D;
+    --text:#ECE7D8;
+    --text-dim:#C5CEE3;
+    --text-faint:#95A2BE;
+    --accent:#F2C14E;         /* Gold — shared primary accent */
+    --accent-strong:#FFD873;
+    --accent-ink:#1a1200;
+    --epic:#a335ee;           /* Epic purple */
+    --rare:#3B7BFF;           /* Azure — matches the roster page's tank/blue */
+    --uncommon:#6FD39A;       /* Ok green — matches the roster page's heal/ok */
+    --poor:#8a92a6;           /* Poor gray */
+    --heirloom:#9FB6E8;       /* Sky blue — matches the roster page's community tag */
+    --warn:#F0A04B;           /* Amber — matches the roster page's dps/warn */
+    --gold:#F2C14E;           /* Artifact gold (same as accent) */
+    --danger:#E2555A;
+    --shadow: 0 12px 28px -14px rgba(0,0,0,.6);
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#EDF1F8;
+      --surface:#ffffff;
+      --surface-2:#F0F3FA;
+      --border:#D3DBEA;
+      --text:#101A33;
+      --text-dim:#33415F;
+      --text-faint:#586582;
+      --accent:#8F6300;
+      --accent-strong:#6b4a00;
+      --accent-ink:#fff6ec;
+      --epic:#8a2be2;
+      --rare:#2F62D6;
+      --uncommon:#1B7F4E;
+      --poor:#6b6f76;
+      --heirloom:#2B4E9E;
+      --warn:#A85A08;
+      --gold:#8F6300;
+      --danger:#a8392f;
+      --shadow: 0 12px 28px -18px rgba(16,26,51,.28);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#EDF1F8;
+    --surface:#ffffff;
+    --surface-2:#F0F3FA;
+    --border:#D3DBEA;
+    --text:#101A33;
+    --text-dim:#33415F;
+    --text-faint:#586582;
+    --accent:#8F6300;
+    --accent-strong:#6b4a00;
+    --accent-ink:#fff6ec;
+    --epic:#8a2be2;
+    --rare:#2F62D6;
+    --uncommon:#1B7F4E;
+    --poor:#6b6f76;
+    --heirloom:#2B4E9E;
+    --warn:#A85A08;
+    --gold:#8F6300;
+    --danger:#a8392f;
+    --shadow: 0 12px 28px -18px rgba(16,26,51,.28);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Google Sans','Product Sans',Roboto,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.62;
+    padding-inline:20px;
+    padding-block:0 48px;
+  }
+  h1,h2,h3,h4{
+    font-family:'Google Sans','Product Sans',Roboto,sans-serif;
+    font-weight:700;
+    text-wrap:balance;
+    color:var(--text);
+    margin:0;
+  }
+  a{color:var(--accent-strong);}
+  code,.mono{font-family:'Google Sans Code','JetBrains Mono',Consolas,monospace;}
+  .wrap{max-width:900px;margin-inline:auto;}
+
+  /* ---------- top nav ---------- */
+  .topnav{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+    background:color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+    margin-inline:-20px;padding-inline:20px;
+  }
+  .topnav-row{
+    max-width:900px;margin-inline:auto;display:flex;gap:16px;align-items:center;
+    padding-block:12px;overflow-x:auto;scrollbar-width:none;
+  }
+  .topnav-row::-webkit-scrollbar{display:none;}
+  .topnav-brand{font-weight:700;font-size:1rem;color:var(--accent);white-space:nowrap;flex:none;letter-spacing:.01em;}
+  .topnav a{font-size:.8rem;color:var(--text-dim);text-decoration:none;white-space:nowrap;font-weight:500;}
+  .topnav a:hover{color:var(--accent-strong);}
+
+  /* ---------- hero ---------- */
+  .hero{padding-block:44px 8px;}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Google Sans Code',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px;
+  }
+  .kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  h1.title{font-size:clamp(2.1rem,6vw,3.1rem);line-height:1.04;max-width:14ch;letter-spacing:-.01em;}
+  .subtitle{color:var(--text-dim);font-size:1.05rem;max-width:58ch;margin-top:14px;}
+
+  .quickfacts{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+    margin-top:28px;box-shadow:var(--shadow);
+  }
+  .qf{background:var(--surface);padding:16px 18px;}
+  .qf-label{font-family:'Google Sans Code',monospace;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);}
+  .qf-value{font-weight:700;font-size:1.1rem;margin-top:4px;color:var(--text);}
+
+  /* ---------- sections ---------- */
+  section{padding-block:40px;border-top:1px solid var(--border);}
+  section:first-of-type{border-top:none;}
+  .section-eyebrow{
+    font-family:'Google Sans Code',monospace;font-size:.72rem;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--text-faint);margin-bottom:8px;
+  }
+  h2.section-title{
+    font-size:clamp(1.5rem,4vw,1.9rem);margin-bottom:14px;letter-spacing:.005em;
+    padding-bottom:12px;border-bottom:2px solid var(--gold);
+  }
+  h3{font-size:1.18rem;margin-top:26px;margin-bottom:8px;color:var(--accent-strong);font-weight:700;}
+  h4.class-name{font-size:1.05rem;color:var(--text);font-weight:700;margin:0;}
+  p{margin:12px 0;max-width:70ch;color:var(--text);}
+  p.dim{color:var(--text-dim);}
+  ul,ol{margin:12px 0;padding-left:1.3em;max-width:66ch;}
+  li{margin-bottom:6px;}
+  strong{color:var(--text);font-weight:700;}
+
+  .callout{
+    border:1px solid var(--border);border-left:3px solid var(--accent);
+    background:var(--surface);border-radius:10px;padding:16px 18px;margin:18px 0;box-shadow:var(--shadow);
+  }
+  .callout.warn{border-left-color:var(--danger);}
+  .callout.good{border-left-color:var(--uncommon);}
+  .callout-label{
+    font-family:'Google Sans Code',monospace;font-size:.68rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--accent-strong);margin-bottom:6px;font-weight:600;
+  }
+  .callout.warn .callout-label{color:var(--danger);}
+  .callout.good .callout-label{color:var(--uncommon);}
+
+  /* ---------- tags (role) ---------- */
+  .tag{
+    display:inline-block;font-family:'Google Sans Code',monospace;font-size:.66rem;
+    letter-spacing:.03em;padding:2px 8px;border-radius:999px;font-weight:600;white-space:nowrap;
+  }
+  .tag-tank{background:color-mix(in srgb, var(--rare) 22%, transparent);color:var(--rare);}
+  .tag-heal{background:color-mix(in srgb, var(--uncommon) 22%, transparent);color:var(--uncommon);}
+  .tag-dps{background:color-mix(in srgb, var(--warn) 26%, transparent);color:var(--warn);}
+  .tag-hybrid{background:color-mix(in srgb, var(--accent) 24%, transparent);color:var(--accent-strong);}
+  .tag-new{background:color-mix(in srgb, var(--heirloom) 22%, transparent);color:var(--heirloom);}
+
+  /* ---------- confidence quality-tags (Wowhead item-quality inspired) ---------- */
+  .qtag{
+    display:inline-block;font-family:'Google Sans Code',monospace;font-size:.62rem;
+    letter-spacing:.02em;padding:1px 7px;border-radius:5px;font-weight:600;white-space:nowrap;
+    vertical-align:1px;margin-left:4px;border:1px solid currentColor;
+  }
+  .qtag-official{color:var(--accent);background:color-mix(in srgb, var(--accent) 14%, transparent);}
+  .qtag-corroborated{color:var(--epic);background:color-mix(in srgb, var(--epic) 14%, transparent);}
+  .qtag-single{color:var(--rare);background:color-mix(in srgb, var(--rare) 14%, transparent);}
+  .qtag-spec{color:var(--poor);background:color-mix(in srgb, var(--poor) 16%, transparent);}
+
+  .qlegend{display:flex;flex-wrap:wrap;gap:10px 16px;margin:16px 0 8px;font-size:.82rem;color:var(--text-dim);align-items:center;}
+  .qlegend span.qtag{margin-left:0;}
+
+  /* ---------- tables ---------- */
+  .table-scroll{overflow-x:auto;margin:16px 0;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);}
+  table{border-collapse:collapse;width:100%;min-width:540px;background:var(--surface);}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.9rem;vertical-align:top;}
+  th{font-family:'Google Sans Code',monospace;font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);background:var(--surface-2);}
+  tr:last-child td{border-bottom:none;}
+  td .sub{color:var(--text-dim);font-size:.83rem;}
+
+  /* ---------- timeline ---------- */
+  .timeline{margin:22px 0;position:relative;padding-left:22px;border-left:2px solid var(--border);}
+  .tl-item{position:relative;padding-bottom:26px;}
+  .tl-item:last-child{padding-bottom:2px;}
+  .tl-item::before{
+    content:"";position:absolute;left:-27.5px;top:3px;width:11px;height:11px;
+    border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 2px var(--accent);
+  }
+  .tl-date{font-family:'Google Sans Code',monospace;font-size:.72rem;letter-spacing:.04em;color:var(--accent-strong);text-transform:uppercase;}
+  .tl-title{font-weight:700;font-size:1.03rem;margin-top:2px;}
+  .tl-desc{color:var(--text-dim);font-size:.9rem;margin-top:3px;max-width:58ch;}
+
+  /* ---------- checklist ---------- */
+  .checklist{list-style:none;margin:16px 0;padding:0;display:flex;flex-direction:column;gap:2px;}
+  .cl-item{display:flex;align-items:flex-start;gap:12px;background:var(--surface);border:1px solid var(--border);padding:12px 14px;border-radius:10px;}
+  .cl-item input{
+    appearance:none;width:19px;height:19px;flex:none;margin-top:2px;
+    border:2px solid var(--border);border-radius:5px;cursor:pointer;display:grid;place-content:center;background:var(--surface-2);
+  }
+  .cl-item input:checked{background:var(--accent);border-color:var(--accent);}
+  .cl-item input:checked::after{content:"✓";color:var(--accent-ink);font-size:13px;font-weight:700;line-height:1;}
+  .cl-item label{cursor:pointer;font-size:.94rem;}
+  .cl-item .cl-when{display:block;font-family:'Google Sans Code',monospace;font-size:.7rem;color:var(--text-faint);margin-top:2px;letter-spacing:.03em;}
+
+  /* ---------- grid cards ---------- */
+  .cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);}
+  .card h4{font-size:1rem;color:var(--accent-strong);margin-bottom:6px;}
+  .card p{margin:0;font-size:.9rem;color:var(--text-dim);}
+
+  /* ---------- class detail blocks ---------- */
+  .classlist{display:flex;flex-direction:column;gap:10px;margin:18px 0;}
+  details.classcard{
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  details.classcard summary{
+    list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;gap:12px;
+    justify-content:space-between;
+  }
+  details.classcard summary::-webkit-details-marker{display:none;}
+  .cc-left{display:flex;align-items:center;gap:12px;}
+  .cc-chevron{color:var(--text-faint);font-size:.8rem;transition:transform .15s;flex:none;}
+  details[open] .cc-chevron{transform:rotate(90deg);}
+  .cc-tagline{color:var(--text-dim);font-size:.85rem;margin-top:2px;}
+  .classbody{padding:0 18px 20px;border-top:1px solid var(--border);}
+  .specblock{margin-top:18px;padding-top:14px;border-top:1px dashed var(--border);}
+  .specblock:first-child{border-top:none;margin-top:14px;padding-top:0;}
+  .spec-title{font-weight:700;color:var(--text);font-size:.98rem;margin-bottom:4px;}
+  .spec-title .tag{margin-left:8px;}
+
+  /* ---------- divider ---------- */
+  .flame-divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 28px;color:var(--gold);}
+  .flame-divider::before,.flame-divider::after{content:"";flex:1;height:1px;background:var(--border);}
+  .flame-divider svg{width:18px;height:18px;flex:none;}
+
+  footer{padding-block:36px 8px;border-top:1px solid var(--border);margin-top:12px;}
+  footer p{font-size:.8rem;color:var(--text-faint);max-width:74ch;}
+  footer a{color:var(--text-faint);}
+
+  @media (max-width:600px){
+    .hero{padding-block:30px 4px;}
+    section{padding-block:30px;}
+  }
+
+  /* ---------- language toggle ---------- */
+  .topnav-row{overflow-x:visible;}
+  .topnav-links{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1;}
+  .topnav-links::-webkit-scrollbar{display:none;}
+  .langtoggle{
+    position:relative;display:inline-flex;align-items:center;flex:none;
+    width:64px;height:28px;padding:2px;border-radius:999px;
+    background:var(--surface-2);border:1px solid var(--border);cursor:pointer;
+    font-family:'Google Sans Code',monospace;-webkit-tap-highlight-color:transparent;
+  }
+  .langtoggle .lt-thumb{
+    position:absolute;top:2px;left:2px;width:30px;height:22px;border-radius:999px;
+    background:var(--accent);transition:transform .18s ease;box-shadow:var(--shadow);
+  }
+  .langtoggle[data-lang="es"] .lt-thumb{transform:translateX(30px);}
+  .langtoggle .lt-label{
+    position:relative;z-index:1;flex:1;text-align:center;
+    font-size:.62rem;font-weight:700;letter-spacing:.03em;color:var(--text-faint);
+    transition:color .18s ease;
+  }
+  .langtoggle[data-lang="en"] .lt-label.lt-en{color:var(--accent-ink);}
+  .langtoggle[data-lang="es"] .lt-label.lt-es{color:var(--accent-ink);}
+
+  /* ---------- accessibility & motion ---------- */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px; border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition-duration:.001ms !important; animation-duration:.001ms !important; }
+  }
+
+  /* ---------- theme toggle ---------- */
+  .themetoggle{
+    flex:none; display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:28px; border-radius:999px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text-dim); cursor:pointer; font-size:.88rem; line-height:1;
+  }
+  .themetoggle:hover{ color:var(--accent-strong); border-color:var(--accent); }
+  .themetoggle .ti-sun{ display:none; }
+  .themetoggle[data-theme-active="dark"] .ti-moon{ display:inline; }
+  .themetoggle[data-theme-active="dark"] .ti-sun{ display:none; }
+  .themetoggle[data-theme-active="light"] .ti-moon{ display:none; }
+  .themetoggle[data-theme-active="light"] .ti-sun{ display:inline; }
+
+  /* ---------- claim widgets (roster / professions) ---------- */
+  .claim-btn{
+    font-family:'Google Sans Code',monospace; font-size:.66rem; font-weight:600;
+    padding:3px 9px; border-radius:999px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text-dim); cursor:pointer; white-space:nowrap;
+  }
+  .claim-btn:hover:not(:disabled){ border-color:var(--accent); color:var(--accent-strong); }
+  .claim-btn:disabled{ cursor:default; opacity:.5; }
+  .claim-btn-un{ padding:3px 7px; margin-left:4px; color:var(--danger); border-color:var(--danger); }
+  .claim-name{ font-size:.83rem; font-weight:600; color:var(--text); }
+  .claim-slot{ display:inline-flex; align-items:center; gap:6px; }
+  .syncnote{ font-size:.74rem; color:var(--text-faint); margin:8px 0 0; }
+  .checklist-progress{ font-family:'Google Sans Code',monospace; font-size:.74rem; color:var(--text-faint); margin:-6px 0 12px; }
+
+  /* ---------- classes: filter chips ---------- */
+  .classfilter{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:16px 0 4px; }
+  .cf-label{ font-size:.78rem; color:var(--text-dim); margin-right:2px; }
+  .cf-chip{
+    font-family:'Google Sans Code',monospace; font-size:.7rem; font-weight:600;
+    padding:5px 12px; border-radius:999px; border:1px solid var(--border);
+    background:var(--surface); color:var(--text-dim); cursor:pointer;
+  }
+  .cf-chip:hover{ border-color:var(--accent); }
+  .cf-chip[aria-pressed="true"]{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+
+  /* ---------- professions claim sheet ---------- */
+  .profclaim{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:10px; margin:16px 0; }
+  .profclaim-item{
+    background:var(--surface); border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px;
+  }
+  .profclaim-item .pc-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .profclaim-item .pc-name{ font-weight:700; font-size:.9rem; }
+  .profclaim-names{ font-size:.8rem; color:var(--text-dim); min-height:1.1em; }
+
+  /* ---------- beta notes ---------- */
+  .betanotes textarea{
+    width:100%; min-height:120px; resize:vertical; border-radius:10px; border:1px solid var(--border);
+    background:var(--surface-2); color:var(--text); font-family:'Google Sans',sans-serif; font-size:.9rem;
+    padding:12px 14px; line-height:1.5;
+  }
+  .betanotes-meta{ font-size:.75rem; color:var(--text-faint); margin-top:6px; }
+  .savebtn{
+    margin-top:8px; font-family:'Google Sans Code',monospace; font-size:.74rem; font-weight:700;
+    padding:8px 16px; border-radius:8px; border:1px solid var(--accent); background:var(--accent);
+    color:var(--accent-ink); cursor:pointer;
+  }
+  .savebtn:disabled{ opacity:.5; cursor:default; background:var(--surface-2); border-color:var(--border); color:var(--text-faint); }
+
+  /* ---------- copy buttons ---------- */
+  .copybtn{
+    font-family:'Google Sans Code',monospace; font-size:.68rem; font-weight:600;
+    padding:6px 12px; border-radius:8px; border:1px solid var(--border); background:var(--surface-2);
+    color:var(--text-dim); cursor:pointer; margin:10px 8px 0 0;
+  }
+  .copybtn:hover{ border-color:var(--accent); color:var(--accent-strong); }
+</style>
+<div class="topnav">
+<div class="topnav-row">
+<span class="topnav-brand">🔥 La Fogata</span>
+<div class="topnav-links">
+<a data-i18n="s1" href="#overview">Overview</a>
+<a data-i18n="s2" href="#ruleset">Ruleset</a>
+<a data-i18n="s3" href="#faction">Faction</a>
+<a data-i18n="s4" href="#roster">Roster</a>
+<a data-i18n="s5" href="#classes">Classes</a>
+<a data-i18n="s6" href="#professions">Professions</a>
+<a data-i18n="s7" href="#systems">Systems</a>
+<a data-i18n="s8" href="#culture">Culture</a>
+<a data-i18n="s9" href="#schedule">Schedule</a>
+<a data-i18n="s10" href="#discord">Discord</a>
+<a data-i18n="s11" href="#recruiting">Recruiting</a>
+<a data-i18n="s12" href="#timeline">Timeline</a>
+<a data-i18n="s13" href="#extras">Extras</a>
+</div>
+<button aria-label="English / Español" class="langtoggle" data-lang="en" id="langToggle" type="button"><span aria-hidden="true" class="lt-thumb"></span><span aria-hidden="true" class="lt-label lt-en">EN</span><span aria-hidden="true" class="lt-label lt-es">ES</span></button><button aria-label="Toggle light / dark theme" aria-pressed="false" class="themetoggle" data-theme-active="light" id="themeToggle" type="button"><span aria-hidden="true" class="ti-moon">☽</span><span aria-hidden="true" class="ti-sun">☀</span></button>
+</div>
+</div>
+<div class="wrap">
+<div class="hero">
+<div class="kicker" data-i18n="s14">Guild prep guide · WoW: Forever</div>
+<h1 class="title" data-i18n="s15">La Fogata</h1>
+<p class="subtitle" data-i18n="s16">A launch-ready plan for your ten — and eventually twenty — for World of Warcraft: Forever. Ruleset, faction, roles, class changes, professions, schedule, and Discord, all reasoned from what Blizzard has actually announced so far.</p>
+<div class="quickfacts">
+<div class="qf"><div class="qf-label" data-i18n="s17">Ruleset</div><div class="qf-value" data-i18n="s21">Normal</div></div>
+<div class="qf"><div class="qf-label" data-i18n="s18">Guild ambition</div><div class="qf-value" data-i18n="s22">Casual, social-first</div></div>
+<div class="qf"><div class="qf-label" data-i18n="s19">Core → target</div><div class="qf-value" data-i18n="s23">10 → 20 players</div></div>
+<div class="qf"><div class="qf-label" data-i18n="s20">Launch</div><div class="qf-value" data-i18n="s24">Nov 4, 7:00 PM AST</div></div>
+</div>
+<div class="qf"><div class="qf-label" data-i18n="s443">Countdown</div><div class="qf-value" id="qfCountdownValue">49d 2h 18m to launch</div></div>
+</div>
+</div>
+<section id="overview">
+<div class="section-eyebrow" data-i18n="s25">01 — What you're actually walking into</div>
+<h2 class="section-title" data-i18n="s26">World of Warcraft: Forever, in brief</h2>
+<p data-i18n="s388">Announced September 12, 2026 at BlizzCon, <strong>WoW: Forever</strong> is Blizzard's official "Classic+" — vanilla Azeroth (level cap still 60) kept intact but built forward with new zones, dungeons, and systems instead of being left to age as a museum piece. It's included with an existing WoW subscription, so nobody in the group needs to buy anything extra.</p>
+<div class="cardgrid">
+<div class="card"><h4 data-i18n="s27">New ground</h4><p data-i18n="s28">Four new zones (Mount Hyjal, the Riverglades, Shen'dralas, Zephras Isle), nine new dungeons, two new max-level raids at launch, and 1,000 new quests spread across the 1–60 bracket.</p></div>
+<div class="card"><h4 data-i18n="s29">New characters</h4><p data-i18n="s30">A new neutral race, the Skyborne, plus new race/class pairings — including some that break vanilla's old faction locks. Full breakdown below.</p></div>
+<div class="card"><h4 data-i18n="s31">Itemization rework</h4><p data-i18n="s32">Hit and crit are unified across spell/melee/ranged, weapon skill is trimmed off most gear, and hybrid specs get real support instead of leftover stats. Full class-by-class detail in the Classes section.</p></div>
+<div class="card"><h4 data-i18n="s33">Two new systems</h4><p data-i18n="s34"><strong>Legacy</strong> (account-wide progression across alts) and <strong>Campfire</strong> (a placeable social/crafting hub). Both covered in full further down.</p></div>
+</div>
+<div class="callout">
+<div class="callout-label" data-i18n="s35">Why this matters before you even log in</div>
+<p data-i18n="s389" style="margin:0;">Nothing here is a traditional realm list. Forever is <strong>realmless</strong> — you pick a ruleset once, and it quietly decides your world PvP exposure, who you can group with, and even how names work. Get that choice right first; everything else in this guide builds on it.</p>
+</div>
+</section>
+<div class="flame-divider"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2s2-1 2-2c2 2 3 4 3 6a6 6 0 0 1-12 0c0-3 2-5 3-7 1-1.5 2-3.5 3-6z"></path></svg></div>
+<section id="ruleset">
+<div class="section-eyebrow" data-i18n="s36">02 — Foundation</div>
+<h2 class="section-title" data-i18n="s37">Ruleset: Normal</h2>
+<p data-i18n="s390">Forever splits its population into four separate, non-interoperable ecosystems — <strong>Normal</strong>, <strong>PvP</strong>, <strong>Roleplaying</strong>, and <strong>Hardcore</strong> — each with its own economy, auction house, and mail. You cannot group across them, and Horde can't group with Alliance in any of them. This is the first decision your ten make, and it has to be unanimous before anyone reserves a name.</p>
+<p data-i18n="s391"><strong>Recommendation: Normal.</strong> Open-world PvP requires mutual consent, so your guild spends its time questing, professions-grinding, and raiding together instead of getting camped mid-quest by an opposing guild that outgears you. Given the group's stated goal — <em>casual, social-first, eventually scaling to 20-player raids</em> — Normal removes the single biggest source of unplanned friction. Save PvP-ruleset ambitions for later; nothing stops a curious member from rolling a Hardcore alt on the side once the main guild is established (see <a href="#extras">Extras</a>).</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s38">Ruleset</th><th data-i18n="s39">What it actually changes</th><th data-i18n="s40">Fit for your group</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s41"><strong>Normal</strong></td><td data-i18n="s42">World PvP needs mutual consent. Standard economy and pacing.</td><td data-i18n="s43">✅ Recommended — matches casual, cooperative goals</td></tr>
+<tr><td data-i18n="s44">PvP</td><td data-i18n="s45">Contested zones are genuinely dangerous; travel and farming carry real risk.</td><td data-i18n="s46">Only if the group wants that tension on top of everything else</td></tr>
+<tr><td data-i18n="s47">Roleplaying</td><td data-i18n="s48">Same rules as Normal, plus naming/behavior expectations for immersion.</td><td data-i18n="s49">Only if in-character play is actually a draw, not just flavor</td></tr>
+<tr><td data-i18n="s50">Hardcore</td><td data-i18n="s51">Permanent character death. Progress is fully isolated from the other three.</td><td data-i18n="s52">Not for the main guild — see Extras for a side-project version</td></tr>
+</tbody>
+</table>
+</div>
+<h3 data-i18n="s53">Two setup details worth planning around now</h3>
+<p data-i18n="s392"><strong>Two-part names.</strong> Characters use a first-and-last-name format, unique per region rather than per realm. Decide your naming convention as a group before Name Reservation Day (October 27) — a shared theme reads well later and avoids ten people scrambling for the same popular name that morning.</p>
+<p data-i18n="s393"><strong>Language preference.</strong> Forever matches players by a selected language preference within a ruleset. Since your core ten are Dominican and likely play primarily in Spanish, set that preference explicitly during account setup — it shapes who you run into while pugging group content before your own twenty is full, and it's independent of faction, so it doesn't narrow the choice below.</p>
+</section>
+<div class="flame-divider"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2s2-1 2-2c2 2 3 4 3 6a6 6 0 0 1-12 0c0-3 2-5 3-7 1-1.5 2-3.5 3-6z"></path></svg></div>
+<section id="faction">
+<div class="section-eyebrow" data-i18n="s54">03 — Identity</div>
+<h2 class="section-title" data-i18n="s55">Faction: Horde or Alliance — two rosters, your call</h2>
+<p data-i18n="s394">The old logic — "Alliance has Paladin, Horde has Shaman, pick your hybrid" — <strong>no longer applies.</strong> Forever adds six new race/class combinations, three per side: Horde gains <strong>Orc Mage</strong>, <strong>Troll Warlock</strong>, and <strong>Undead Paladin</strong>; Alliance gains <strong>Gnome Priest</strong>, <strong>Human Hunter</strong>, and <strong>Dwarf Shaman</strong>. Both factions now field every class, and Forever explicitly supports Horde/Alliance population equilibrium the way Season of Discovery did — so "which side is more populated," historically a real vanilla concern, isn't a factor either. Below are two independent suggested 10-person spreads, one per faction, so you can pick on vibe and lore rather than mechanics.</p>
+<div class="callout">
+<div class="callout-label" data-i18n="s56">Note on slot 1 in both tables</div>
+<p data-i18n="s395" style="margin:0;">You've said you're the group's main tank and are still deciding between Warrior and Druid — both are listed as valid Slot 1 picks in each table below. See the full <a href="#tankpick">Warrior vs. Druid comparison</a> in the Roster section, and the deep ability-level detail for both in <a href="#classes">Classes</a>, before you commit.</p>
+</div>
+<h3 data-i18n="s57">Horde suggested spread</h3>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s58">Slot</th><th data-i18n="s59">Suggestion</th><th data-i18n="s60">Role</th><th data-i18n="s61">Why</th><th data-i18n="s428">Claimed</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s62">1</td><td data-i18n="s63">You — Tauren Warrior <em>or</em> Tauren Druid</td><td data-i18n="s64"><span class="tag tag-tank">Tank</span></td><td data-i18n="s65">Main tank; see the Warrior/Druid comparison before locking it in</td><td><span class="claim-slot" data-slot="horde-1"></span></td></tr>
+<tr><td data-i18n="s66">2</td><td data-i18n="s67">Orc or Tauren Warrior</td><td data-i18n="s68"><span class="tag tag-tank">Off-tank / DPS</span></td><td data-i18n="s69">Second tank once Hyjal Summit needs one</td><td><span class="claim-slot" data-slot="horde-2"></span></td></tr>
+<tr><td data-i18n="s70">3</td><td data-i18n="s71">Tauren Druid (or you, if you tank as Warrior)</td><td data-i18n="s72"><span class="tag tag-heal">Healer</span></td><td data-i18n="s73">Innervate, battle-rez utility carries into 20-player</td><td><span class="claim-slot" data-slot="horde-3"></span></td></tr>
+<tr><td data-i18n="s74">4</td><td data-i18n="s75">Undead Priest</td><td data-i18n="s76"><span class="tag tag-heal">Healer</span></td><td data-i18n="s77">Dispel/mind-control utility, classic raid-healing anchor</td><td><span class="claim-slot" data-slot="horde-4"></span></td></tr>
+<tr><td data-i18n="s78">5</td><td data-i18n="s79">Troll Shaman</td><td data-i18n="s80"><span class="tag tag-heal">Healer / hybrid</span></td><td data-i18n="s81">Totems buff the whole 10-man; Maelstrom Weaver Enhancement flexes to off-tank if needed</td><td><span class="claim-slot" data-slot="horde-5"></span></td></tr>
+<tr><td data-i18n="s82">6</td><td data-i18n="s83">Undead Paladin <span class="tag tag-new">NEW</span></td><td data-i18n="s84"><span class="tag tag-hybrid">Hybrid DPS</span></td><td data-i18n="s85">The new combo — a real beneficiary of the unified hit/crit system</td><td><span class="claim-slot" data-slot="horde-6"></span></td></tr>
+<tr><td data-i18n="s86">7</td><td data-i18n="s87">Orc Mage <span class="tag tag-new">NEW</span></td><td data-i18n="s88"><span class="tag tag-dps">DPS</span></td><td data-i18n="s89">Reliable ranged burst, crowd control for dungeons</td><td><span class="claim-slot" data-slot="horde-7"></span></td></tr>
+<tr><td data-i18n="s90">8</td><td data-i18n="s91">Troll Warlock <span class="tag tag-new">NEW</span></td><td data-i18n="s92"><span class="tag tag-dps">DPS</span></td><td data-i18n="s93">Sustained damage; DoTs can now crit, a real buff to the whole kit</td><td><span class="claim-slot" data-slot="horde-8"></span></td></tr>
+<tr><td data-i18n="s94">9</td><td data-i18n="s95">Orc Hunter or Rogue</td><td data-i18n="s96"><span class="tag tag-dps">DPS</span></td><td data-i18n="s97">Strong solo-leveling class if the group splits up early</td><td><span class="claim-slot" data-slot="horde-9"></span></td></tr>
+<tr><td data-i18n="s98">10</td><td data-i18n="s99">Open — group's choice</td><td data-i18n="s100"><span class="tag tag-dps">Flex</span></td><td data-i18n="s101">Whatever role the first nine leave thinnest</td><td><span class="claim-slot" data-slot="horde-10"></span></td></tr>
+</tbody>
+</table>
+</div><button class="copybtn" data-copy-kind="roster-horde" data-i18n="s434" type="button">Copy Horde roster</button>
+<h3 data-i18n="s102">Alliance suggested spread</h3>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s103">Slot</th><th data-i18n="s104">Suggestion</th><th data-i18n="s105">Role</th><th data-i18n="s106">Why</th><th data-i18n="s428">Claimed</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s107">1</td><td data-i18n="s108">You — Human/Dwarf Warrior <em>or</em> Night Elf Druid</td><td data-i18n="s109"><span class="tag tag-tank">Tank</span></td><td data-i18n="s110">Main tank; Night Elf is Alliance's only Druid race — see the Warrior/Druid comparison</td><td><span class="claim-slot" data-slot="alliance-1"></span></td></tr>
+<tr><td data-i18n="s111">2</td><td data-i18n="s112">Human or Dwarf Warrior</td><td data-i18n="s113"><span class="tag tag-tank">Off-tank / DPS</span></td><td data-i18n="s114">Second tank once Hyjal Summit needs one</td><td><span class="claim-slot" data-slot="alliance-2"></span></td></tr>
+<tr><td data-i18n="s115">3</td><td data-i18n="s116">Night Elf Druid (or you, if you tank as Warrior)</td><td data-i18n="s117"><span class="tag tag-heal">Healer</span></td><td data-i18n="s118">Alliance's only Druid race; same 20-player utility as Horde's</td><td><span class="claim-slot" data-slot="alliance-3"></span></td></tr>
+<tr><td data-i18n="s119">4</td><td data-i18n="s120">Human, Dwarf, or Gnome Priest <span class="tag tag-new">NEW combo</span></td><td data-i18n="s121"><span class="tag tag-heal">Healer</span></td><td data-i18n="s122">Gnome Priest is one of the new combos — a fun option for this slot</td><td><span class="claim-slot" data-slot="alliance-4"></span></td></tr>
+<tr><td data-i18n="s123">5</td><td data-i18n="s124">Dwarf Shaman <span class="tag tag-new">NEW</span></td><td data-i18n="s125"><span class="tag tag-heal">Healer / hybrid</span></td><td data-i18n="s126">The flagship new Alliance combo — totems plus Maelstrom Weaver off-tank flexibility</td><td><span class="claim-slot" data-slot="alliance-5"></span></td></tr>
+<tr><td data-i18n="s127">6</td><td data-i18n="s128">Human or Dwarf Paladin</td><td data-i18n="s129"><span class="tag tag-hybrid">Hybrid DPS</span></td><td data-i18n="s130">Retribution is a top beneficiary of the unified hit/crit system</td><td><span class="claim-slot" data-slot="alliance-6"></span></td></tr>
+<tr><td data-i18n="s131">7</td><td data-i18n="s132">Human Hunter <span class="tag tag-new">NEW</span></td><td data-i18n="s133"><span class="tag tag-dps">DPS</span></td><td data-i18n="s134">The new combo — Survival's melee rework makes this a distinctive pick</td><td><span class="claim-slot" data-slot="alliance-7"></span></td></tr>
+<tr><td data-i18n="s135">8</td><td data-i18n="s136">Gnome or Human Mage</td><td data-i18n="s137"><span class="tag tag-dps">DPS</span></td><td data-i18n="s138">Arcane's rework gives Mage real new identity to explore</td><td><span class="claim-slot" data-slot="alliance-8"></span></td></tr>
+<tr><td data-i18n="s139">9</td><td data-i18n="s140">Human or Gnome Warlock, or Dwarf/Night Elf Hunter</td><td data-i18n="s141"><span class="tag tag-dps">DPS</span></td><td data-i18n="s142">Fill whichever ranged/pet slot the group is missing</td><td><span class="claim-slot" data-slot="alliance-9"></span></td></tr>
+<tr><td data-i18n="s143">10</td><td data-i18n="s144">Open — group's choice</td><td data-i18n="s145"><span class="tag tag-dps">Flex</span></td><td data-i18n="s146">Whatever role the first nine leave thinnest</td><td><span class="claim-slot" data-slot="alliance-10"></span></td></tr>
+</tbody>
+</table>
+</div><button class="copybtn" data-copy-kind="roster-alliance" data-i18n="s435" type="button">Copy Alliance roster</button>
+<p class="dim" data-i18n="s396">Both are starting shapes, not assignments — circulate whichever one you pick in Discord and let people claim slots by preference. Adjust the tenth slot once real people are attached to real names.</p>
+<p class="syncnote" id="syncStatusRoster"></p></section>
+<div class="flame-divider"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2s2-1 2-2c2 2 3 4 3 6a6 6 0 0 1-12 0c0-3 2-5 3-7 1-1.5 2-3.5 3-6z"></path></svg></div>
+<section id="roster">
+<div class="section-eyebrow" data-i18n="s147">04 — Composition</div>
+<h2 class="section-title" data-i18n="s148">Roles and the road from 10 to 20</h2>
+<p data-i18n="s397">Tier 1 raid content unlocks three sizes simultaneously on <strong>December 9, 2026</strong>: <strong>Barrow Deeps (10-player)</strong>, <strong>Hyjal Summit (20-player)</strong>, and <strong>Onyxia's Lair (40-player)</strong>. Your stated plan — start at 10, grow to 20 — lines up exactly with the first two. Treat Onyxia's Lair as a stretch goal reached by allying with another guild for one night, not something to build your roster around from day one.</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s149">Roster size</th><th data-i18n="s150">Tanks</th><th data-i18n="s151">Healers</th><th data-i18n="s152">DPS</th><th data-i18n="s153">Target content</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s154"><strong>10 (core)</strong></td><td data-i18n="s155">2</td><td data-i18n="s156">2–3</td><td data-i18n="s157">5–6</td><td data-i18n="s158">Barrow Deeps, all leveling dungeons</td></tr>
+<tr><td data-i18n="s159"><strong>20 (grown)</strong></td><td data-i18n="s160">3–4</td><td data-i18n="s161">4–5</td><td data-i18n="s162">11–13</td><td data-i18n="s163">Hyjal Summit</td></tr>
+</tbody>
+</table>
+</div>
+<p data-i18n="s398">One itemization change is worth building your class plan around: <strong>spell, melee, and ranged hit and crit are now unified stats</strong> <span class="qtag qtag-official">Official</span>, and hybrids get real support instead of scraps — Retribution Paladin and Enhancement Shaman are Blizzard's own named beneficiaries. For a friend group that wants flexibility without a raid full of pure specialists, this is the moment to actually let one or two people main a hybrid DPS spec and mean it. Full per-class detail is in the <a href="#classes">Classes section</a> below.</p>
+<h3 data-i18n="s164" id="tankpick">Picking your tank: Warrior or Druid</h3>
+<p data-i18n="s399">You called dibs on main tank and haven't settled between the two. Here's the honest comparison, built from everything currently known about both specs' Forever redesign — full ability-level detail for each lives in <a href="#classes">Classes</a>, this is the decision-support summary.</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s165"></th><th data-i18n="s166">Protection Warrior</th><th data-i18n="s167">Feral Druid (Bear)</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s168"><strong>Overall direction</strong></td><td data-i18n="s169">Evolution, not revolution — a steadier, more traditional shield-mitigation tank. Multiple sources agree Forever "doesn't dramatically redesign" Warrior tanking.</td><td data-i18n="s170">A much bigger kit overhaul — new Mangle and Lacerate as core Bear abilities, a reworked Furor/Tiger's Fury, and a new shared Cat/Bear cooldown (Berserk).</td></tr>
+<tr><td data-i18n="s171"><strong>Threat style</strong></td><td data-i18n="s172">Consistent single-target threat via Shield Slam (now hitting much harder, with a 50% dispel chance) and Sunder Armor stacks. Stance flexibility (Charge/Thunder Clap now usable in Defensive Stance) means less stance-dancing.</td><td data-i18n="s173">Mangle (no dodge/parry requirement) plus Lacerate's stacking bleed for sustained threat. Comparatively softer against 4+ target pulls, since Bear still leans on tab-targeted tools rather than one big instant AoE button.</td></tr>
+<tr><td data-i18n="s174"><strong>Survivability</strong></td><td data-i18n="s175">Reliable, more-available defensive cooldowns — Shield Wall and Last Stand reportedly come up more often than in vanilla.</td><td data-i18n="s176">Frenzied Regeneration is reported as a much stronger self-heal than vanilla's version — a genuinely different survival identity built on self-sustain rather than pure mitigation.</td></tr>
+<tr><td data-i18n="s177"><strong>Burst / cooldowns</strong></td><td data-i18n="s178">Recklessness, Retaliation, and Shield Wall no longer share one long cooldown, so panic buttons are available far more often than vanilla.</td><td data-i18n="s179">Berserk (3-min CD): removes Mangle's cooldown and lets it hit up to 3 targets for 15 seconds — a real burst-AoE tank cooldown Warrior doesn't have an equivalent of.</td></tr>
+<tr><td data-i18n="s180"><strong>Itemization note</strong></td><td data-i18n="s181">Weapon skill devalued on gear; a new stat reduces enemy dodge/parry chance against you.</td><td data-i18n="s182">Shapeshifted attacks now scale with your equipped weapon's damage — a genuinely new gearing axis Bear tanks never had in vanilla, where weapon damage was irrelevant in Bear Form.</td></tr>
+<tr><td data-i18n="s183"><strong>Community read</strong></td><td data-i18n="s184">Ranked "A-tier" — described as the safest, most predictable pick.</td><td data-i18n="s185">Also ranked "A-tier" — described as higher self-sufficiency and a flashier kit, with a real caveat on large-pack AoE threat.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout good">
+<div class="callout-label" data-i18n="s186">If it helps to just decide</div>
+<p data-i18n="s400" style="margin:0;">Neither is a wrong pick, and both tier lists rank them within one notch of each other. Warrior rewards someone who wants tanking to feel predictable and doesn't want to relearn much muscle memory. Druid rewards someone who wants a spec that's visibly different from vanilla Bear and doesn't mind the biggest pulls needing a little more help from your DPS's own crowd control. If your ten leans toward smaller, controlled pulls anyway (likely, given the casual/social pace you chose), Druid's large-pack caveat matters less than it sounds.</p>
+</div>
+</section>
+<div class="flame-divider"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2s2-1 2-2c2 2 3 4 3 6a6 6 0 0 1-12 0c0-3 2-5 3-7 1-1.5 2-3.5 3-6z"></path></svg></div>
+<section id="classes">
+<div class="section-eyebrow" data-i18n="s187">05 — Deep dive</div>
+<h2 class="section-title" data-i18n="s188">What changed, class by class</h2>
+<p data-i18n="s401">This is the dense one. Every class below covers its baseline kit changes plus all three specs, sourced from Blizzard's own panel recaps where they exist, and cross-referenced against Wowhead's live Forever talent calculator and several established community sites where they don't. Warrior and Druid are expanded by default since you're deciding between them; click any other class to open it.</p>
+<div class="qlegend">
+<span>Confidence key:</span>
+<span class="qtag qtag-official">Official</span> Blizzard-confirmed
+      <span class="qtag qtag-corroborated">Corroborated</span> multiple independent sources agree
+      <span class="qtag qtag-single">Single-source</span> reported once, numbers may shift
+      <span class="qtag qtag-spec">Speculative</span> theorycraft, not confirmed
+    </div>
+<div class="callout warn">
+<div class="callout-label" data-i18n="s189">Read this before the class list</div>
+<p data-i18n="s402" style="margin:0;">WoW: Forever was announced four days before this was written, and beta only just opened. Blizzard has published a full ability-level "deep dive" for exactly one class so far — <strong>Paladin</strong> — tagged Official below. Everything else comes from Wowhead's own Forever talent calculator (which Wowhead itself describes as BlizzCon-demo-accurate, not yet beta-datamined) plus cross-referenced community sites. Treat every specific number as preliminary until the beta patch notes catch up — the shapes and named abilities are consistent across sources, the exact percentages often aren't.</p>
+<p class="dim" id="lastVerified" style="margin:10px 0 0;font-size:.8rem;">Class/role content last verified September 16, 2026.</p></div>
+<div class="betanotes"><h3 data-i18n="s431">Beta scouting notes</h3><p data-i18n="s432">Once someone's actually in the beta, drop real impressions here so the guide stops being pure theorycraft.</p><textarea id="betaNotesText" maxlength="4000" placeholder="Beta notes from the group..."></textarea><button class="savebtn" data-i18n="s433" id="betaNotesSave" type="button">Save notes</button><p class="betanotes-meta" id="betaNotesMeta"></p></div><div class="classfilter" id="classFilterBar"><span class="cf-label" data-i18n="s437">Filter by role:</span><button aria-pressed="true" class="cf-chip" data-filter="all" data-i18n="s438" type="button">All</button><button aria-pressed="false" class="cf-chip" data-filter="tank" data-i18n="s439" type="button">Tank</button><button aria-pressed="false" class="cf-chip" data-filter="heal" data-i18n="s440" type="button">Healer</button><button aria-pressed="false" class="cf-chip" data-filter="dps" data-i18n="s441" type="button">DPS</button><button aria-pressed="false" class="cf-chip" data-filter="hybrid" data-i18n="s442" type="button">Hybrid</button></div>
+<div class="classlist">
+<details class="classcard" data-role="tank dps" open="">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s190" style="color:#C69B6D;">Warrior <span class="tag tag-tank">Tank / Melee DPS</span></h4><div class="cc-tagline" data-i18n="s191">Protection gets the deep dive — see the tank comparison above first.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s192">Baseline (all specs)</div>
+<p data-i18n="s193"><strong>Victory Rush</strong> <span class="qtag qtag-corroborated">Corroborated</span> — a new post-kill attack/heal, exact values still shifting. The old shared cooldown across <strong>Recklessness, Retaliation, and Shield Wall</strong> <span class="qtag qtag-corroborated">Corroborated</span> is gone or greatly shortened, so panic-button cooldowns are far more available than vanilla. Unified Hit improves <strong>Taunt</strong> reliability, and weapon-skill gear is deliberately devalued so it's no longer a mandatory itemization trap. <strong>Weaponmaster</strong> <span class="qtag qtag-corroborated">Corroborated</span> consolidates the four separate Axe/Sword/Mace/Polearm Specialization talents into one, and a new stat reduces enemy dodge/parry chance against your attacks.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s194">Arms <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s195"><strong>Spearing Strike</strong> <span class="qtag qtag-corroborated">Corroborated</span> (new: 15 Rage, 40% weapon damage, bonus vs. Giants/Dragonkin, dismounts mounted targets). <strong>Bloodthrill</strong> <span class="qtag qtag-single">Single-source</span> — melee attacks against a Rend-afflicted target can proc a free, guaranteed Overpower. <strong>Improved Slam</strong> drops to a 2-point talent and finally removes the old "Slam interrupts your swing timer" downside that made it unpopular in vanilla.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s196">Fury <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s197">Dual Wield Specialization expands to grant off-hand hit chance and rage generation, not just damage. <strong>Raging Blows</strong> <span class="qtag qtag-corroborated">Corroborated</span> makes Whirlwind also strike with your off-hand and cheapens Cleave. Enrage is reworked to trigger off any damage taken or dealt, not just crits, at a smaller magnitude <span class="qtag qtag-single">Single-source</span>. One source flags Bloodthirst's healing possibly shifting to a movement-speed buff with a new talent, Blood Craze, taking over sustain <span class="qtag qtag-spec">Speculative</span> — treat as unconfirmed.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s198">Protection <span class="tag tag-tank">Tank</span> — the deep-dive spec</div>
+<p data-i18n="s199">Strong agreement across sources on direction: a more "pure" shield-tank identity with real defensive tools, and enough stance flexibility that you spend less time stance-dancing. <strong>Charge and Thunder Clap become usable in Defensive Stance</strong> <span class="qtag qtag-corroborated">Corroborated</span> via a new talent, Vanguard. Most Protection talents now explicitly require a shield equipped, closing off any dual-wield "tank" builds for good. New talents: <strong>Bastion</strong> (damage while shielded), <strong>Master of Defense</strong> (rage on dodge/parry with a shield up), <strong>Focused Rage</strong>, and <strong>Vitality</strong>. <strong>Defiance</strong> is reworked to scale all threat generated in Defensive Stance. <strong>Shield Slam</strong> is buffed with block-value scaling and a 50% chance to dispel a magic effect, and is explicitly called out as very high threat. Shield Wall and Last Stand come up more often than vanilla per multiple sources.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s200">Itemization notes</div>
+<p data-i18n="s201">Unified Hit specifically improves Taunt reliability, since Taunt rolled against melee hit separately in vanilla. New parry/dodge-reduction gear stats directly help tank threat and melee uptime.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="tank dps heal hybrid" open="">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s202" style="color:#FF7D0A;">Druid <span class="tag tag-hybrid">Tank / DPS / Healer</span></h4><div class="cc-tagline" data-i18n="s203">Feral gets the deep dive — see the tank comparison above first.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s204">Baseline (all specs)</div>
+<p data-i18n="s205"><strong>Revive</strong> <span class="qtag qtag-corroborated">Corroborated</span> — a new out-of-combat resurrection spell, distinct from Rebirth. <strong>Omen of Clarity</strong> becomes baseline and expands to proc off offensive spells and heals, not just melee swings. <strong>Furor</strong> is reworked specifically to kill the old vanilla "powershifting" exploit macro: shifting into Cat now grants scaled Energy, shifting into Bear grants a flat Rage amount, instead of a full resource refill. <strong>Cat and Bear Form attacks now scale with your equipped weapon's damage</strong> <span class="qtag qtag-single">Single-source</span> — a real new gearing axis (see the tank comparison above). Improved Mark of the Wild is baseline <span class="qtag qtag-official">Official</span>, freeing a talent point every Druid used to spend on raid buff coverage.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s206">Balance <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s207">The headline change is a new <strong>Eclipse</strong>-style system <span class="qtag qtag-corroborated">Corroborated</span>: casting Wrath reduces your next Starfire cast time, stacking up to 4 charges — importing the alternating Wrath/Starfire rotation vanilla Balance never had. <strong>Nature's Grace</strong> is reworked into a flat casting-speed buff on any non-periodic crit. <strong>Moonkin Form's</strong> aura is broadened to buff more spell/ability types for nearby party members, not just caster crit.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s208">Feral <span class="tag tag-tank">Bear Tank</span> / <span class="tag tag-dps">Cat DPS</span> — the deep-dive spec</div>
+<p data-i18n="s209"><strong>Tiger's Fury</strong> flips from an Energy cost to an Energy grant plus a damage buff <span class="qtag qtag-corroborated">Corroborated</span>. <strong>Berserk</strong> (new, shared Cat/Bear cooldown, ~3 min / 15 sec): in Bear Form removes Mangle's cooldown and lets it hit up to 3 targets; in Cat Form grants guaranteed crits to combo-point builders; grants fear immunity while active. For the tank side specifically: <strong>Mangle</strong> is added as a core Bear ability with no dodge/parry requirement <span class="qtag qtag-corroborated">Corroborated</span>, and <strong>Lacerate</strong> adds a stacking bleed (up to 5 stacks) for sustained threat. <strong>Natural Reaction</strong> converts dodges into rage. Thick Hide now also scales off Defense skill, making that stat worth itemizing for the first time. <strong>Frenzied Regeneration</strong> is reported as a substantially stronger self-heal than vanilla's version <span class="qtag qtag-single">Single-source</span>. Bleeds and DoTs (Rake, Rip, Lacerate) can now crit.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s210">Restoration <span class="tag tag-heal">Healer</span></div>
+<p data-i18n="s211"><strong>Wild Growth</strong> <span class="qtag qtag-single">Single-source</span> — a new party-wide heal-over-time. <strong>Swiftmend</strong> is reworked so it no longer consumes the HoT it's cast on <span class="qtag qtag-corroborated">Corroborated</span> — a real rotational change from vanilla's "Swiftmend eats your HoT" tradeoff. <strong>Gift of the Earthmother</strong> <span class="qtag qtag-corroborated">Corroborated</span>, matching numbers across sources — cuts the GCD on Rejuvenation, Swiftmend, and Wild Growth by half a second. HoTs can now crit.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="tank dps heal hybrid">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s212" style="color:#F48CBA;">Paladin <span class="tag tag-hybrid">Tank / DPS / Healer</span></h4><div class="cc-tagline" data-i18n="s213">The one class with a full official Blizzard deep dive.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s214">Baseline (all specs) <span class="qtag qtag-official">Official</span></div>
+<p data-i18n="s215"><strong>Holy Strike</strong> — new at level 6: an instant weapon strike dealing Holy damage, 12-second cooldown. <strong>Seals are no longer consumed by Judgment</strong> — a foundational rotational change from vanilla. <strong>Seal of Fury</strong> favors fast weapons, grants an absorb shield, and causes Judgment to taunt. <strong>Consecration</strong> is baseline at level 20, dealing high damage/threat to the first four targets hit. Design limits are explicitly preserved: Paladins still lack a real interrupt, have limited slowing tools, and rely on Seal/Judgment for taunting — they remain especially strong against Undead and Demons.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s216">Holy <span class="tag tag-heal">Healer</span> <span class="qtag qtag-official">Official</span></div>
+<p data-i18n="s217"><strong>Improved Holy Strike</strong> (cooldown reduction), <strong>Voice of Truth</strong> (Silence/Interrupt immunity), <strong>Reverence</strong> (mana regen from Spirit while casting), <strong>Infusion of Light</strong> (reduces Holy Light cast time after a Holy Shock or Flash of Light crit), <strong>Holy Shock</strong> moved to a 10-second cooldown, <strong>Consecrated Ground</strong> (bonus Holy damage inside your Consecration), and <strong>Light's Vigil</strong> — a high-cost cooldown that resets Holy Shock or triggers party-wide damage/healing.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s218">Protection <span class="tag tag-tank">Tank</span> <span class="qtag qtag-official">Official</span></div>
+<p data-i18n="s219"><strong>Improved Seal of Fury</strong> (mana on absorb), <strong>Shield Specialization</strong> (mana on block), <strong>Swift Judgment</strong> (resets Judgment's cooldown once per minute), <strong>Templar's Bulwark</strong> (absorb shield scaling off max health), <strong>Reckoning</strong> redesigned around crit-immune tanking and triggering off blocks, and <strong>Iron Creed</strong> — timed Holy Strikes reduce incoming damage.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s220">Retribution <span class="tag tag-dps">DPS</span> <span class="qtag qtag-official">Official</span> — biggest itemization winner</div>
+<p data-i18n="s221"><strong>Vindication</strong> (reduces enemy Attack Power; since the Oct 30 hotfix it no longer raises your own), <strong>Sacred Arbiter</strong> (empowers Holy Strike, refreshes Judgments), <strong>Champion of the Light</strong> (spell damage scaling off Intellect, up to 60% of it after the Oct 30 rework), <strong>Instrument of the Law</strong> (reduces threat, makes Holy Wrath instant; removed in the Oct 30 hotfix), <strong>Twist of Light</strong> (Seal Twisting without needing an addon), and a Holy Shock option for a ranged, spell-powered playstyle. This spec is Blizzard's own named example of who benefits most from the unified hit/crit system.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="dps">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s222" style="color:#AAD372;">Hunter <span class="tag tag-dps">Ranged / Melee DPS</span></h4><div class="cc-tagline" data-i18n="s223">Survival becomes a genuine melee spec.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s224">Baseline (all specs)</div>
+<p data-i18n="s225">Unified Hit improves <strong>Trap</strong> reliability — traps rolled against a separate, easy-to-overlook hit check in vanilla. <strong>Aspect of the Beast</strong> now also grants melee Attack Power. Vanilla's ranged "dead zone" and the original Disengage are explicitly kept rather than modernized — confirmation that Hunter isn't being globally retail-ified. New combos: Human Hunter and Skyborne Hunter (both factions).</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s226">Beast Mastery <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s227"><strong>Summon Hawk</strong> <span class="qtag qtag-corroborated">Corroborated</span>, matching numbers across sources — summons a hawk that dive-bombs the target for 18 seconds, up to 2 active at once, sharing a 6-second cooldown with Arcane Shot. Effectively a second pet stacked on top of your main one. <strong>Focused Fire</strong> reworked to grant flat damage per point while your pet is actively out.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s228">Marksmanship <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s229"><strong>Lone Wolf</strong> <span class="qtag qtag-corroborated">Corroborated</span>, consistent number — +20% damage to all attacks while you have no active pet, explicitly positioning MM as the "petless" Hunter spec against BM's pet-uptime focus. <strong>Careful Aim</strong> reworked to convert 20% of Intellect into Attack Power <span class="qtag qtag-corroborated">Corroborated</span> — one of the better-confirmed numbers in the whole Hunter kit. <strong>Sniper Shot</strong> (new cast-time nuke) rounds out the tree.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s230">Survival <span class="tag tag-dps">Melee DPS</span> — repositioned</div>
+<p data-i18n="s231">Every source agrees on the direction: Survival becomes Hunter's dedicated <strong>melee</strong> spec, a real identity shift from vanilla's ranged/trap hybrid. <strong>Strider Kick</strong> (new melee attack) and <strong>Lacerating Strikes</strong> <span class="qtag qtag-corroborated">Corroborated</span>, matching numbers — Mongoose Bite applies a bleed worth 40% of the bite's damage over 21 seconds. <strong>Entrapment</strong> makes your traps also root the target briefly, guaranteeing a follow-up window.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="dps">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s232" style="color:#FFF468;">Rogue <span class="tag tag-dps">Melee DPS</span></h4><div class="cc-tagline" data-i18n="s233">Mutilate arrives; Combat gets a cooldown-refund identity.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s234">Baseline (all specs)</div>
+<p data-i18n="s235"><strong>Sap no longer breaks Stealth</strong> <span class="qtag qtag-corroborated">Corroborated</span>. Rogues can now equip one-handed Axes. The unified Hit/Crit system explicitly extends to Poison application chance and Poison crit, not just weapon attacks — a real buff to poison-based builds. Armor Penetration still only applies to armor-mitigated hits, not poison or bleed damage over time.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s236">Assassination <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s237"><strong>Mutilate</strong> <span class="qtag qtag-corroborated">Corroborated</span> — the later-expansion signature ability arrives in Forever: both weapons for 75% weapon damage plus a flat bonus, 2 combo points, +20% against Poisoned targets. <strong>Venom</strong> (new finisher) boosts poison damage and application chance for a duration scaling with combo points spent — reframing the spec around poison uptime rather than pure burst.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s238">Combat <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s239"><strong>Restless Blades</strong> (new) — damaging finishing moves reduce the cooldown of Adrenaline Rush, Blade Flurry, Evasion, Sprint, and Vanish by 2 seconds per combo point spent, a real cooldown-management redesign. <strong>Hack and Slash</strong> (new) consolidates all five weapon-specialization talents into one, with the bonus depending on weapon type equipped.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s240">Subtlety <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s241"><strong>Hemorrhage</strong> becomes a core baseline ability <span class="qtag qtag-corroborated">Corroborated</span> — instant strike, applies a personal debuff (+15% Rupture damage from you specifically, not all sources) rather than vanilla's generic damage-taken debuff. <strong>Thousand Cuts</strong> (new) cheapens your next builder each time Rupture ticks. <strong>Cutthroat</strong> (new) gives Backstab a chance to let your next Ambush skip the Stealth requirement.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="heal dps">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s242" style="color:#FFFFFF;">Priest <span class="tag tag-heal">Healer / DPS</span></h4><div class="cc-tagline" data-i18n="s243">Prayer of Mending arrives; Shadowform gets a real identity shift.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s244">Baseline (all specs)</div>
+<p data-i18n="s245"><strong>Divine Spirit</strong> moves out of the talent tree and becomes baseline utility, freeing a point every Holy/Disc Priest used to spend on it. <strong>Devouring Plague</strong> (previously Undead-only) and <strong>Fear Ward</strong> (previously Dwarf-only) open up to all Priests. Gnome joins as a new playable Priest race.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s246">Discipline <span class="tag tag-heal">Healer</span></div>
+<p data-i18n="s247"><strong>Penance</strong> (new signature spell) — a channeled bolt dealing damage or healing, firing repeatedly over a short channel, 12-second cooldown; a direct retrofit of the ability's later-expansion identity. <strong>Divine Aegis</strong> (new) — critical heals generate a protective absorb shield. <strong>Soul Warding</strong> cuts Power Word: Shield's cooldown and cost.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s248">Holy <span class="tag tag-heal">Healer</span></div>
+<p data-i18n="s249"><strong>Prayer of Mending</strong> (new) — a major new mechanic: a heal-on-next-damage buff that jumps between party members up to 5 times within a window, rather than a single-target spell. <strong>Litany of Light</strong> refunds a portion of mana on a different heal when you rotate between spells instead of spamming one. <strong>Binding Heal</strong> (new) heals both target and caster at once, at reduced threat. <strong>Spirit of Redemption's</strong> duration extends from 10 to 15 seconds.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s250">Shadow <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s251"><strong>Shadowform</strong> reworked <span class="qtag qtag-corroborated">Corroborated</span> — damage bonus trimmed from 15% to 10%, but gains a new 50% mana-cost reduction on Shadow spells and doubled critical damage, while the healing-spell restriction while shapeshifted is tightened. <strong>Vampiric Embrace</strong> now has its own cooldown and triggers Spirit Tap on a kill. <strong>Shadow Weaving</strong> flips from an enemy-facing debuff into a personal stacking damage buff. DoTs can now crit, system-wide — especially relevant here.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="dps heal hybrid">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s252" style="color:#0070DE;">Shaman <span class="tag tag-hybrid">DPS / Healer</span></h4><div class="cc-tagline" data-i18n="s253">Maelstrom Weapon and Riptide arrive; Dwarf Shaman is live.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s254">Baseline (all specs)</div>
+<p data-i18n="s255">Two-Handed Axes and Maces usable without spending a talent point. Lightning Bolt's cast time drops from 3.0 to 2.5 seconds. <strong>Totemic Projection/Recall</strong> (new) let you reposition dropped totems without redropping them. <strong>Call of the Elements</strong> (new) drops a full totem set in one cast. <strong>Fire Nova</strong> is reworked from its own totem into a detonation of your active Fire Totem. The unified Hit/Crit merge is explicitly named as a top beneficiary for Enhancement's mixed melee-and-spell kit, alongside Retribution Paladin.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s256">Elemental <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s257"><strong>Lava Burst</strong> (new nuke) deals +20% damage if the target already has your Flame Shock on it — a DoT-into-nuke synergy vanilla Elemental never had. <strong>Call of Flame</strong> broadens beyond Fire Totem to also buff Flame Shock, Fire Nova, and Lava Burst. <strong>Lightning Overload</strong> (new) gives Nature spells a chance to duplicate their effect at no extra threat — an early version of a mechanic later expansions built whole trees around.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s258">Enhancement <span class="tag tag-hybrid">Hybrid DPS</span> — biggest itemization winner</div>
+<p data-i18n="s259"><strong>Maelstrom Weapon</strong> (new signature talent) — melee attacks stack a buff (up to 5) that cuts Lightning Bolt's cast time and mana cost, turning Enhancement into a melee-into-instant-caster hybrid rotation vanilla never had. <strong>Stormstrike</strong> reworked into a personal +20% Nature damage buff with a much shorter cooldown. <strong>Spirit Weapons</strong> (new) grants Parry and can flip from reducing threat to increasing it, letting Enhancement flex into an off-tank role in a pinch.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s260">Restoration <span class="tag tag-heal">Healer</span></div>
+<p data-i18n="s261"><strong>Riptide</strong> (new signature spell) combines a direct heal and a heal-over-time in one cast, and boosts a follow-up Chain Heal on the same target — Restoration's new capstone tool. <strong>Water Shield</strong> (new, returning) — a 3-charge shield restoring mana when you're hit or land a healing crit. <strong>Tidal Focus</strong> reworked to boost your global Hit chance alongside its existing cost reduction.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="dps">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s262" style="color:#3FC7EB;">Mage <span class="tag tag-dps">Ranged DPS</span></h4><div class="cc-tagline" data-i18n="s263">Arcane gets the biggest rework of the three specs.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s264">Baseline (all specs)</div>
+<p data-i18n="s265"><strong>Frostfire Bolt</strong> exists as a real, talentable hybrid Fire/Frost spell. <strong>Improved Counterspell</strong> is reworked so rank 1 guarantees a 2-second silence outright, instead of vanilla's chance-based version. Orc Mage and Skyborne Mage (Alliance) are new combos.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s266">Arcane <span class="tag tag-dps">DPS</span> — most reworked spec</div>
+<p data-i18n="s267">Described by multiple sources as going from largely unplayed in vanilla to genuinely strong. <strong>Arcane Blast</strong> (new) stacks a self-buff on cast that boosts your other spell damage per stack, at a rising mana cost — a direct retrofit of the ability's later, more iconic identity. <strong>Missile Barrage</strong> (new) gives your casts a proc chance to cut Arcane Missiles' channel time in half and remove its mana cost entirely. Arcane Meditation's mana regen while casting jumps substantially, addressing Arcane's traditionally poor sustained-casting economy.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s268">Fire <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s269"><strong>Hot Streak</strong> <span class="qtag qtag-corroborated">Corroborated</span> — Fire's new signature mechanic: non-periodic crits from Fireball, Frostfire Bolt, Fire Blast, or Scorch stack up to 3 times, each stack cutting Pyroblast's cast time by 25%. This directly imports Fire's most iconic later-expansion mechanic into the vanilla-style kit. <strong>Combustion</strong> is reworked to end after 4 Fire crits instead of 3.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s270">Frost <span class="tag tag-dps">DPS</span></div>
+<p data-i18n="s271"><strong>Ice Lance</strong> (new) — instant cast, weak against normal targets but roughly +300% damage against Frozen ones. <strong>Fingers of Frost</strong> (new) gives Chill effects a chance to make your next spell treat the target as Frozen even if it isn't literally frozen, enabling Ice Lance/Shatter synergy on demand. <strong>Shatter</strong> now only costs 3 talent points to max instead of 5 — a real investment reduction for Frost's core burst talent. Since the Oct 28 build Ice Lance also has an 8-second cooldown.</p>
+</div>
+</div>
+</details>
+<details class="classcard" data-role="dps">
+<summary>
+<div class="cc-left"><span class="cc-chevron">▶</span><div><h4 class="class-name" data-i18n="s272" style="color:#8788EE;">Warlock <span class="tag tag-dps">Ranged DPS</span></h4><div class="cc-tagline" data-i18n="s273">The most extensively reworked class in the whole game, per multiple sources.</div></div></div>
+</summary>
+<div class="classbody">
+<div class="specblock">
+<div class="spec-title" data-i18n="s274">Baseline (all specs)</div>
+<p data-i18n="s275"><strong>DoTs can now critically strike</strong> <span class="qtag qtag-corroborated">Corroborated</span> — described repeatedly as the single biggest baseline change to the class, with knock-on effects across every Warlock spec. <strong>Bane of Agony</strong> and <strong>Bane of Doom</strong> replace the old Curse of Agony/Doom and no longer compete for your one curse slot — you can run a Bane and a separate curse on the same target at once. <strong>Warlock pets now scale with your own stats</strong>, addressing vanilla's well-known problem of pets falling off badly at higher gear levels. Troll Warlock is a new combo.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s276">Affliction <span class="tag tag-dps">DPS</span> — rebuilt around Drain amplification</div>
+<p data-i18n="s277">Multiple sources describe the spec shifting from Shadow Bolt spam toward maintaining multiple DoTs and amplifying them with Drain spells. <strong>Drain Hope</strong> (new capstone) is a channeled Shadow DoT that also buffs your other Shadow DoTs on the same target. <strong>Improved Drains</strong> boosts Drain Life/Soul damage per active DoT on the target, with the Drain Soul portion tripled below 20% target health — explicitly framed as giving Affliction a real execute phase for the first time.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s278">Demonology <span class="tag tag-dps">DPS</span> — built around pet uptime</div>
+<p data-i18n="s279"><strong>Demonic Pact</strong> (new capstone) lets your Demonic Sacrifice buff persist even after summoning a different demon — no more choosing between "keep the buff" and "have a pet out." <strong>Demonic Sacrifice</strong> is reworked with reshuffled per-demon buffs and its duration extended from 30 minutes to 2 hours. <strong>Demonic Knowledge</strong> boosts your own spell damage and healing while a demon is active, tying personal output directly to pet uptime.</p>
+</div>
+<div class="specblock">
+<div class="spec-title" data-i18n="s280">Destruction <span class="tag tag-dps">DPS</span> — stays a hard-cast spec on purpose</div>
+<p data-i18n="s281">Sources agree Destruction is being redesigned to blend Fire and Shadow damage together while deliberately keeping vanilla's slower, hard-cast identity rather than becoming proc-heavy. <strong>Incinerate</strong> <span class="qtag qtag-corroborated">Corroborated</span> (new capstone nuke) deals bonus damage against Immolate-afflicted targets. <strong>Shadow and Flame</strong> (new) ties Conflagrate to Shadow damage and Shadowburn to Fire damage as a cross-buff. <strong>Bane of Havoc</strong> (new) copies a portion of damage you deal to other targets onto a Baned target — a real two-target cleave tool the spec never had.</p>
+</div>
+</div>
+</details>
+</div>
+<p class="dim" data-i18n="s403" style="margin-top:22px;">Cross-class itemization confirmed by Blizzard alongside the unified hit/crit merge: weapon skill is deliberately devalued on gear; healing gear now also grants roughly a third as much bonus spell damage, so healers can solo-quest without a separate damage set; spellcaster weapons carry spell power/healing directly, down to low levels; trinkets are becoming more situational rather than flat always-on stats; and some gear now ties bonus effects to specific environments or creature types.</p>
+</section>
+<div class="flame-divider"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2s2-1 2-2c2 2 3 4 3 6a6 6 0 0 1-12 0c0-3 2-5 3-7 1-1.5 2-3.5 3-6z"></path></svg></div>
+<section id="professions">
+<div class="section-eyebrow" data-i18n="s282">06 — Economy</div>
+<h2 class="section-title" data-i18n="s283">Professions strategy</h2>
+<p data-i18n="s404">Forever adds over 600 new recipes across every profession and level range, plus <strong>Advanced Blueprint</strong> recipes that drop specifically from dungeon bosses — a real reason to run your own nine new dungeons instead of skipping straight to max level. The bigger structural change, though, is that professions now feed directly into the Campfire system (next section): each profession contributes a craftable buff-item to any campsite, so a guild with good profession coverage functions like a mobile buff station on every leveling and farming trip.</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s284">Profession</th><th data-i18n="s285">Confirmed Campfire contribution</th><th data-i18n="s286">Who should take it</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s287">Blacksmithing</td><td data-i18n="s288">Attack Power buff item</td><td data-i18n="s289">A melee DPS or tank who's already gearing that way</td></tr>
+<tr><td data-i18n="s290">Tailoring</td><td data-i18n="s291">Spirit buff item</td><td data-i18n="s292">A healer or caster — doubles as their own gear pipeline</td></tr>
+<tr><td data-i18n="s293">Herbalism</td><td data-i18n="s294">Intellect buff item</td><td data-i18n="s295">Pair with Alchemy on the same character for a tight loop</td></tr>
+<tr><td data-i18n="s296">Everything else</td><td data-i18n="s297">Confirmed to have its own campsite item, specifics pending in beta</td><td data-i18n="s298">Assign by gathering-vs-crafting preference; avoid doubling up</td></tr>
+</tbody>
+</table>
+</div>
+<div class="callout">
+<div class="callout-label" data-i18n="s299">Coordination tip</div>
+<p data-i18n="s405" style="margin:0;">With ten people and two professions each, you can realistically cover all primary professions at least once without anyone duplicating. Post a simple claim sheet in Discord (see <a href="#discord">Discord</a>) before launch night — the worst outcome is three Miners and no Enchanter three weeks in.</p>
+</div>
+<p data-i18n="s406">One more system worth knowing before you pick: the Legacy tree includes a <strong>Reagent Economy</strong> perk that removes class-ability reagent requirements account-wide once unlocked. It's a Resourcefulness-tree perk, not a profession itself, but it changes how aggressively your professions-focused players need to farm reagents versus craft-and-sell material.</p>
+<h3 data-i18n="s429">Who's on what — live claim sheet</h3><p data-i18n="s430">Click a profession below to put your name on it — updates for everyone who can edit this page.</p><div class="profclaim"><div class="profclaim-item" data-prof="alchemy"><div class="pc-head"><span class="pc-name">Alchemy</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="blacksmithing"><div class="pc-head"><span class="pc-name">Blacksmithing</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="enchanting"><div class="pc-head"><span class="pc-name">Enchanting</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="engineering"><div class="pc-head"><span class="pc-name">Engineering</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="herbalism"><div class="pc-head"><span class="pc-name">Herbalism</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="leatherworking"><div class="pc-head"><span class="pc-name">Leatherworking</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="mining"><div class="pc-head"><span class="pc-name">Mining</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="skinning"><div class="pc-head"><span class="pc-name">Skinning</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div><div class="profclaim-item" data-prof="tailoring"><div class="pc-head"><span class="pc-name">Tailoring</span><button class="claim-btn profclaim-btn" type="button">—</button></div><div class="profclaim-names"></div></div></div><p class="syncnote" id="syncStatusProf"></p></section>
+<section id="systems">
+<div class="section-eyebrow" data-i18n="s300">07 — New mechanics</div>
+<h2 class="section-title" data-i18n="s301">Legacy and Campfire, explained</h2>
+<h3 data-i18n="s302">Legacy: your account's long game</h3>
+<p data-i18n="s407">Legacy is <strong>account-wide</strong> progression earned through Legacy Challenges, spent independently on each character across three trees: <strong>Adventure</strong> (rested-XP and leveling perks), <strong>Professions</strong> (gathering yield, like Bountiful Harvest), and <strong>Resourcefulness</strong> (economy perks like the Reagent Economy above). You start with up to 65 points to spend and a 16-point-per-character cap at launch, specifically so alts don't feel mandatory just to stay competitive.</p>
+<p class="dim" data-i18n="s408">Practical read for your guild: Legacy Points earned on anyone's main help fund that same player's future alts, but they don't help a guildmate directly. It's a personal system — plan your own character's tree, don't expect to trade progress with anyone else.</p>
+<h3 data-i18n="s303">Campfire: your mobile guild hall</h3>
+<p data-i18n="s409">Any character can drop a Basic Campfire (learned through Cooking, available to everyone as a secondary skill) to create a campsite offering repairs, a vendor, and one-hour buffs. Up to three nearby players can each contribute one profession-crafted item to the site — expandable to ten contributions at higher skill levels — turning a rest stop into a real gathering point.</p>
+<div class="callout warn">
+<div class="callout-label" data-i18n="s304">Worth flagging even on Normal ruleset</div>
+<p data-i18n="s410" style="margin:0;">Campsites are <strong>not sanctuaries</strong>. On Normal you're safe from unwanted PvP by default, but don't assume a campsite is special protection on top of that — pitch camp somewhere sensible, same as you would any other open-world stop.</p>
+</div>
+<p data-i18n="s411">For your guild specifically: treat the Campfire as the natural default meeting spot before a dungeon run or a group leveling session — it's a small ritual (drop camp, buff up, head out together) that costs nothing and reinforces exactly the social, casual tone your group already chose.</p>
+</section>
+<div class="flame-divider"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2s2-1 2-2c2 2 3 4 3 6a6 6 0 0 1-12 0c0-3 2-5 3-7 1-1.5 2-3.5 3-6z"></path></svg></div>
+<section id="culture">
+<div class="section-eyebrow" data-i18n="s305">08 — Structure</div>
+<h2 class="section-title" data-i18n="s306">Guild structure for a casual, social-first crew</h2>
+<p data-i18n="s412">You chose casual/social first over progression-focused, which means the document's job here is to add just enough structure to prevent friction — not to build a raiding bureaucracy nobody asked for.</p>
+<div class="cardgrid">
+<div class="card"><h4 data-i18n="s307">Leadership</h4><p data-i18n="s308">One Guild Master (whoever's most likely to actually keep logging in for admin tasks) plus two Officers — one owns Discord/recruiting, one owns raid-night logistics. Rotate if it stops being fun for whoever holds it.</p></div>
+<div class="card"><h4 data-i18n="s309">Loot</h4><p data-i18n="s310">Need/Greed for dungeon drops, simple round-robin soft-reserve for raid drops. No DKP spreadsheet — it's overhead a ten-to-twenty friend guild doesn't need at this ambition level.</p></div>
+<div class="card"><h4 data-i18n="s311">Attendance</h4><p data-i18n="s312">No formal policy. A pinned Discord poll before each raid night tells you who's coming; if under threshold, it becomes a dungeon or leveling night instead. Nobody owes an explanation for missing.</p></div>
+<div class="card"><h4 data-i18n="s313">Guild bank</h4><p data-i18n="s314">One shared bank tab for BoE crafting mats and campfire reagents everyone can pull from. Keep gold in personal banks — a shared gold pool is the single most common source of casual-guild drama.</p></div>
+</div>
+</section>
+<section id="schedule">
+<div class="section-eyebrow" data-i18n="s315">09 — Time</div>
+<h2 class="section-title" data-i18n="s316">Schedule and timezone plan</h2>
+<p data-i18n="s413">The Dominican Republic runs on <strong>Atlantic Standard Time (UTC-4) year-round</strong> — no daylight saving to track, which is one less thing to coordinate than most US-based guilds deal with. Launch itself lands at <strong>7:00 PM AST</strong> on November 4 (3:00 PM Pacific, converted — the US will already be off daylight saving by that date).</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s317">Slot</th><th data-i18n="s318">Cadence</th><th data-i18n="s319">Purpose</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s320">Weeknight (2x/week, ~90 min)</td><td data-i18n="s321">Flexible, poll-confirmed</td><td data-i18n="s322">Leveling, dungeons, profession runs — drop-in, drop-out</td></tr>
+<tr><td data-i18n="s323">Weekend block (1x/week, 2–3 hrs)</td><td data-i18n="s324">Semi-scheduled</td><td data-i18n="s325">The closest thing to a "raid night" once Tier 1 unlocks Dec 9</td></tr>
+<tr><td data-i18n="s326">Ad hoc</td><td data-i18n="s327">Whenever</td><td data-i18n="s328">Campfire meetups, dungeon pugs, professions farming</td></tr>
+</tbody>
+</table>
+</div>
+<p data-i18n="s414">As you grow toward twenty, expect a wider timezone spread even among friends-of-friends — plan the weekend raid block around whichever two-hour window the most people can consistently hit, using a shared availability poll (When2meet or a Discord scheduling bot) rather than guessing. Re-poll monthly; friend-group schedules drift.</p>
+</section>
+<section id="discord">
+<div class="section-eyebrow" data-i18n="s329">10 — Home base</div>
+<h2 class="section-title" data-i18n="s330">Discord server blueprint</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th data-i18n="s331">Category</th><th data-i18n="s332">Channels</th></tr></thead>
+<tbody>
+<tr><td data-i18n="s333"><strong>Welcome</strong></td><td data-i18n="s334">#rules, #announcements, #introductions</td></tr>
+<tr><td data-i18n="s335"><strong>General</strong></td><td data-i18n="s336">#general-chat, #memes-y-cosas, #screenshots-lore</td></tr>
+<tr><td data-i18n="s337"><strong>Guild ops</strong></td><td data-i18n="s338">#raid-signups, #profession-claims, #loot-and-trade, #looking-for-group</td></tr>
+<tr><td data-i18n="s339"><strong>Recruiting</strong></td><td data-i18n="s340">#new-recruits, #trial-check-in (private, officers + trialing member)</td></tr>
+<tr><td data-i18n="s341"><strong>Voice</strong></td><td data-i18n="s342">Fogata Central (hangout), Grupo 1 / Grupo 2 (dungeon-sized), Raid — Hyjal (20-cap, only unlocked once the roster grows)</td></tr>
+</tbody>
+</table>
+</div>
+<p data-i18n="s415">Keep #rules short enough that people actually read it: ruleset (Normal), faction (once chosen), the loot approach, and one line on tone. Pin whichever roster table you picked from the Faction section so anyone new can see open slots at a glance.</p>
+</section>
+<section id="recruiting">
+<div class="section-eyebrow" data-i18n="s343">11 — Growth</div>
+<h2 class="section-title" data-i18n="s344">Getting from 10 to 20: vetted friends-of-friends</h2>
+<ol>
+<li data-i18n="s416"><strong>Each core member may nominate up to 2 people</strong> they'd personally vouch for — this naturally caps the search and keeps a line of accountability back to someone already in the guild.</li>
+<li data-i18n="s417"><strong>A short, informal trial</strong> — two to three weeks of normal play, no separate "audition" content. The bar is simply: do they show up when they say they will, and are they pleasant to be around in voice.</li>
+<li data-i18n="s418"><strong>One officer check-in</strong> at the end of the trial window, then a quick vote in #trial-check-in. No formal application form needed at this ambition level — a five-minute conversation covers it.</li>
+<li data-i18n="s419"><strong>Stop recruiting once you hit a stable 18–22.</strong> You don't need exactly twenty every night; you need enough consistent people that Hyjal Summit fills without scrambling, accounting for normal no-shows.</li>
+</ol>
+</section>
+<div class="flame-divider"><svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 2c2 3-1 4-1 7 0 1.5 1 2 2 2s2-1 2-2c2 2 3 4 3 6a6 6 0 0 1-12 0c0-3 2-5 3-7 1-1.5 2-3.5 3-6z"></path></svg></div>
+<section id="timeline">
+<div class="section-eyebrow" data-i18n="s345">12 — Countdown</div>
+<h2 class="section-title" data-i18n="s346">From today to Tier 1</h2>
+<div class="timeline">
+<div class="tl-item">
+<div class="tl-date" data-i18n="s347">Now</div>
+<div class="tl-title" data-i18n="s348">Lock the fundamentals</div>
+<div class="tl-desc" data-i18n="s349">Confirm ruleset (Normal) and faction as a group, settle the Warrior-vs-Druid tank question, and agree on a naming theme. Stand up the Discord server from the blueprint above.</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-i18n="s350">Sept 17 – Oct 23</div>
+<div class="tl-title" data-i18n="s351">Beta window (level cap 30)</div>
+<div class="tl-desc" data-i18n="s352">If anyone gets a beta slot, use it to scout the new race/class combos and the Campfire system firsthand, then report back to the group.</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-i18n="s353">Oct 27</div>
+<div class="tl-title" data-i18n="s354">Name reservation opens</div>
+<div class="tl-desc" data-i18n="s355">Everyone reserves their character name same-day, using the shared naming theme decided above.</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-i18n="s356">Nov 4, 7:00 PM AST</div>
+<div class="tl-title" data-i18n="s357">Launch</div>
+<div class="tl-desc" data-i18n="s358">Servers unlock at 3:00 PM Pacific. Plan the whole core ten to be online together for the first log-in.</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-i18n="s359">Nov – Dec</div>
+<div class="tl-title" data-i18n="s360">Level to 60, claim professions</div>
+<div class="tl-desc" data-i18n="s361">Push the shared leveling zones together where possible; finalize profession claims from the Professions table.</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-i18n="s362">Dec 9</div>
+<div class="tl-title" data-i18n="s363">Tier 1 raids unlock</div>
+<div class="tl-desc" data-i18n="s364">Barrow Deeps (10), Hyjal Summit (20), and Onyxia's Lair (40) all go live. Your core ten should be raid-ready for Barrow Deeps by this date.</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-i18n="s365">Spring 2027</div>
+<div class="tl-title" data-i18n="s366">First content update</div>
+<div class="tl-desc" data-i18n="s367">Two new raids (10 and 20 player), two new dungeons, a new Legendary questline, and a PvP season refresh — per Blizzard's published roadmap.</div>
+</div>
+<div class="tl-item">
+<div class="tl-date" data-i18n="s368">Summer 2027</div>
+<div class="tl-title" data-i18n="s369">Second content update</div>
+<div class="tl-desc" data-i18n="s370">A revamped iconic raid, a new raid, expanded world content, and another PvP season refresh. Exact dates are Blizzard's own estimate, not yet confirmed.</div>
+</div>
+</div>
+</section>
+<section id="extras">
+<div class="section-eyebrow" data-i18n="s371">13 — Beyond the checklist</div>
+<h2 class="section-title" data-i18n="s372">A few things worth doing that nobody asks for</h2>
+<div class="cardgrid">
+<div class="card"><h4 data-i18n="s373">A real guild identity</h4><p data-i18n="s374">Pick a name, tabard colors, and a one-line motto before launch, not three weeks in. "La Fogata" and an ember-and-hearth color scheme is right there if you want it.</p></div>
+<div class="card"><h4 data-i18n="s375">Mentorship pairing</h4><p data-i18n="s376">When new recruits join, pair each with one core member as their first point of contact — cheaper than a formal onboarding doc and it actually builds the friendships that keep a guild alive.</p></div>
+<div class="card"><h4 data-i18n="s377">A living roster sheet</h4><p data-i18n="s378">One shared spreadsheet (or a pinned Discord post you update) tracking class, professions, and rough level — the low-tech version of the role tables above, kept current instead of static.</p></div>
+<div class="card"><h4 data-i18n="s379">Monthly state-of-the-guild</h4><p data-i18n="s380">A short, casual voice check-in once a month: what's working, what's annoying, does the schedule still fit. Fifteen minutes prevents most guild drama before it starts.</p></div>
+<div class="card"><h4 data-i18n="s381">A Hardcore side pot</h4><p data-i18n="s382">For anyone craving permadeath stakes, a completely separate, opt-in Hardcore character is a fun side project — it's fully isolated from your Normal-ruleset progress, so it never competes with main-guild time.</p></div>
+<div class="card"><h4 data-i18n="s383">Watch the roadmap together</h4><p data-i18n="s384">Treat the Spring and Summer 2027 update reveals as guild events — a shared watch or a Discord call when Blizzard publishes patch notes keeps the group's attention through the inevitable post-launch lull.</p></div>
+</div>
+</section>
+<section id="prelaunch-checklist" style="padding-top:0;border-top:none;">
+<h3 data-i18n="s385" style="margin-top:0;">Quick pre-launch checklist</h3>
+<p class="checklist-progress" id="checklistProgress"></p><ul class="checklist" id="checklist">
+<li class="cl-item"><input id="c1" type="checkbox"/><label data-i18n="s420" for="c1">Ruleset and faction confirmed by all ten<span class="cl-when">do this week</span></label></li>
+<li class="cl-item"><input id="c1b" type="checkbox"/><label data-i18n="s421" for="c1b">Warrior-vs-Druid tank decision locked in<span class="cl-when">do this week</span></label></li>
+<li class="cl-item"><input id="c2" type="checkbox"/><label data-i18n="s422" for="c2">Discord server live with the blueprint above<span class="cl-when">do this week</span></label></li>
+<li class="cl-item"><input id="c3" type="checkbox"/><label data-i18n="s423" for="c3">Naming theme agreed<span class="cl-when">before Oct 27</span></label></li>
+<li class="cl-item"><input id="c4" type="checkbox"/><label data-i18n="s424" for="c4">Profession claims posted and settled<span class="cl-when">before Nov 4</span></label></li>
+<li class="cl-item"><input id="c5" type="checkbox"/><label data-i18n="s425" for="c5">Launch-night attendance poll sent<span class="cl-when">week of Nov 4</span></label></li>
+<li class="cl-item"><input id="c6" type="checkbox"/><label data-i18n="s426" for="c6">First two friends-of-friends nominations opened<span class="cl-when">after everyone's comfortable at 60</span></label></li>
+<li class="cl-item"><input id="c7" type="checkbox"/><label data-i18n="s427" for="c7">Barrow Deeps roster locked<span class="cl-when">before Dec 9</span></label></li>
+</ul>
+<button class="copybtn" data-copy-kind="checklist" data-i18n="s436" type="button">Copy checklist</button><p class="syncnote" id="syncStatusChecklist"></p></section>
+<footer>
+<p data-i18n="s386"><strong>Sources:</strong> <a href="https://news.blizzard.com/en-us/article/24303313/world-of-warcraft-forever-deep-dive-panel-recap" rel="noopener" target="_blank">Official deep-dive panel recap (Paladin, itemization, talent structure)</a> · <a href="https://news.blizzard.com/en-us/article/24303862/world-of-warcraft-forever-whats-next-panel-recap" rel="noopener" target="_blank">"What's Next" panel recap</a> · <a href="https://news.blizzard.com/en-gb/article/24302093/carve-a-new-path-with-world-of-warcraft-forever" rel="noopener" target="_blank">Carve a New Path with WoW: Forever</a> · <a href="https://blizzardwatch.com/2026/09/12/world-warcraft-forever-long-speculated-classic-plus-unveiled-will-launch-worldwide-november-4-2026/" rel="noopener" target="_blank">Blizzard Watch — Forever unveiled</a> · <a href="https://blizzardwatch.com/2026/09/13/world-warcraft-forevers-roadmap-gives-us-ann-idea-expect-rest-2026-summer-2027/" rel="noopener" target="_blank">Blizzard Watch — roadmap</a> · <a href="https://blizzardwatch.com/2026/09/15/need-know-wow-forevers-campfire-system-works" rel="noopener" target="_blank">Campfire system explained</a> · <a href="https://www.wowhead.com/forever" rel="noopener" target="_blank">Wowhead — Forever hub &amp; talent calculator</a> · <a href="https://www.icy-veins.com/wow-forever/warrior-class-overview" rel="noopener" target="_blank">Icy Veins — class overviews (Warrior/Druid/Hunter/Mage/Warlock/Shaman)</a> · <a href="https://classicwowforever.com/" rel="noopener" target="_blank">ClassicWoWForever.com — class change breakdowns</a> · <a href="https://www.zockify.com/forever/" rel="noopener" target="_blank">Zockify — Forever class guides</a> · <a href="https://www.aoeah.com/news/4821--wow-forever-tank-tier-list--best-tanks-ranked-in-warcraft-forever" rel="noopener" target="_blank">Tank tier list (Warrior/Druid/Paladin comparison)</a> · <a href="https://gameinformer.com/blizzcon-2026/2026/09/12/blizzard-announces-world-of-warcraft-forever-expanding-vanilla-wow-with" rel="noopener" target="_blank">Game Informer — content overview</a> · <a href="https://boostroom.com/blog/wow-forever-servers-explained-pve-pvp-rp-and-hardcore-rulesets" rel="noopener" target="_blank">Server/ruleset breakdown</a></p>
+<p data-i18n="s387">Class/spec detail is the newest and least settled part of this guide: WoW: Forever was announced four days before this was written and beta only just opened, so only Paladin has a full official Blizzard ability breakdown so far. Everything else is cross-referenced from Wowhead's BlizzCon-demo-based talent calculator and multiple independent community sites, tagged by confidence in the Classes section — treat exact numbers as preliminary until beta patch notes catch up. Spring/Summer 2027 dates are Blizzard's own roadmap estimates, not confirmed calendar dates.</p>
+<p class="dim" id="footerBuildNote" style="font-size:.78rem;">This guide was generated and published on September 16, 2026. Flag an officer if anything drifts out of date.</p></footer>
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- THEME TOGGLE ---------------- */
+  (function(){
+    var KEY = 'la-fogata-theme';
+    var btn = document.getElementById('themeToggle');
+    function apply(theme){
+      if(theme === 'light' || theme === 'dark'){
+        document.documentElement.setAttribute('data-theme', theme);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      if(btn){
+        var active = theme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        btn.setAttribute('data-theme-active', active);
+        btn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+      }
+    }
+    var saved = null;
+    try{ saved = localStorage.getItem(KEY); }catch(e){}
+    apply(saved);
+    if(btn){
+      btn.addEventListener('click', function(){
+        var current = document.documentElement.getAttribute('data-theme');
+        var sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var currentlyDark = current ? current === 'dark' : sysDark;
+        var next = currentlyDark ? 'light' : 'dark';
+        apply(next);
+        try{ localStorage.setItem(KEY, next); }catch(e){}
+      });
+    }
+  })();
+
+  /* ---------------- COUNTDOWN ---------------- */
+  (function(){
+    var LAUNCH = Date.parse('2026-11-04T23:00:00Z');
+    var TIER1 = Date.parse('2026-12-09T23:00:00Z');
+    var el = document.getElementById('qfCountdownValue');
+    if(!el) return;
+    function fmt(ms){
+      if(ms <= 0) return null;
+      var s = Math.floor(ms/1000);
+      var d = Math.floor(s/86400); s -= d*86400;
+      var h = Math.floor(s/3600); s -= h*3600;
+      var m = Math.floor(s/60);
+      return d + 'd ' + h + 'h ' + m + 'm';
+    }
+    function tick(){
+      var now = Date.now();
+      var toLaunch = LAUNCH - now;
+      if(toLaunch > 0){
+        el.textContent = fmt(toLaunch) + ' to launch';
+      } else {
+        var toTier1 = TIER1 - now;
+        if(toTier1 > 0){
+          el.textContent = fmt(toTier1) + ' to Tier 1';
+        } else {
+          el.textContent = 'Tier 1 is live';
+        }
+      }
+    }
+    tick();
+    setInterval(tick, 60000);
+  })();
+
+  /* ---------------- LAST VERIFIED / FOOTER BUILD NOTE ---------------- */
+  (function(){
+    var BUILD_DATE = '2026-09-16';
+    var lv = document.getElementById('lastVerified');
+    var fb = document.getElementById('footerBuildNote');
+    var lang = document.documentElement.getAttribute('lang') === 'es' ? 'es' : 'en';
+    var d = new Date(BUILD_DATE + 'T00:00:00Z');
+    var text = lang === 'es'
+      ? ('Contenido de esta sección verificado por última vez el ' + d.toLocaleDateString('es-ES', {year:'numeric', month:'long', day:'numeric', timeZone:'UTC'}) + '.')
+      : ('Class/role content last verified ' + d.toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric', timeZone:'UTC'}) + '.');
+    var footText = lang === 'es'
+      ? ('Esta guía se generó y publicó el ' + d.toLocaleDateString('es-ES', {year:'numeric', month:'long', day:'numeric', timeZone:'UTC'}) + '. Avisa a un oficial si algo quedó desactualizado.')
+      : ('This guide was generated and published on ' + d.toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric', timeZone:'UTC'}) + '. Flag an officer if anything drifts out of date.');
+    if(lv) lv.textContent = text;
+    if(fb) fb.textContent = footText;
+  })();
+
+  /* ---------------- CLASS FILTER CHIPS ---------------- */
+  (function(){
+    var bar = document.getElementById('classFilterBar');
+    if(!bar) return;
+    var chips = bar.querySelectorAll('.cf-chip');
+    var cards = document.querySelectorAll('.classlist > .classcard');
+    chips.forEach(function(chip){
+      chip.addEventListener('click', function(){
+        var filter = chip.getAttribute('data-filter');
+        chips.forEach(function(c){ c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+        cards.forEach(function(card){
+          if(filter === 'all'){ card.hidden = false; return; }
+          var roles = (card.getAttribute('data-role') || '').split(' ');
+          card.hidden = roles.indexOf(filter) === -1;
+        });
+      });
+    });
+  })();
+
+  /* ---------------- COPY TO DISCORD ---------------- */
+  (function(){
+    function copyText(text, btn){
+      var done = function(ok){
+        if(!btn) return;
+        var original = btn.textContent;
+        btn.textContent = ok ? 'Copied!' : 'Copy failed';
+        setTimeout(function(){ btn.textContent = original; }, 1800);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ fallback(); });
+      } else {
+        fallback();
+      }
+      function fallback(){
+        try{
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus(); ta.select();
+          var ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          done(ok);
+        }catch(e){ done(false); }
+      }
+    }
+
+    function buildRosterText(faction){
+      var section = document.getElementById('faction');
+      if(!section) return '';
+      var heading = faction === 'horde' ? 'Horde' : 'Alliance';
+      var h3s = section.querySelectorAll('h3');
+      var target = null;
+      h3s.forEach(function(h3){
+        if(!target && h3.textContent.trim().toLowerCase().indexOf(heading.toLowerCase()) === 0){
+          target = h3;
+        }
+      });
+      var table = target ? target.parentElement.querySelector('table, .table-scroll table') : null;
+      if(!table){
+        var scroll = target ? target.nextElementSibling : null;
+        while(scroll && !scroll.querySelector) scroll = scroll.nextElementSibling;
+        table = scroll ? scroll.querySelector('table') : null;
+      }
+      var lines = ['**' + heading + ' roster — La Fogata**'];
+      if(table){
+        var rows = table.querySelectorAll('tbody tr');
+        rows.forEach(function(tr){
+          var cells = tr.querySelectorAll('td');
+          if(cells.length < 4) return;
+          var slot = cells[0].textContent.trim();
+          var suggestion = cells[1].textContent.trim();
+          var claimSlot = tr.querySelector('.claim-slot');
+          var claimed = claimSlot ? claimSlot.textContent.trim() : '';
+          lines.push('• ' + slot + ' — ' + suggestion + (claimed ? '  [claimed: ' + claimed + ']' : '  [open]'));
+        });
+      }
+      return lines.join('\n');
+    }
+
+    function buildChecklistText(){
+      var ul = document.getElementById('checklist');
+      var lines = ['**Pre-launch checklist — La Fogata**'];
+      if(ul){
+        ul.querySelectorAll('li').forEach(function(li){
+          var box = li.querySelector('input[type="checkbox"]');
+          var label = li.textContent.trim();
+          lines.push((box && box.checked ? '☑ ' : '☐ ') + label);
+        });
+      }
+      return lines.join('\n');
+    }
+
+    document.querySelectorAll('.copybtn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var kind = btn.getAttribute('data-copy-kind');
+        var text = '';
+        if(kind === 'roster-horde') text = buildRosterText('horde');
+        else if(kind === 'roster-alliance') text = buildRosterText('alliance');
+        else if(kind === 'checklist') text = buildChecklistText();
+        copyText(text, btn);
+      });
+    });
+  })();
+
+  /* ---------------- SHARED STATE (roster claims, checklist sync, professions, notes) ---------------- */
+  (function(){
+    var userApi = null, artifactApi = null;
+    var state = null;
+    var canEdit = false;
+    var me = null;
+    var publishTimer = null;
+
+    function setSyncNote(id, text){
+      var el = document.getElementById(id);
+      if(el) el.textContent = text;
+    }
+
+    function readSeed(){
+      var el = document.getElementById('shared-state');
+      if(!el) return null;
+      try{ return JSON.parse(el.textContent); }catch(e){ return null; }
+    }
+
+    async function init(){
+      state = readSeed() || {roster:{horde:{},alliance:{}}, checklist:{}, professions:{}, notes:{text:'',updatedBy:null,updatedAt:null}};
+      render();
+      if(!window.claude || typeof window.claude.use !== 'function'){
+        setNotesReadOnly();
+        return;
+      }
+      try{
+        userApi = await window.claude.use('user');
+        artifactApi = await window.claude.use('artifact');
+      }catch(e){}
+      if(userApi){
+        try{ canEdit = userApi.canEdit ? !!(await userApi.canEdit()) : false; }catch(e){ canEdit = false; }
+        try{ me = userApi.id ? (await userApi.id()) : null; }catch(e){ me = null; }
+      }
+      render();
+      if(!canEdit){
+        setNotesReadOnly();
+      }
+      wireInteractions();
+    }
+
+    function setNotesReadOnly(){
+      var ta = document.getElementById('betaNotesText');
+      var save = document.getElementById('betaNotesSave');
+      if(ta) ta.setAttribute('readonly', 'readonly');
+      if(save) save.setAttribute('disabled', 'disabled');
+    }
+
+    async function resolveNames(ids){
+      var unique = Array.from(new Set(ids.filter(Boolean)));
+      if(!unique.length) return {};
+      if(userApi && userApi.profiles){
+        try{
+          var profiles = await userApi.profiles(unique);
+          var out = {};
+          unique.forEach(function(id){ out[id] = (profiles[id] && profiles[id].name) || 'Someone'; });
+          return out;
+        }catch(e){}
+      }
+      var fallback = {};
+      unique.forEach(function(id){ fallback[id] = 'Someone'; });
+      return fallback;
+    }
+
+    async function render(){
+      await renderRoster();
+      renderChecklist();
+      await renderProfessions();
+      renderNotes();
+    }
+
+    async function renderRoster(){
+      var slots = document.querySelectorAll('.claim-slot');
+      var ids = [];
+      slots.forEach(function(span){
+        var key = span.getAttribute('data-slot');
+        var parts = key.split('-');
+        var faction = parts[0], num = parts[1];
+        var entry = state.roster && state.roster[faction] && state.roster[faction][num];
+        if(entry && entry.claimedBy) ids.push(entry.claimedBy);
+      });
+      var names = await resolveNames(ids);
+      slots.forEach(function(span){
+        var key = span.getAttribute('data-slot');
+        var parts = key.split('-');
+        var faction = parts[0], num = parts[1];
+        var entry = (state.roster && state.roster[faction] && state.roster[faction][num]) || {claimedBy:null};
+        span.innerHTML = '';
+        if(entry.claimedBy){
+          var nm = document.createElement('span');
+          nm.className = 'claim-name';
+          nm.textContent = names[entry.claimedBy] || 'Someone';
+          span.appendChild(nm);
+          if(canEdit && entry.claimedBy === me){
+            var un = document.createElement('button');
+            un.type = 'button';
+            un.className = 'claim-btn claim-btn-un';
+            un.textContent = '✕';
+            un.setAttribute('aria-label', 'Release this slot');
+            un.addEventListener('click', function(){ toggleRosterClaim(faction, num); });
+            span.appendChild(un);
+          }
+        } else {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'claim-btn';
+          btn.textContent = 'Claim';
+          if(!canEdit) btn.disabled = true;
+          btn.addEventListener('click', function(){ toggleRosterClaim(faction, num); });
+          span.appendChild(btn);
+        }
+      });
+    }
+
+    function toggleRosterClaim(faction, num){
+      if(!canEdit) return;
+      if(!state.roster[faction]) state.roster[faction] = {};
+      var entry = state.roster[faction][num] || {claimedBy:null};
+      if(entry.claimedBy === me){
+        entry.claimedBy = null;
+      } else if(!entry.claimedBy){
+        entry.claimedBy = me;
+      } else {
+        return;
+      }
+      state.roster[faction][num] = entry;
+      renderRoster();
+      setSyncNote('syncStatusRoster', 'Saving…');
+      queuePublish('syncStatusRoster');
+    }
+
+    function renderChecklist(){
+      var ul = document.getElementById('checklist');
+      if(!ul) return;
+      var total = 0, done = 0;
+      ul.querySelectorAll('li').forEach(function(li){
+        var box = li.querySelector('input[type="checkbox"]');
+        if(!box) return;
+        total++;
+        var val = state.checklist ? state.checklist[box.id] : undefined;
+        if(typeof val === 'boolean'){
+          box.checked = val;
+        }
+        if(box.checked) done++;
+        if(!box.__wired){
+          box.__wired = true;
+          box.addEventListener('change', function(){
+            if(state.checklist) state.checklist[box.id] = box.checked;
+            paintProgress();
+            if(canEdit){
+              setSyncNote('syncStatusChecklist', 'Saving…');
+              queuePublish('syncStatusChecklist');
+            }
+          });
+        }
+      });
+      paintProgress();
+      function paintProgress(){
+        var el = document.getElementById('checklistProgress');
+        var d = 0, t = 0;
+        ul.querySelectorAll('input[type="checkbox"]').forEach(function(box){ t++; if(box.checked) d++; });
+        if(el) el.textContent = d + ' / ' + t + ' done';
+      }
+    }
+
+    async function renderProfessions(){
+      var items = document.querySelectorAll('.profclaim-item');
+      var allIds = [];
+      items.forEach(function(item){
+        var pid = item.getAttribute('data-prof');
+        var entry = state.professions && state.professions[pid];
+        if(entry && entry.claimants) allIds = allIds.concat(entry.claimants);
+      });
+      var names = await resolveNames(allIds);
+      items.forEach(function(item){
+        var pid = item.getAttribute('data-prof');
+        var entry = (state.professions && state.professions[pid]) || {claimants:[]};
+        var namesEl = item.querySelector('.profclaim-names');
+        var btn = item.querySelector('.profclaim-btn');
+        var mine = me && entry.claimants.indexOf(me) !== -1;
+        if(namesEl){
+          namesEl.textContent = entry.claimants.length
+            ? entry.claimants.map(function(id){ return names[id] || 'Someone'; }).join(', ')
+            : '—';
+        }
+        if(btn){
+          btn.textContent = mine ? 'Leave' : '+ Join';
+          btn.disabled = !canEdit;
+          if(!btn.__wired){
+            btn.__wired = true;
+            btn.addEventListener('click', function(){ toggleProfessionClaim(pid); });
+          }
+        }
+      });
+    }
+
+    function toggleProfessionClaim(pid){
+      if(!canEdit || !me) return;
+      if(!state.professions[pid]) state.professions[pid] = {claimants:[]};
+      var entry = state.professions[pid];
+      var idx = entry.claimants.indexOf(me);
+      if(idx === -1) entry.claimants.push(me);
+      else entry.claimants.splice(idx, 1);
+      renderProfessions();
+      setSyncNote('syncStatusProf', 'Saving…');
+      queuePublish('syncStatusProf');
+    }
+
+    function renderNotes(){
+      var ta = document.getElementById('betaNotesText');
+      var meta = document.getElementById('betaNotesMeta');
+      if(ta && document.activeElement !== ta){
+        ta.value = (state.notes && state.notes.text) || '';
+      }
+      if(meta){
+        if(state.notes && state.notes.updatedAt){
+          var d = new Date(state.notes.updatedAt);
+          meta.textContent = 'Last updated ' + d.toLocaleString();
+        } else {
+          meta.textContent = 'No notes yet.';
+        }
+      }
+    }
+
+    function wireInteractions(){
+      var save = document.getElementById('betaNotesSave');
+      var ta = document.getElementById('betaNotesText');
+      if(save && ta){
+        save.addEventListener('click', function(){
+          if(!canEdit) return;
+          state.notes = {text: ta.value, updatedBy: me, updatedAt: new Date().toISOString()};
+          renderNotes();
+          save.disabled = true;
+          save.textContent = 'Saving…';
+          queuePublish(null, function(){
+            save.disabled = false;
+            save.textContent = 'Save notes';
+          });
+        });
+      }
+    }
+
+    function queuePublish(syncNoteId, after){
+      if(publishTimer) clearTimeout(publishTimer);
+      publishTimer = setTimeout(function(){ doPublish(syncNoteId, after); }, 900);
+    }
+
+    async function doPublish(syncNoteId, after){
+      if(!artifactApi || !artifactApi.publish){
+        if(syncNoteId) setSyncNote(syncNoteId, 'Not connected — change kept locally only.');
+        if(after) after();
+        return;
+      }
+      try{
+        var html = buildPublishHtml(state);
+        await artifactApi.publish(html);
+        if(syncNoteId) setSyncNote(syncNoteId, 'Saved for everyone.');
+      }catch(e){
+        var code = e && e.code;
+        if(code === 'conflict'){
+          if(syncNoteId) setSyncNote(syncNoteId, 'Someone else just updated this — refreshing…');
+        } else if(code === 'not_writer' || code === 'not_granted'){
+          if(syncNoteId) setSyncNote(syncNoteId, "You don't have edit access to save this for the group.");
+        } else {
+          if(syncNoteId) setSyncNote(syncNoteId, 'Could not save — try again in a moment.');
+        }
+      }
+      if(after) after();
+    }
+
+    function buildPublishHtml(currentState){
+      var pristine = window.__PRISTINE_HTML__;
+      var json = JSON.stringify(currentState).replace(/<\/script/gi, '<\\/script');
+      var re = /(<script[^>]*\bid="shared-state"[^>]*>)([\s\S]*?)(<\/script>)/;
+      return pristine.replace(re, function(_, open, _old, close){
+        return open + json + close;
+      });
+    }
+
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+
+})();
+</script>
+<script id="shared-state" type="application/json">{"roster":{"horde":{"1":{"claimedBy":null},"2":{"claimedBy":null},"3":{"claimedBy":null},"4":{"claimedBy":null},"5":{"claimedBy":null},"6":{"claimedBy":null},"7":{"claimedBy":null},"8":{"claimedBy":null},"9":{"claimedBy":null},"10":{"claimedBy":null}},"alliance":{"1":{"claimedBy":null},"2":{"claimedBy":null},"3":{"claimedBy":null},"4":{"claimedBy":null},"5":{"claimedBy":null},"6":{"claimedBy":null},"7":{"claimedBy":null},"8":{"claimedBy":null},"9":{"claimedBy":null},"10":{"claimedBy":null}}},"checklist":{"c1":false,"c1b":false,"c2":false,"c3":false,"c4":false,"c5":false,"c6":false,"c7":false},"professions":{"alchemy":{"claimants":[]},"blacksmithing":{"claimants":[]},"enchanting":{"claimants":[]},"engineering":{"claimants":[]},"herbalism":{"claimants":[]},"leatherworking":{"claimants":[]},"mining":{"claimants":[]},"skinning":{"claimants":[]},"tailoring":{"claimants":[]}},"notes":{"text":"","updatedBy":null,"updatedAt":null}}</script>
+<script>
+  (function(){
+    try{
+      document.querySelectorAll('#checklist input[type="checkbox"]').forEach(function(box){
+        var key = 'la-fogata-' + box.id;
+        var saved = localStorage.getItem(key);
+        if(saved === '1') box.checked = true;
+        box.addEventListener('change', function(){
+          try{ localStorage.setItem(key, box.checked ? '1' : '0'); }catch(e){}
+        });
+      });
+    }catch(e){}
+  })();
+</script>
+<script id="i18n-es-data" type="application/json">{"s1": "Resumen", "s2": "Modalidad", "s3": "Facción", "s4": "Plantilla", "s5": "Clases", "s6": "Profesiones", "s7": "Sistemas", "s8": "Cultura", "s9": "Horario", "s10": "Discord", "s11": "Reclutamiento", "s12": "Cronología", "s13": "Extras", "s14": "Guía de preparación del gremio · WoW: Forever", "s15": "La Fogata", "s16": "Un plan listo para el lanzamiento, pensado para tus diez — y eventualmente veinte — jugadores en World of Warcraft: Forever. Modalidad, facción, roles, cambios de clase, profesiones, horario y Discord, todo razonado a partir de lo que Blizzard realmente ha anunciado hasta ahora.", "s17": "Modalidad", "s18": "Ambición del gremio", "s19": "Núcleo → meta", "s20": "Lanzamiento", "s21": "Normal", "s22": "Casual, social ante todo", "s23": "10 → 20 jugadores", "s24": "4 nov, 7:00 PM AST", "s25": "01 — En qué te estás metiendo, en concreto", "s26": "World of Warcraft: Forever, en resumen", "s27": "Terreno nuevo", "s28": "Cuatro zonas nuevas (Monte Hyjal, los Prados del Río, Shen'dralas, Isla Zephras), nueve mazmorras nuevas, dos incursiones nuevas de nivel máximo en el lanzamiento, y 1,000 misiones nuevas repartidas entre los niveles 1 y 60.", "s29": "Personajes nuevos", "s30": "Una nueva raza neutral, los Skyborne, además de nuevas combinaciones de raza/clase — incluidas algunas que rompen los antiguos bloqueos de facción de la versión vanilla. Desglose completo más abajo.", "s31": "Rediseño del equipo", "s32": "Acierto y golpe crítico se unifican entre hechizo, cuerpo a cuerpo y distancia; la habilidad con armas se recorta de la mayoría del equipo, y las especializaciones híbridas reciben apoyo real en vez de estadísticas sobrantes. Detalle completo por clase en la sección Clases.", "s33": "Dos sistemas nuevos", "s34": "<strong>Legado</strong> (progreso a nivel de cuenta entre todos tus personajes) y <strong>Fogata</strong> (un punto de encuentro social y artesanal que puedes colocar donde quieras). Ambos se explican por completo más abajo.", "s35": "Por qué esto importa antes de que inicies sesión", "s36": "02 — Fundamento", "s37": "Modalidad: Normal", "s38": "Modalidad", "s39": "Qué cambia en realidad", "s40": "Qué tan bien encaja con tu grupo", "s41": "<strong>Normal</strong>", "s42": "El PvP en mundo abierto requiere consentimiento mutuo. Economía y ritmo estándar.", "s43": "✅ Recomendado — encaja con metas casuales y cooperativas", "s44": "PvP", "s45": "Las zonas en disputa son genuinamente peligrosas; viajar y farmear implica un riesgo real.", "s46": "Solo si el grupo quiere esa tensión además de todo lo demás", "s47": "Rol (Roleplaying)", "s48": "Las mismas reglas que Normal, más expectativas de nombres y comportamiento para la inmersión.", "s49": "Solo si jugar en personaje de verdad atrae al grupo, y no es solo un detalle de sabor", "s50": "Hardcore", "s51": "Muerte permanente del personaje. El progreso está completamente aislado de las otras tres modalidades.", "s52": "No para el gremio principal — ver Extras para una versión como proyecto aparte", "s53": "Dos detalles de configuración que conviene planear desde ya", "s54": "03 — Identidad", "s55": "Facción: Horda o Alianza — dos plantillas, tú decides", "s56": "Nota sobre el puesto 1 en ambas tablas", "s57": "Plantilla sugerida para la Horda", "s58": "Puesto", "s59": "Sugerencia", "s60": "Rol", "s61": "Por qué", "s62": "1", "s63": "Tú — Guerrero Tauren <em>o</em> Druida Tauren", "s64": "<span class=\"tag tag-tank\">Tanque</span>", "s65": "Tanque principal; revisa la comparación Guerrero/Druida antes de decidirte", "s66": "2", "s67": "Guerrero Orco o Tauren", "s68": "<span class=\"tag tag-tank\">Tanque secundario / DPS</span>", "s69": "Segundo tanque cuando la Cumbre de Hyjal lo necesite", "s70": "3", "s71": "Druida Tauren (o tú, si tanqueas como Guerrero)", "s72": "<span class=\"tag tag-heal\">Sanador</span>", "s73": "Renuevo y la utilidad de resurrección en combate son útiles también en el modo de 20 jugadores", "s74": "4", "s75": "Sacerdote No Muerto", "s76": "<span class=\"tag tag-heal\">Sanador</span>", "s77": "Utilidad de disipar/control mental, un pilar clásico de la sanación en incursión", "s78": "5", "s79": "Chamán Troll", "s80": "<span class=\"tag tag-heal\">Sanador / híbrido</span>", "s81": "Los tótems potencian a los 10 del grupo; el Chamán de Mejora (Tejemaelstrom) puede flexionar a tanque secundario si hace falta", "s82": "6", "s83": "Paladín No Muerto <span class=\"tag tag-new\">NUEVO</span>", "s84": "<span class=\"tag tag-hybrid\">DPS híbrido</span>", "s85": "La combinación nueva — un beneficiario real del sistema unificado de acierto/crítico", "s86": "7", "s87": "Mago Orco <span class=\"tag tag-new\">NUEVO</span>", "s88": "<span class=\"tag tag-dps\">DPS</span>", "s89": "Daño a distancia confiable, control de masas para mazmorras", "s90": "8", "s91": "Brujo Troll <span class=\"tag tag-new\">NUEVO</span>", "s92": "<span class=\"tag tag-dps\">DPS</span>", "s93": "Daño sostenido; los DoT ahora pueden hacer crítico, una mejora real para todo el kit", "s94": "9", "s95": "Cazador o Pícaro Orco", "s96": "<span class=\"tag tag-dps\">DPS</span>", "s97": "Clase sólida para subir de nivel en solitario si el grupo se separa al principio", "s98": "10", "s99": "Abierto — decisión del grupo", "s100": "<span class=\"tag tag-dps\">Flexible</span>", "s101": "El rol que los primeros nueve dejen más flaco", "s102": "Plantilla sugerida para la Alianza", "s103": "Puesto", "s104": "Sugerencia", "s105": "Rol", "s106": "Por qué", "s107": "1", "s108": "Tú — Guerrero Humano/Enano <em>o</em> Druida Elfo Nocturno", "s109": "<span class=\"tag tag-tank\">Tanque</span>", "s110": "Tanque principal; Elfo Nocturno es la única raza Druida de la Alianza — revisa la comparación Guerrero/Druida", "s111": "2", "s112": "Guerrero Humano o Enano", "s113": "<span class=\"tag tag-tank\">Tanque secundario / DPS</span>", "s114": "Segundo tanque cuando la Cumbre de Hyjal lo necesite", "s115": "3", "s116": "Druida Elfo Nocturno (o tú, si tanqueas como Guerrero)", "s117": "<span class=\"tag tag-heal\">Sanador</span>", "s118": "La única raza Druida de la Alianza; la misma utilidad de 20 jugadores que la de la Horda", "s119": "4", "s120": "Sacerdote Humano, Enano o Gnomo <span class=\"tag tag-new\">COMBINACIÓN NUEVA</span>", "s121": "<span class=\"tag tag-heal\">Sanador</span>", "s122": "El Sacerdote Gnomo es una de las combinaciones nuevas — una opción divertida para este puesto", "s123": "5", "s124": "Chamán Enano <span class=\"tag tag-new\">NUEVO</span>", "s125": "<span class=\"tag tag-heal\">Sanador / híbrido</span>", "s126": "La combinación insignia de la Alianza — tótems más la flexibilidad de tanque secundario del Chamán de Mejora", "s127": "6", "s128": "Paladín Humano o Enano", "s129": "<span class=\"tag tag-hybrid\">DPS híbrido</span>", "s130": "Vindicación (Reprensión) es uno de los grandes beneficiarios del sistema unificado de acierto/crítico", "s131": "7", "s132": "Cazador Humano <span class=\"tag tag-new\">NUEVO</span>", "s133": "<span class=\"tag tag-dps\">DPS</span>", "s134": "La combinación nueva — el rediseño cuerpo a cuerpo de Supervivencia lo hace una opción distintiva", "s135": "8", "s136": "Mago Gnomo o Humano", "s137": "<span class=\"tag tag-dps\">DPS</span>", "s138": "El rediseño de Arcano le da al Mago una identidad nueva de verdad que vale la pena explorar", "s139": "9", "s140": "Brujo Humano o Gnomo, o Cazador Enano/Elfo Nocturno", "s141": "<span class=\"tag tag-dps\">DPS</span>", "s142": "Cubre el puesto a distancia o de mascota que le falte al grupo", "s143": "10", "s144": "Abierto — decisión del grupo", "s145": "<span class=\"tag tag-dps\">Flexible</span>", "s146": "El rol que los primeros nueve dejen más flaco", "s147": "04 — Composición", "s148": "Roles y el camino de 10 a 20", "s149": "Tamaño de plantilla", "s150": "Tanques", "s151": "Sanadores", "s152": "DPS", "s153": "Contenido objetivo", "s154": "<strong>10 (núcleo)</strong>", "s155": "2", "s156": "2–3", "s157": "5–6", "s158": "Barrow Deeps, todas las mazmorras de nivelado", "s159": "<strong>20 (crecido)</strong>", "s160": "3–4", "s161": "4–5", "s162": "11–13", "s163": "Cumbre de Hyjal", "s164": "Eligiendo tu tanque: Guerrero o Druida", "s165": "", "s166": "Guerrero de Protección", "s167": "Druida Feral (Oso)", "s168": "<strong>Dirección general</strong>", "s169": "Evolución, no revolución — un tanque de mitigación con escudo más estable y tradicional. Varias fuentes coinciden en que Forever \"no rediseña dramáticamente\" el tanqueo del Guerrero.", "s170": "Una renovación mucho más grande del kit — Mangle y Lacerate como habilidades base nuevas del Oso, un Furor/Tiger's Fury rediseñado, y un nuevo cooldown compartido entre Gato y Oso (Berserk).", "s171": "<strong>Estilo de amenaza</strong>", "s172": "Amenaza consistente a un solo objetivo vía Shield Slam (ahora golpea mucho más fuerte, con 50% de probabilidad de disipar) y las cargas de Sunder Armor. La flexibilidad de posturas (Charge/Thunder Clap ahora usables en Postura Defensiva) implica menos baile de posturas.", "s173": "Mangle (sin requisito de esquiva/parada) más el sangrado acumulable de Lacerate para amenaza sostenida. Comparativamente más débil contra pulls de 4+ objetivos, ya que el Oso todavía depende de herramientas dirigidas a un objetivo en vez de un solo botón de AoE instantáneo.", "s174": "<strong>Supervivencia</strong>", "s175": "Cooldowns defensivos confiables y más disponibles — Shield Wall y Last Stand aparentemente se usan con más frecuencia que en la versión vanilla.", "s176": "Se reporta que Frenzied Regeneration es una autocuración mucho más fuerte que la versión vanilla — una identidad de supervivencia genuinamente distinta, construida sobre el autosostenimiento en vez de la mitigación pura.", "s177": "<strong>Explosión de daño / cooldowns</strong>", "s178": "Recklessness, Retaliation y Shield Wall ya no comparten un cooldown largo, así que los botones de pánico están disponibles con mucha más frecuencia que en vanilla.", "s179": "Berserk (cooldown de 3 min): elimina el cooldown de Mangle y le permite golpear hasta 3 objetivos durante 15 segundos — un cooldown real de tanque con AoE explosivo que el Guerrero no tiene equivalente.", "s180": "<strong>Nota de equipo</strong>", "s181": "La habilidad con armas se devalúa en el equipo; una nueva estadística reduce la probabilidad de esquiva/parada del enemigo contra ti.", "s182": "Los ataques transformados ahora escalan con el daño de tu arma equipada — un eje de equipamiento genuinamente nuevo que los tanques Oso nunca tuvieron en vanilla, donde el daño del arma era irrelevante en Forma de Oso.", "s183": "<strong>Lectura de la comunidad</strong>", "s184": "Clasificado como \"nivel A\" — descrito como la elección más segura y predecible.", "s185": "También clasificado como \"nivel A\" — descrito con mayor autosuficiencia y un kit más vistoso, con una advertencia real sobre la amenaza en AoE contra grupos grandes.", "s186": "Si te ayuda a simplemente decidir", "s187": "05 — Análisis a fondo", "s188": "Qué cambió, clase por clase", "s189": "Lee esto antes de la lista de clases", "s190": "Guerrero <span class=\"tag tag-tank\">Tanque / DPS cuerpo a cuerpo</span>", "s191": "Protección recibe el análisis a fondo — revisa antes la comparación de tanques más arriba.", "s192": "Base (todas las especializaciones)", "s193": "<strong>Victory Rush</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> — un nuevo ataque/curación tras matar, los valores exactos aún cambian. El antiguo cooldown compartido entre <strong>Recklessness, Retaliation y Shield Wall</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> desapareció o se acortó mucho, así que los botones de pánico están mucho más disponibles que en vanilla. El Acierto unificado mejora la fiabilidad de <strong>Taunt</strong>, y el equipo de habilidad con armas se devalúa a propósito para que ya no sea una trampa obligatoria de equipamiento. <strong>Weaponmaster</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> consolida los cuatro talentos separados de Especialización en Hacha/Espada/Maza/Arma de Asta en uno solo, y una nueva estadística reduce la probabilidad de esquiva/parada del enemigo contra tus ataques.", "s194": "Armas <span class=\"tag tag-dps\">DPS</span>", "s195": "<strong>Spearing Strike</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> (nuevo: 15 de Furia, 40% del daño del arma, bono contra Gigantes/Dracónidos, desmonta objetivos montados). <strong>Bloodthrill</strong> <span class=\"qtag qtag-single\">Fuente única</span> — los ataques cuerpo a cuerpo contra un objetivo afectado por Rend pueden proc un Overpower gratuito y garantizado. <strong>Improved Slam</strong> baja a un talento de 2 puntos y por fin elimina la vieja desventaja de \"Slam interrumpe tu temporizador de golpe\" que lo hacía impopular en vanilla.", "s196": "Furia <span class=\"tag tag-dps\">DPS</span>", "s197": "La Especialización en Arma Doble se expande para otorgar probabilidad de acierto y generación de furia con la mano secundaria, no solo daño. <strong>Raging Blows</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> hace que Whirlwind también golpee con tu mano secundaria y abarata Cleave. Enrage se rediseña para activarse con cualquier daño recibido o infligido, no solo críticos, con una magnitud menor <span class=\"qtag qtag-single\">Fuente única</span>. Una fuente señala que la curación de Bloodthirst podría cambiar a un bono de velocidad de movimiento, con un nuevo talento, Blood Craze, que se encargaría del sostenimiento <span class=\"qtag qtag-spec\">Especulativo</span> — trátalo como no confirmado.", "s198": "<span>Protección</span> <span class=\"tag tag-tank\">Tanque</span> — la especialización del análisis a fondo", "s199": "<span>Fuerte coincidencia entre fuentes sobre la dirección</span>: una identidad de tanque de escudo más \"pura\" con herramientas defensivas reales, y suficiente flexibilidad de posturas para que pases menos tiempo bailando entre ellas. <strong>Charge y Thunder Clap se vuelven usables en Postura Defensiva</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> mediante un nuevo talento, Vanguard. La mayoría de los talentos de Protección ahora requieren explícitamente tener un escudo equipado, cerrando para siempre cualquier build de \"tanque\" con arma doble. Talentos nuevos: <strong>Bastion</strong> (daño mientras tienes el escudo listo), <strong>Master of Defense</strong> (furia al esquivar/parar con escudo equipado), <strong>Focused Rage</strong>, y <strong>Vitality</strong>. <strong>Defiance</strong> se rediseña para escalar toda la amenaza generada en Postura Defensiva. <strong>Shield Slam</strong> se mejora con escalado por valor de bloqueo y 50% de probabilidad de disipar un efecto mágico, y se señala explícitamente como de amenaza muy alta. Shield Wall y Last Stand aparecen con más frecuencia que en vanilla, según varias fuentes.", "s200": "Notas de equipo", "s201": "El Acierto unificado mejora específicamente la fiabilidad de Taunt, ya que Taunt se calculaba contra el acierto cuerpo a cuerpo por separado en vanilla. Las nuevas estadísticas de reducción de parada/esquiva en el equipo ayudan directamente a la amenaza del tanque y al tiempo activo cuerpo a cuerpo.", "s202": "Druida <span class=\"tag tag-hybrid\">Tanque / DPS / Sanador</span>", "s203": "Feral recibe el análisis a fondo — revisa antes la comparación de tanques más arriba.", "s204": "Base (todas las especializaciones)", "s205": "<strong>Revive</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> — un nuevo hechizo de resurrección fuera de combate, distinto de Rebirth. <strong>Omen of Clarity</strong> se vuelve base y se expande para proc con hechizos ofensivos y curaciones, no solo golpes cuerpo a cuerpo. <strong>Furor</strong> se rediseña específicamente para eliminar el viejo macro de \"powershifting\" de vanilla: transformarte en Gato ahora otorga Energía escalada, transformarte en Oso otorga una cantidad fija de Furia, en vez de rellenar el recurso por completo. <strong>Los ataques en Forma de Gato y Oso ahora escalan con el daño de tu arma equipada</strong> <span class=\"qtag qtag-single\">Fuente única</span> — un eje de equipamiento genuinamente nuevo (ver la comparación de tanques más arriba). Improved Mark of the Wild es base <span class=\"qtag qtag-official\">Oficial</span>, liberando un punto de talento que todo Druida solía gastar en cobertura de bonos de incursión.", "s206": "Equilibrio <span class=\"tag tag-dps\">DPS</span>", "s207": "El cambio principal es un nuevo sistema estilo <strong>Eclipse</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span>: lanzar Wrath reduce el tiempo de lanzamiento de tu próximo Starfire, acumulando hasta 4 cargas — importando la rotación alternada Wrath/Starfire que Equilibrio nunca tuvo en vanilla. <strong>Nature's Grace</strong> se rediseña como un bono plano de velocidad de lanzamiento con cualquier crítico no periódico. El aura de <strong>Moonkin Form</strong> se amplía para potenciar más tipos de hechizos/habilidades de los miembros de grupo cercanos, no solo el crítico del lanzador.", "s208": "<span>Feral</span> <span class=\"tag tag-tank\">Tanque Oso</span> / <span class=\"tag tag-dps\">DPS Gato</span> — la especialización del análisis a fondo", "s209": "<strong>Tiger's Fury</strong> pasa de costar Energía a otorgar Energía más un bono de daño <span class=\"qtag qtag-corroborated\">Corroborado</span>. <strong>Berserk</strong> (nuevo, cooldown compartido entre Gato y Oso, ~3 min / 15 seg): en Forma de Oso elimina el cooldown de Mangle y le permite golpear hasta 3 objetivos; en Forma de Gato otorga críticos garantizados a las habilidades que generan puntos de combo; otorga inmunidad al miedo mientras está activo. Específicamente para el lado tanque: <strong>Mangle</strong> se añade como habilidad base del Oso sin requisito de esquiva/parada <span class=\"qtag qtag-corroborated\">Corroborado</span>, y <strong>Lacerate</strong> añade un sangrado acumulable (hasta 5 cargas) para amenaza sostenida. <strong>Natural Reaction</strong> convierte esquivas en furia. Thick Hide ahora también escala con la habilidad de Defensa, haciendo que esa estadística valga la pena equipar por primera vez. Se reporta que <strong>Frenzied Regeneration</strong> es una autocuración sustancialmente más fuerte que la versión vanilla <span class=\"qtag qtag-single\">Fuente única</span>. Los sangrados y DoT (Rake, Rip, Lacerate) ahora pueden hacer crítico.", "s210": "Restauración <span class=\"tag tag-heal\">Sanador</span>", "s211": "<strong>Wild Growth</strong> <span class=\"qtag qtag-single\">Fuente única</span> — una nueva curación en el tiempo para todo el grupo. <strong>Swiftmend</strong> se rediseña para que ya no consuma el HoT sobre el que se lanza <span class=\"qtag qtag-corroborated\">Corroborado</span> — un cambio real de rotación respecto al intercambio de vanilla de \"Swiftmend se come tu HoT\". <strong>Gift of the Earthmother</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span>, con números que coinciden entre fuentes — recorta el GCD de Rejuvenation, Swiftmend y Wild Growth en medio segundo. Los HoT ahora pueden hacer crítico.", "s212": "Paladín <span class=\"tag tag-hybrid\">Tanque / DPS / Sanador</span>", "s213": "La única clase con un análisis a fondo completo y oficial de Blizzard.", "s214": "Base (todas las especializaciones) <span class=\"qtag qtag-official\">Oficial</span>", "s215": "<strong>Holy Strike</strong> — nuevo desde el nivel 6: un golpe de arma instantáneo que inflige daño Sagrado, con 12 segundos de cooldown. <strong>Los Sellos ya no se consumen con Judgment</strong> — un cambio fundamental de rotación respecto a vanilla. <strong>Seal of Fury</strong> favorece armas rápidas, otorga un escudo de absorción, y hace que Judgment provoque (taunt). <strong>Consecration</strong> es base desde el nivel 20, infligiendo alto daño/amenaza a los primeros cuatro objetivos golpeados. Los límites de diseño se mantienen explícitamente: los Paladines siguen sin una interrupción real, tienen herramientas de ralentización limitadas, y dependen de Sello/Judgment para provocar — siguen siendo especialmente fuertes contra No Muertos y Demonios.", "s216": "Sagrado <span class=\"tag tag-heal\">Sanador</span> <span class=\"qtag qtag-official\">Oficial</span>", "s217": "<strong>Improved Holy Strike</strong> (reducción de cooldown), <strong>Voice of Truth</strong> (inmunidad a Silencio/Interrupción), <strong>Reverence</strong> (regeneración de maná por Espíritu mientras lanzas), <strong>Infusion of Light</strong> (reduce el tiempo de lanzamiento de Holy Light tras un crítico de Holy Shock o Flash of Light), <strong>Holy Shock</strong> pasa a 10 segundos de cooldown, <strong>Consecrated Ground</strong> (daño Sagrado adicional dentro de tu Consecration), y <strong>Light's Vigil</strong> — un cooldown costoso que reinicia Holy Shock o dispara daño/curación para todo el grupo.", "s218": "<span>Protección</span> <span class=\"tag tag-tank\">Tanque</span> <span class=\"qtag qtag-official\">Oficial</span>", "s219": "<strong>Improved Seal of Fury</strong> (maná al absorber), <strong>Shield Specialization</strong> (maná al bloquear), <strong>Swift Judgment</strong> (reinicia el cooldown de Judgment una vez por minuto), <strong>Templar's Bulwark</strong> (escudo de absorción que escala con la vida máxima), <strong>Reckoning</strong> rediseñado en torno a un tanqueo inmune a críticos y que se activa con bloqueos, y <strong>Iron Creed</strong> — los Holy Strike bien cronometrados reducen el daño recibido.", "s220": "<span>Vindicación</span> <span class=\"tag tag-dps\">DPS</span> <span class=\"qtag qtag-official\">Oficial</span> — el mayor ganador en equipamiento", "s221": "<strong>Vindication</strong> (reduce el Poder de Ataque enemigo; desde el hotfix del 30 oct ya no aumenta el tuyo), <strong>Sacred Arbiter</strong> (potencia Holy Strike, refresca los Judgment), <strong>Champion of the Light</strong> (daño de hechizo que escala con Intelecto, hasta 60% tras el retoque del 30 oct), <strong>Instrument of the Law</strong> (reduce la amenaza, hace instantáneo a Holy Wrath; eliminado en el hotfix del 30 oct), <strong>Twist of Light</strong> (Seal Twisting sin necesitar un addon), y una opción de Holy Shock para un estilo de juego a distancia con poder de hechizo. Esta especialización es el ejemplo que Blizzard mismo nombra como el mayor beneficiario del sistema unificado de acierto/crítico.", "s222": "Cazador <span class=\"tag tag-dps\">DPS a distancia / cuerpo a cuerpo</span>", "s223": "Supervivencia se convierte en una especialización genuinamente cuerpo a cuerpo.", "s224": "Base (todas las especializaciones)", "s225": "El Acierto unificado mejora la fiabilidad de <strong>Trap</strong> — las trampas se calculaban contra una comprobación de acierto separada y fácil de pasar por alto en vanilla. <strong>Aspect of the Beast</strong> ahora también otorga Poder de Ataque cuerpo a cuerpo. La \"zona muerta\" a distancia de vanilla y el Disengage original se mantienen explícitamente en vez de modernizarse — confirmación de que el Cazador no se está volviendo retail en todos los aspectos. Combinaciones nuevas: Cazador Humano y Cazador Skyborne (ambas facciones).", "s226": "Bestias <span class=\"tag tag-dps\">DPS</span>", "s227": "<strong>Summon Hawk</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span>, con números que coinciden entre fuentes — invoca un halcón que se lanza en picada sobre el objetivo durante 18 segundos, hasta 2 activos a la vez, compartiendo un cooldown de 6 segundos con Arcane Shot. Efectivamente una segunda mascota sumada a la principal. <strong>Focused Fire</strong> se rediseña para otorgar daño fijo por punto mientras tu mascota está activa.", "s228": "Puntería <span class=\"tag tag-dps\">DPS</span>", "s229": "<strong>Lone Wolf</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span>, número consistente — +20% de daño a todos los ataques mientras no tengas mascota activa, posicionando explícitamente a Puntería como la especialización \"sin mascota\" del Cazador frente al enfoque de Bestias en el tiempo activo de la mascota. <strong>Careful Aim</strong> se rediseña para convertir 20% del Intelecto en Poder de Ataque <span class=\"qtag qtag-corroborated\">Corroborado</span> — uno de los números mejor confirmados de todo el kit del Cazador. <strong>Sniper Shot</strong> (nuevo golpe con tiempo de lanzamiento) completa el árbol.", "s230": "Supervivencia <span class=\"tag tag-dps\">DPS cuerpo a cuerpo</span> — reposicionada", "s231": "Todas las fuentes coinciden en la dirección: Supervivencia se convierte en la especialización <strong>cuerpo a cuerpo</strong> dedicada del Cazador, un cambio de identidad real respecto al híbrido de trampas y distancia de vanilla. <strong>Strider Kick</strong> (nuevo ataque cuerpo a cuerpo) y <strong>Lacerating Strikes</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span>, con números que coinciden — Mongoose Bite aplica un sangrado equivalente al 40% del daño del mordisco a lo largo de 21 segundos. <strong>Entrapment</strong> hace que tus trampas también enraícen brevemente al objetivo, garantizando una ventana de seguimiento.", "s232": "Pícaro <span class=\"tag tag-dps\">DPS cuerpo a cuerpo</span>", "s233": "Llega Mutilate; Combate obtiene una identidad de reembolso de cooldowns.", "s234": "Base (todas las especializaciones)", "s235": "<strong>Sap ya no rompe el Sigilo</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span>. Los Pícaros ahora pueden equipar Hachas de una mano. El sistema unificado de Acierto/Crítico se extiende explícitamente a la probabilidad de aplicar Veneno y al crítico de Veneno, no solo a los ataques con arma — una mejora real para los builds basados en veneno. La Penetración de Armadura solo aplica a golpes mitigados por armadura, no al daño de veneno o sangrado a lo largo del tiempo.", "s236": "Asesinato <span class=\"tag tag-dps\">DPS</span>", "s237": "<strong>Mutilate</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> — la habilidad insignia de expansiones posteriores llega a Forever: ambas armas por 75% del daño del arma más un bono fijo, 2 puntos de combo, +20% contra objetivos Envenenados. <strong>Venom</strong> (nuevo finisher) aumenta el daño de veneno y la probabilidad de aplicación durante una duración que escala con los puntos de combo gastados — reenfocando la especialización en el tiempo activo de veneno en vez del daño explosivo puro.", "s238": "Combate <span class=\"tag tag-dps\">DPS</span>", "s239": "<strong>Restless Blades</strong> (nuevo) — los golpes finales que hacen daño reducen el cooldown de Adrenaline Rush, Blade Flurry, Evasion, Sprint y Vanish en 2 segundos por punto de combo gastado, un rediseño real en la gestión de cooldowns. <strong>Hack and Slash</strong> (nuevo) consolida los cinco talentos de especialización de armas en uno solo, con el bono dependiendo del tipo de arma equipada.", "s240": "Sutileza <span class=\"tag tag-dps\">DPS</span>", "s241": "<strong>Hemorrhage</strong> se convierte en una habilidad base <span class=\"qtag qtag-corroborated\">Corroborado</span> — golpe instantáneo que aplica un debuff personal (+15% de daño de Rupture proveniente específicamente de ti, no de todas las fuentes) en vez del debuff genérico de daño recibido de vanilla. <strong>Thousand Cuts</strong> (nuevo) abarata tu próxima habilidad generadora de combo cada vez que Rupture hace tick. <strong>Cutthroat</strong> (nuevo) le da a Backstab una probabilidad de que tu próximo Ambush no requiera Sigilo.", "s242": "Sacerdote <span class=\"tag tag-heal\">Sanador / DPS</span>", "s243": "Llega Prayer of Mending; Shadowform obtiene un cambio de identidad real.", "s244": "Base (todas las especializaciones)", "s245": "<strong>Divine Spirit</strong> sale del árbol de talentos y se convierte en utilidad base, liberando un punto que todo Sacerdote Sagrado/Disciplina solía gastar en él. <strong>Devouring Plague</strong> (antes exclusivo de No Muertos) y <strong>Fear Ward</strong> (antes exclusivo de Enanos) se abren a todos los Sacerdotes. Gnomo se une como nueva raza jugable de Sacerdote.", "s246": "Disciplina <span class=\"tag tag-heal\">Sanador</span>", "s247": "<strong>Penance</strong> (nuevo hechizo insignia) — un proyectil canalizado que inflige daño o curación, disparándose varias veces durante un canalizado corto, con 12 segundos de cooldown; una adaptación directa de la identidad de la habilidad en expansiones posteriores. <strong>Divine Aegis</strong> (nuevo) — las curaciones críticas generan un escudo de absorción protector. <strong>Soul Warding</strong> reduce el cooldown y el costo de Power Word: Shield.", "s248": "Sagrado <span class=\"tag tag-heal\">Sanador</span>", "s249": "<strong>Prayer of Mending</strong> (nuevo) — una mecánica nueva importante: un buff de curación-al-próximo-daño que salta entre miembros del grupo hasta 5 veces dentro de una ventana, en vez de ser un hechizo de un solo objetivo. <strong>Litany of Light</strong> devuelve una parte del maná en una curación distinta cuando alternas entre hechizos en vez de repetir el mismo. <strong>Binding Heal</strong> (nuevo) cura al objetivo y al lanzador a la vez, con amenaza reducida. La duración de <strong>Spirit of Redemption</strong> se extiende de 10 a 15 segundos.", "s250": "Sombra <span class=\"tag tag-dps\">DPS</span>", "s251": "<strong>Shadowform</strong> rediseñado <span class=\"qtag qtag-corroborated\">Corroborado</span> — el bono de daño se recorta de 15% a 10%, pero gana una nueva reducción de 50% en el costo de maná de los hechizos de Sombra y daño crítico duplicado, mientras se endurece la restricción de hechizos de curación mientras está transformado. <strong>Vampiric Embrace</strong> ahora tiene su propio cooldown y activa Spirit Tap al matar. <strong>Shadow Weaving</strong> pasa de ser un debuff dirigido al enemigo a ser un bono de daño acumulable personal. Los DoT ahora pueden hacer crítico, en todo el juego — especialmente relevante aquí.", "s252": "Chamán <span class=\"tag tag-hybrid\">DPS / Sanador</span>", "s253": "Llegan Maelstrom Weapon y Riptide; el Chamán Enano ya está disponible.", "s254": "Base (todas las especializaciones)", "s255": "Hachas y Mazas a dos manos utilizables sin gastar un punto de talento. El tiempo de lanzamiento de Lightning Bolt baja de 3.0 a 2.5 segundos. <strong>Totemic Projection/Recall</strong> (nuevo) te permite reposicionar tótems colocados sin volver a colocarlos. <strong>Call of the Elements</strong> (nuevo) coloca un set completo de tótems de un solo lanzamiento. <strong>Fire Nova</strong> se rediseña de ser su propio tótem a ser una detonación de tu Tótem de Fuego activo. La fusión unificada de Acierto/Crítico se nombra explícitamente como un gran beneficio para el kit mixto de cuerpo a cuerpo y hechizos de Mejora, junto con el Paladín de Vindicación.", "s256": "Elemental <span class=\"tag tag-dps\">DPS</span>", "s257": "<strong>Lava Burst</strong> (nuevo golpe fuerte) inflige +20% de daño si el objetivo ya tiene tu Flame Shock aplicado — una sinergia de DoT-a-golpe-fuerte que Elemental nunca tuvo en vanilla. <strong>Call of Flame</strong> se amplía más allá del Tótem de Fuego para también potenciar Flame Shock, Fire Nova y Lava Burst. <strong>Lightning Overload</strong> (nuevo) le da a los hechizos de Naturaleza una probabilidad de duplicar su efecto sin amenaza adicional — una versión temprana de una mecánica sobre la que expansiones posteriores construyeron árboles enteros.", "s258": "<span>Mejora</span> <span class=\"tag tag-hybrid\">DPS híbrido</span> — el mayor ganador en equipamiento", "s259": "<strong>Maelstrom Weapon</strong> (nuevo talento insignia) — los ataques cuerpo a cuerpo acumulan un bono (hasta 5) que recorta el tiempo de lanzamiento y el costo de maná de Lightning Bolt, convirtiendo a Mejora en una rotación híbrida de cuerpo-a-cuerpo-a-lanzador-instantáneo que vanilla nunca tuvo. <strong>Stormstrike</strong> se rediseña como un bono personal de +20% de daño de Naturaleza con un cooldown mucho más corto. <strong>Spirit Weapons</strong> (nuevo) otorga Parada y puede pasar de reducir amenaza a aumentarla, permitiendo que Mejora flexione a un rol de tanque secundario en un apuro.", "s260": "Restauración <span class=\"tag tag-heal\">Sanador</span>", "s261": "<strong>Riptide</strong> (nuevo hechizo insignia) combina una curación directa y una curación en el tiempo en un solo lanzamiento, y potencia un Chain Heal posterior sobre el mismo objetivo — la nueva herramienta cúspide de Restauración. <strong>Water Shield</strong> (nuevo, de regreso) — un escudo de 3 cargas que restaura maná cuando te golpean o logras un crítico de curación. <strong>Tidal Focus</strong> se rediseña para aumentar tu probabilidad de acierto global además de su reducción de costo existente.", "s262": "Mago <span class=\"tag tag-dps\">DPS a distancia</span>", "s263": "Arcano recibe el rediseño más grande de las tres especializaciones.", "s264": "Base (todas las especializaciones)", "s265": "<strong>Frostfire Bolt</strong> existe como un hechizo híbrido real y talentable de Fuego/Escarcha. <strong>Improved Counterspell</strong> se rediseña para que el rango 1 garantice directamente un silencio de 2 segundos, en vez de la versión de vanilla basada en probabilidad. Mago Orco y Mago Skyborne (Alianza) son combinaciones nuevas.", "s266": "<span>Arcano</span> <span class=\"tag tag-dps\">DPS</span> — la especialización más rediseñada", "s267": "Descrita por varias fuentes como pasando de ser poco jugada en vanilla a genuinamente fuerte. <strong>Arcane Blast</strong> (nuevo) acumula un bono personal al lanzar que potencia el daño de tus otros hechizos por carga, con un costo de maná creciente — una adaptación directa de la identidad más icónica de la habilidad en expansiones posteriores. <strong>Missile Barrage</strong> (nuevo) le da a tus lanzamientos una probabilidad de proc que reduce a la mitad el canalizado de Arcane Missiles y elimina su costo de maná por completo. La regeneración de maná de Arcane Meditation mientras lanzas aumenta sustancialmente, resolviendo la economía de lanzamiento sostenido tradicionalmente pobre de Arcano.", "s268": "Fuego <span class=\"tag tag-dps\">DPS</span>", "s269": "<strong>Hot Streak</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> — la nueva mecánica insignia de Fuego: los críticos no periódicos de Fireball, Frostfire Bolt, Fire Blast o Scorch se acumulan hasta 3 veces, y cada carga recorta el tiempo de lanzamiento de Pyroblast en 25%. Esto importa directamente la mecánica más icónica de Fuego de expansiones posteriores al kit estilo vanilla. <strong>Combustion</strong> se rediseña para terminar después de 4 críticos de Fuego en vez de 3.", "s270": "Escarcha <span class=\"tag tag-dps\">DPS</span>", "s271": "<strong>Ice Lance</strong> (nuevo) — instantáneo, débil contra objetivos normales pero con aproximadamente +300% de daño contra objetivos Congelados. <strong>Fingers of Frost</strong> (nuevo) le da a los efectos de Enfriamiento una probabilidad de que tu próximo hechizo trate al objetivo como Congelado aunque no lo esté literalmente, habilitando la sinergia Ice Lance/Shatter a demanda. <strong>Shatter</strong> ahora solo cuesta 3 puntos de talento para maximizar en vez de 5 — una reducción real de inversión para el talento de daño explosivo central de Escarcha. Desde la compilación del 28 oct, Ice Lance además tiene 8 s de reutilización.", "s272": "Brujo <span class=\"tag tag-dps\">DPS a distancia</span>", "s273": "La clase más extensamente rediseñada de todo el juego, según varias fuentes.", "s274": "Base (todas las especializaciones)", "s275": "<strong>Los DoT ahora pueden hacer crítico</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> — descrito repetidamente como el cambio base individual más grande de la clase, con efectos en cadena en todas las especializaciones del Brujo. <strong>Bane of Agony</strong> y <strong>Bane of Doom</strong> reemplazan a los antiguos Curse of Agony/Doom y ya no compiten por tu único espacio de maldición — puedes tener un Bane y una maldición separada sobre el mismo objetivo a la vez. <strong>Las mascotas del Brujo ahora escalan con tus propias estadísticas</strong>, resolviendo el problema bien conocido de vanilla donde las mascotas se quedaban muy atrás en niveles de equipo altos. Brujo Troll es una combinación nueva.", "s276": "Aflicción <span class=\"tag tag-dps\">DPS</span> — reconstruida en torno a la amplificación de Drenaje", "s277": "Varias fuentes describen que la especialización pasa de spamear Shadow Bolt a mantener múltiples DoT y amplificarlos con hechizos de Drenaje. <strong>Drain Hope</strong> (nueva habilidad cúspide) es un DoT de Sombra canalizado que también potencia tus otros DoT de Sombra sobre el mismo objetivo. <strong>Improved Drains</strong> aumenta el daño de Drain Life/Soul por cada DoT activo en el objetivo, con la porción de Drain Soul triplicada por debajo del 20% de vida del objetivo — presentado explícitamente como darle a Aflicción una fase de ejecución real por primera vez.", "s278": "Demonología <span class=\"tag tag-dps\">DPS</span> — construida en torno al tiempo activo de la mascota", "s279": "<strong>Demonic Pact</strong> (nueva habilidad cúspide) permite que tu bono de Demonic Sacrifice persista incluso después de invocar a un demonio distinto — ya no hay que elegir entre \"mantener el bono\" y \"tener una mascota activa\". <strong>Demonic Sacrifice</strong> se rediseña con bonos reorganizados por cada demonio y su duración se extiende de 30 minutos a 2 horas. <strong>Demonic Knowledge</strong> aumenta tu propio daño de hechizo y curación mientras un demonio está activo, ligando tu producción personal directamente al tiempo activo de la mascota.", "s280": "Destrucción <span class=\"tag tag-dps\">DPS</span> — se mantiene a propósito como especialización de lanzamiento lento", "s281": "Las fuentes coinciden en que Destrucción se está rediseñando para mezclar daño de Fuego y Sombra manteniendo deliberadamente la identidad más lenta y de lanzamiento directo de vanilla en vez de volverse dependiente de procs. <strong>Incinerate</strong> <span class=\"qtag qtag-corroborated\">Corroborado</span> (nuevo golpe fuerte cúspide) inflige daño adicional contra objetivos afectados por Immolate. <strong>Shadow and Flame</strong> (nuevo) liga Conflagrate al daño de Sombra y Shadowburn al daño de Fuego como un bono cruzado. <strong>Bane of Havoc</strong> (nuevo) copia una parte del daño que infliges a otros objetivos hacia un objetivo con Bane — una herramienta real de golpe a dos objetivos que la especialización nunca tuvo.", "s282": "06 — Economía", "s283": "Estrategia de profesiones", "s284": "Profesión", "s285": "Contribución confirmada a la Fogata", "s286": "Quién debería tomarla", "s287": "Herrería", "s288": "Objeto de bono de Poder de Ataque", "s289": "Un DPS cuerpo a cuerpo o tanque que ya está equipándose en esa dirección", "s290": "Sastrería", "s291": "Objeto de bono de Espíritu", "s292": "Un sanador o lanzador — funciona también como su propia vía de equipamiento", "s293": "Herboristería", "s294": "Objeto de bono de Intelecto", "s295": "Combínala con Alquimia en el mismo personaje para un ciclo eficiente", "s296": "Todas las demás", "s297": "Confirmado que tiene su propio objeto de campamento, detalles pendientes en la beta", "s298": "Asigna según preferencia entre recolección y fabricación; evita duplicar", "s299": "Consejo de coordinación", "s300": "07 — Mecánicas nuevas", "s301": "Legado y Fogata, explicados", "s302": "Legado: el largo plazo de tu cuenta", "s303": "Fogata: tu sala de gremio móvil", "s304": "Vale la pena señalarlo incluso en la modalidad Normal", "s305": "08 — Estructura", "s306": "Estructura de gremio para un grupo casual y social ante todo", "s307": "Liderazgo", "s308": "Un Maestro de Gremio (quien tenga más probabilidad de seguir conectándose para tareas administrativas) más dos Oficiales — uno a cargo de Discord/reclutamiento, otro a cargo de la logística de las noches de incursión. Rótenlo si deja de ser divertido para quien lo tenga.", "s309": "Botín", "s310": "Necesidad/Codicia para el botín de mazmorra, reserva suave simple por turnos para el botín de incursión. Sin hoja de cálculo de DKP — es una carga administrativa que un gremio de amigos de diez a veinte personas no necesita a este nivel de ambición.", "s311": "Asistencia", "s312": "Sin política formal. Una encuesta fijada en Discord antes de cada noche de incursión te dice quién viene; si no se llega al mínimo, se convierte en una noche de mazmorras o de nivelado en su lugar. Nadie le debe una explicación a nadie por faltar.", "s313": "Banco del gremio", "s314": "Una pestaña de banco compartida para materiales de fabricación BoE y reactivos de fogata de los que todos puedan tomar. Guarden el oro en los bancos personales — un fondo de oro compartido es la fuente más común de drama en un gremio casual.", "s315": "09 — Tiempo", "s316": "Plan de horario y zona horaria", "s317": "Franja", "s318": "Cadencia", "s319": "Propósito", "s320": "Noche entre semana (2x/semana, ~90 min)", "s321": "Flexible, confirmada por encuesta", "s322": "Nivelado, mazmorras, corridas de profesiones — entra y sal cuando quieras", "s323": "Bloque de fin de semana (1x/semana, 2–3 hrs)", "s324": "Semiprogramado", "s325": "Lo más parecido a una \"noche de incursión\" una vez que el Nivel 1 se desbloquee el 9 de dic.", "s326": "Ad hoc", "s327": "Cuando sea", "s328": "Encuentros en la Fogata, mazmorras con desconocidos, farmeo de profesiones", "s329": "10 — Base de operaciones", "s330": "Plano del servidor de Discord", "s331": "Categoría", "s332": "Canales", "s333": "<strong>Bienvenida</strong>", "s334": "#reglas, #anuncios, #presentaciones", "s335": "<strong>General</strong>", "s336": "#chat-general, #memes-y-cosas, #capturas-lore", "s337": "<strong>Operaciones del gremio</strong>", "s338": "#inscripcion-incursiones, #reclamos-profesiones, #botin-e-intercambio, #busco-grupo", "s339": "<strong>Reclutamiento</strong>", "s340": "#nuevos-reclutas, #revision-de-prueba (privado, oficiales + miembro en prueba)", "s341": "<strong>Voz</strong>", "s342": "Fogata Central (para pasar el rato), Grupo 1 / Grupo 2 (tamaño mazmorra), Incursión — Hyjal (límite de 20, se desbloquea solo cuando la plantilla crezca)", "s343": "11 — Crecimiento", "s344": "Llegando de 10 a 20: amigos de amigos, con aval", "s345": "12 — Cuenta regresiva", "s346": "De hoy al Nivel 1", "s347": "Ahora", "s348": "Asegura lo fundamental", "s349": "Confirmen la modalidad (Normal) y la facción en grupo, resuelvan la decisión Guerrero contra Druida para el tanque, y acuerden un tema de nombres. Levanten el servidor de Discord a partir del plano de arriba.", "s350": "17 sept – 23 oct", "s351": "Ventana de beta (tope de nivel 30)", "s352": "Si alguien consigue un cupo de beta, que lo use para explorar en persona las nuevas combinaciones de raza/clase y el sistema de Fogata, y que le cuente al grupo.", "s353": "27 oct", "s354": "Se abre la reserva de nombres", "s355": "Todos reservan el nombre de su personaje el mismo día, usando el tema de nombres compartido decidido arriba.", "s356": "4 nov, 7:00 PM AST", "s357": "Lanzamiento", "s358": "Los servidores se desbloquean a las 3:00 PM Pacífico. Planeen que los diez del núcleo estén conectados juntos para el primer inicio de sesión.", "s359": "Nov – dic", "s360": "Subir a 60, reclamar profesiones", "s361": "Avancen juntos por las zonas de nivelado compartidas donde sea posible; finalicen los reclamos de profesiones a partir de la tabla de Profesiones.", "s362": "9 dic", "s363": "Se desbloquean las incursiones de Nivel 1", "s364": "Barrow Deeps (10), Hyjal Summit (20) y Onyxia's Lair (40) salen todas en vivo. Tus diez del núcleo deberían estar listos para incursionar en Barrow Deeps para esta fecha.", "s365": "Primavera 2027", "s366": "Primera actualización de contenido", "s367": "Dos incursiones nuevas (10 y 20 jugadores), dos mazmorras nuevas, una nueva cadena de misiones Legendaria, y una renovación de temporada de PvP — según la hoja de ruta publicada por Blizzard.", "s368": "Verano 2027", "s369": "Segunda actualización de contenido", "s370": "Una incursión icónica renovada, una incursión nueva, contenido de mundo ampliado, y otra renovación de temporada de PvP. Las fechas exactas son estimaciones de Blizzard, aún no confirmadas.", "s371": "13 — Más allá de la lista de tareas", "s372": "Algunas cosas que vale la pena hacer y que nadie pide", "s373": "Una identidad de gremio real", "s374": "Elijan un nombre, colores de tabardo y un lema de una línea antes del lanzamiento, no tres semanas después. \"La Fogata\" y una paleta de brasas y hogar están ahí mismo si las quieren.", "s375": "Emparejamiento de mentores", "s376": "Cuando se unan nuevos reclutas, empareja a cada uno con un miembro del núcleo como primer punto de contacto — más barato que un documento formal de bienvenida, y de verdad construye las amistades que mantienen vivo a un gremio.", "s377": "Una hoja de plantilla viva", "s378": "Una hoja de cálculo compartida (o una publicación fijada en Discord que actualicen) que rastree clase, profesiones y nivel aproximado — la versión de baja tecnología de las tablas de roles de arriba, mantenida al día en vez de estática.", "s379": "Estado del gremio mensual", "s380": "Una charla de voz corta y casual una vez al mes: qué está funcionando, qué está molestando, si el horario todavía encaja. Quince minutos previenen la mayoría del drama de gremio antes de que empiece.", "s381": "Una olla aparte para Hardcore", "s382": "Para quien tenga ganas de la tensión de la muerte permanente, un personaje Hardcore completamente separado y opcional es un proyecto paralelo divertido — está totalmente aislado de tu progreso en la modalidad Normal, así que nunca compite con el tiempo del gremio principal.", "s383": "Sigan juntos la hoja de ruta", "s384": "Traten las revelaciones de actualización de primavera y verano de 2027 como eventos de gremio — verlas juntos o una llamada de Discord cuando Blizzard publique las notas del parche mantiene la atención del grupo durante el bajón inevitable después del lanzamiento.", "s385": "Lista rápida antes del lanzamiento", "s387": "El detalle de clases y especializaciones es la parte más nueva y menos asentada de esta guía: WoW: Forever se anunció cuatro días antes de escribir esto, y la beta apenas abrió, así que solo Paladín tiene por ahora un desglose de habilidades completo y oficial de Blizzard. Todo lo demás está referenciado cruzadamente con la calculadora de talentos de Forever de Wowhead y varios sitios de la comunidad, etiquetado por nivel de confianza en la sección Clases — trata los números exactos como preliminares hasta que las notas del parche de beta se pongan al día. Las fechas de primavera/verano de 2027 son estimaciones de la propia hoja de ruta de Blizzard, no fechas de calendario confirmadas.", "s388": "Anunciado el 12 de septiembre de 2026 en la BlizzCon, <strong>WoW: Forever</strong> es el \"Classic+\" oficial de Blizzard — Azeroth vanilla (el tope de nivel sigue siendo 60) se mantiene intacto pero se construye hacia adelante con zonas, mazmorras y sistemas nuevos, en vez de dejarlo envejecer como pieza de museo. Está incluido con una suscripción existente de WoW, así que nadie del grupo necesita comprar nada extra.", "s389": "Nada de esto es una lista de reinos tradicional. Forever es <strong>sin reinos</strong> — eliges una modalidad una sola vez, y eso decide silenciosamente tu exposición al PvP de mundo abierto, con quién puedes agrupar, e incluso cómo funcionan los nombres. Acierta primero en esa elección; todo lo demás en esta guía se construye sobre ella.", "s390": "Forever divide a su población en cuatro ecosistemas separados y no interoperables — <strong>Normal</strong>, <strong>PvP</strong>, <strong>Rol</strong> y <strong>Hardcore</strong> — cada uno con su propia economía, casa de subastas y correo. No pueden agrupar entre ellos, y la Horda no puede agrupar con la Alianza en ninguno. Esta es la primera decisión que deben tomar tus diez, y tiene que ser unánime antes de que alguien reserve un nombre.", "s391": "<strong>Recomendación: Normal.</strong> El PvP de mundo abierto requiere consentimiento mutuo, así que tu gremio pasa el tiempo haciendo misiones, farmeando profesiones e incursionando juntos, en vez de que los acampe a mitad de misión un gremio rival con mejor equipo. Dada la meta declarada del grupo — <em>casual, social ante todo, escalando eventualmente a incursiones de 20 jugadores</em> — Normal elimina la fuente más grande de fricción imprevista. Guarden las ambiciones de modalidad PvP para después; nada impide que un miembro curioso cree un alt Hardcore aparte una vez que el gremio principal esté establecido (ver <a href=\"#extras\">Extras</a>).", "s392": "<strong>Nombres de dos partes.</strong> Los personajes usan un formato de nombre y apellido, único por región en vez de por reino. Decidan su convención de nombres en grupo antes del Día de Reserva de Nombres (27 de octubre) — un tema compartido se ve bien después y evita que diez personas se peleen por el mismo nombre popular esa mañana.", "s393": "<strong>Preferencia de idioma.</strong> Forever empareja jugadores según una preferencia de idioma seleccionada dentro de cada modalidad. Como tus diez del núcleo son dominicanos y probablemente jueguen sobre todo en español, configuren esa preferencia explícitamente durante la creación de la cuenta — determina con quién se encuentran al hacer grupos aleatorios antes de que sus veinte estén completos, y es independiente de la facción, así que no reduce la elección de abajo.", "s394": "<span>La vieja lógica</span> — \"la Alianza tiene Paladín, la Horda tiene Chamán, elige tu híbrido\" — <strong>ya no aplica.</strong> Forever añade seis combinaciones nuevas de raza/clase, tres por bando: la Horda gana <strong>Mago Orco</strong>, <strong>Brujo Troll</strong>, y <strong>Paladín No Muerto</strong>; la Alianza gana <strong>Sacerdote Gnomo</strong>, <strong>Cazador Humano</strong>, y <strong>Chamán Enano</strong>. Ambas facciones ahora tienen todas las clases, y Forever apoya explícitamente el equilibrio poblacional entre Horda y Alianza igual que lo hizo Season of Discovery — así que \"qué bando tiene más población\", históricamente una preocupación real de vanilla, tampoco es un factor. Abajo hay dos plantillas sugeridas de 10 personas, independientes, una por facción, para que elijan por ambiente y lore en vez de por mecánicas.", "s395": "Dijiste que eres el tanque principal del grupo y todavía estás decidiendo entre Guerrero y Druida — ambos aparecen como elecciones válidas para el Puesto 1 en cada tabla de abajo. Revisa la <a href=\"#tankpick\">comparación completa Guerrero vs. Druida</a> en la sección Plantilla, y el detalle a nivel de habilidad para ambos en <a href=\"#classes\">Clases</a>, antes de comprometerte.", "s396": "Ambas son formas de partida, no asignaciones — comparte la que elijan en Discord y dejen que la gente reclame puestos según preferencia. Ajusten el décimo puesto una vez que haya personas reales con nombres reales.", "s397": "El contenido de incursión de Nivel 1 se desbloquea en tres tamaños simultáneamente el <strong>9 de diciembre de 2026</strong>: <strong>Barrow Deeps (10 jugadores)</strong>, <strong>Hyjal Summit (20 jugadores)</strong>, y <strong>Onyxia's Lair (40 jugadores)</strong>. Su plan declarado — empezar en 10, crecer a 20 — encaja exactamente con las dos primeras. Traten a Onyxia's Lair como una meta ambiciosa que se alcanza aliándose con otro gremio por una noche, no como algo alrededor de lo cual construir su plantilla desde el día uno.", "s398": "Hay un cambio de equipamiento que vale la pena tener en cuenta al planear tu clase: <strong>el acierto y el crítico de hechizo, cuerpo a cuerpo y distancia ahora son estadísticas unificadas</strong> <span class=\"qtag qtag-official\">Oficial</span>, y los híbridos reciben apoyo real en vez de sobras — el Paladín de Vindicación y el Chamán de Mejora son los beneficiarios que el propio Blizzard nombra. Para un grupo de amigos que quiere flexibilidad sin una incursión llena de especialistas puros, este es el momento de dejar que una o dos personas mainéen de verdad una especialización de DPS híbrido. El detalle completo por clase está en la <a href=\"#classes\">sección Clases</a> de abajo.", "s399": "Reclamaste el puesto de tanque principal y todavía no te decides entre los dos. Aquí está la comparación honesta, construida con todo lo que se sabe actualmente sobre el rediseño de Forever para ambas especializaciones — el detalle completo a nivel de habilidad para cada una vive en <a href=\"#classes\">Clases</a>, esto es el resumen de apoyo para la decisión.", "s400": "Ninguna es una mala elección, y ambas listas de niveles los clasifican a una diferencia mínima entre sí. El Guerrero recompensa a quien quiere que tanquear se sienta predecible y no quiere reaprender mucha memoria muscular. El Druida recompensa a quien quiere una especialización visiblemente distinta del Oso de vanilla y no le importa que los pulls más grandes necesiten un poco más de ayuda del control de masas de su propio DPS. Si tus diez tienden de todos modos hacia pulls más pequeños y controlados (probable, dado el ritmo casual/social que eligieron), la advertencia de Druida sobre grupos grandes importa menos de lo que suena.", "s401": "Esta es la sección densa. Cada clase de abajo cubre sus cambios de kit base más las tres especializaciones, con fuentes en los propios resúmenes de paneles de Blizzard donde existen, y referenciadas cruzadamente con la calculadora de talentos en vivo de Forever de Wowhead y varios sitios establecidos de la comunidad donde no existen. Guerrero y Druida están expandidos por defecto porque estás decidiendo entre ellos; haz clic en cualquier otra clase para abrirla.", "s402": "WoW: Forever se anunció cuatro días antes de escribir esto, y la beta apenas abrió. Blizzard ha publicado un \"análisis a fondo\" completo a nivel de habilidad para exactamente una clase hasta ahora — <strong>Paladín</strong> — etiquetado como Oficial abajo. Todo lo demás viene de la propia calculadora de talentos de Forever de Wowhead (que el propio Wowhead describe como precisa a la demo de BlizzCon, todavía no minada de datos de la beta) más sitios de la comunidad referenciados cruzadamente. Trata cada número específico como preliminar hasta que las notas del parche de la beta se pongan al día — las formas y los nombres de las habilidades son consistentes entre fuentes, los porcentajes exactos muchas veces no lo son.", "s403": "Equipamiento entre clases confirmado por Blizzard junto con la fusión unificada de acierto/crítico: la habilidad con armas se devalúa a propósito en el equipo; el equipo de curación ahora también otorga aproximadamente un tercio de ese tanto en daño de hechizo adicional, para que los sanadores puedan hacer misiones en solitario sin un set de daño aparte; las armas de lanzadores llevan poder de hechizo/curación directamente, incluso en niveles bajos; los abalorios se vuelven más situacionales en vez de estadísticas planas siempre activas; y algo del equipo ahora liga efectos de bono a entornos o tipos de criatura específicos.", "s404": "Forever añade más de 600 recetas nuevas en todas las profesiones y rangos de nivel, además de recetas de <strong>Plano Avanzado</strong> que caen específicamente de jefes de mazmorra — una razón real para correr tus propias nueve mazmorras nuevas en vez de saltar directo al nivel máximo. El cambio estructural más grande, sin embargo, es que las profesiones ahora alimentan directamente el sistema de Fogata (siguiente sección): cada profesión aporta un objeto de bono fabricable a cualquier campamento, así que un gremio con buena cobertura de profesiones funciona como una estación de bonos móvil en cada viaje de nivelado o farmeo.", "s405": "Con diez personas y dos profesiones cada una, pueden cubrir realísticamente todas las profesiones primarias al menos una vez sin que nadie se duplique. Publiquen una hoja simple de reclamos en Discord (ver <a href=\"#discord\">Discord</a>) antes de la noche de lanzamiento — el peor resultado es tres Mineros y ningún Encantador tres semanas después.", "s406": "Un sistema más que vale la pena conocer antes de elegir: el árbol de Legado incluye una ventaja de <strong>Economía de Reactivos</strong> que elimina los requisitos de reactivos de habilidades de clase a nivel de cuenta una vez desbloqueada. Es una ventaja del árbol de Recursividad, no una profesión en sí, pero cambia qué tan agresivamente tus jugadores enfocados en profesiones necesitan farmear reactivos en vez de fabricar y vender material.", "s407": "Legado es progreso <strong>a nivel de cuenta</strong> que se gana mediante Desafíos de Legado, y se gasta de forma independiente en cada personaje entre tres árboles: <strong>Aventura</strong> (bonos de experiencia descansada y de nivelado), <strong>Profesiones</strong> (rendimiento de recolección, como Cosecha Abundante), y <strong>Recursividad</strong> (ventajas de economía como la Economía de Reactivos de arriba). Empiezan con hasta 65 puntos para gastar y un tope de 16 puntos por personaje en el lanzamiento, específicamente para que los alts no se sientan obligatorios solo para mantenerse competitivo.", "s408": "Lectura práctica para tu gremio: los Puntos de Legado ganados en el main de cualquiera ayudan a financiar los futuros alts de ese mismo jugador, pero no ayudan directamente a un compañero de gremio. Es un sistema personal — planeen el árbol de su propio personaje, no esperen intercambiar progreso con nadie más.", "s409": "Cualquier personaje puede colocar una Fogata Básica (aprendida mediante Cocina, disponible para todos como habilidad secundaria) para crear un campamento que ofrece reparaciones, un vendedor, y bonos de una hora. Hasta tres jugadores cercanos pueden aportar cada uno un objeto fabricado por su profesión al sitio — expandible a diez contribuciones en niveles de habilidad más altos — convirtiendo una parada de descanso en un verdadero punto de encuentro.", "s410": "Los campamentos <strong>no son santuarios</strong>. En Normal están a salvo del PvP no deseado por defecto, pero no asuman que un campamento es protección especial además de eso — planten el campamento en algún lugar sensato, igual que en cualquier otra parada de mundo abierto.", "s411": "Para tu gremio en específico: traten la Fogata como el punto de encuentro natural por defecto antes de una corrida de mazmorra o una sesión de nivelado en grupo — es un pequeño ritual (plantar campamento, ponerse los bonos, salir juntos) que no cuesta nada y refuerza exactamente el tono social y casual que tu grupo ya eligió.", "s412": "Eligieron casual/social ante todo por encima de enfocado en progresión, lo que significa que el trabajo del documento aquí es añadir solo la estructura suficiente para prevenir fricción — no construir una burocracia de incursiones que nadie pidió.", "s413": "La República Dominicana funciona con <strong>Hora Estándar del Atlántico (UTC-4) todo el año</strong> — sin horario de verano que rastrear, una cosa menos que coordinar que la mayoría de los gremios con base en EE. UU. El lanzamiento cae a las <strong>7:00 PM AST</strong> el 4 de noviembre (3:00 PM Pacífico convertido — EE. UU. ya habrá salido del horario de verano para esa fecha).", "s414": "A medida que crezcan hacia veinte, esperen una dispersión de zonas horarias más amplia incluso entre amigos de amigos — planeen el bloque de incursión de fin de semana alrededor de la ventana de dos horas que más gente pueda cumplir consistentemente, usando una encuesta de disponibilidad compartida (When2meet o un bot de programación de Discord) en vez de adivinar. Vuelvan a encuestar mensualmente; los horarios de los grupos de amigos cambian.", "s415": "Mantengan #reglas lo bastante corto para que la gente de verdad lo lea: modalidad (Normal), facción (una vez elegida), el enfoque de botín, y una línea sobre el tono. Fijen la tabla de plantilla que hayan elegido de la sección Facción para que cualquier persona nueva vea los puestos abiertos de un vistazo.", "s416": "<strong>Cada miembro del núcleo puede nominar hasta 2 personas</strong> por las que responda personalmente — esto limita naturalmente la búsqueda y mantiene una línea de responsabilidad hacia alguien que ya está en el gremio.", "s417": "<strong>Una prueba corta e informal</strong> — de dos a tres semanas de juego normal, sin contenido de \"audición\" separado. El criterio es simple: ¿aparece cuando dice que va a aparecer, y es agradable estar con esa persona por voz?", "s418": "<strong>Una revisión con un oficial</strong> al final de la ventana de prueba, seguida de una votación rápida en #revision-de-prueba. No se necesita un formulario de solicitud formal a este nivel de ambición — una conversación de cinco minutos lo cubre.", "s419": "<strong>Dejen de reclutar una vez que lleguen a un estable 18–22.</strong> No necesitan exactamente veinte cada noche; necesitan suficiente gente constante para que Hyjal Summit se llene sin apuros, tomando en cuenta las ausencias normales.", "s420": "Modalidad y facción confirmadas por los diez<span class=\"cl-when\">hazlo esta semana</span>", "s421": "Decisión Guerrero-contra-Druida para el tanque, tomada<span class=\"cl-when\">hazlo esta semana</span>", "s422": "Servidor de Discord activo con el plano de arriba<span class=\"cl-when\">hazlo esta semana</span>", "s423": "Tema de nombres acordado<span class=\"cl-when\">antes del 27 de oct</span>", "s424": "Reclamos de profesiones publicados y resueltos<span class=\"cl-when\">antes del 4 de nov</span>", "s425": "Encuesta de asistencia de la noche de lanzamiento enviada<span class=\"cl-when\">semana del 4 de nov</span>", "s426": "Primeras dos nominaciones de amigos de amigos abiertas<span class=\"cl-when\">cuando todos estén cómodos en 60</span>", "s427": "Plantilla de Barrow Deeps asegurada<span class=\"cl-when\">antes del 9 de dic</span>", "s386": "<strong>Fuentes:</strong> <a href=\"https://news.blizzard.com/en-us/article/24303313/world-of-warcraft-forever-deep-dive-panel-recap\" rel=\"noopener\" target=\"_blank\">Resumen oficial del panel de análisis a fondo (Paladín, equipamiento, estructura de talentos)</a> · <a href=\"https://news.blizzard.com/en-us/article/24303862/world-of-warcraft-forever-whats-next-panel-recap\" rel=\"noopener\" target=\"_blank\">\"Qué sigue\" — resumen del panel</a> · <a href=\"https://news.blizzard.com/en-gb/article/24302093/carve-a-new-path-with-world-of-warcraft-forever\" rel=\"noopener\" target=\"_blank\">Carve a New Path with WoW: Forever (artículo oficial)</a> · <a href=\"https://blizzardwatch.com/2026/09/12/world-warcraft-forever-long-speculated-classic-plus-unveiled-will-launch-worldwide-november-4-2026/\" rel=\"noopener\" target=\"_blank\">Blizzard Watch — revelación de Forever</a> · <a href=\"https://blizzardwatch.com/2026/09/13/world-warcraft-forevers-roadmap-gives-us-ann-idea-expect-rest-2026-summer-2027/\" rel=\"noopener\" target=\"_blank\">Blizzard Watch — hoja de ruta</a> · <a href=\"https://blizzardwatch.com/2026/09/15/need-know-wow-forevers-campfire-system-works\" rel=\"noopener\" target=\"_blank\">Sistema de Fogata explicado</a> · <a href=\"https://www.wowhead.com/forever\" rel=\"noopener\" target=\"_blank\">Wowhead — portal de Forever y calculadora de talentos</a> · <a href=\"https://www.icy-veins.com/wow-forever/warrior-class-overview\" rel=\"noopener\" target=\"_blank\">Icy Veins — resúmenes de clase (Guerrero/Druida/Cazador/Mago/Brujo/Chamán)</a> · <a href=\"https://classicwowforever.com/\" rel=\"noopener\" target=\"_blank\">ClassicWoWForever.com — desgloses de cambios de clase</a> · <a href=\"https://www.zockify.com/forever/\" rel=\"noopener\" target=\"_blank\">Zockify — guías de clase de Forever</a> · <a href=\"https://www.aoeah.com/news/4821--wow-forever-tank-tier-list--best-tanks-ranked-in-warcraft-forever\" rel=\"noopener\" target=\"_blank\">Lista de niveles de tanques (comparación Guerrero/Druida/Paladín)</a> · <a href=\"https://gameinformer.com/blizzcon-2026/2026/09/12/blizzard-announces-world-of-warcraft-forever-expanding-vanilla-wow-with\" rel=\"noopener\" target=\"_blank\">Game Informer — resumen de contenido</a> · <a href=\"https://boostroom.com/blog/wow-forever-servers-explained-pve-pvp-rp-and-hardcore-rulesets\" rel=\"noopener\" target=\"_blank\">Desglose de servidor/modalidad</a>", "s428": "Reclamado", "s429": "Quién lleva qué — hoja de reclamos en vivo", "s430": "Toca una profesión de abajo para poner tu nombre — se actualiza para todos los que puedan editar esta página.", "s431": "Notas de exploración de la beta", "s432": "En cuanto alguien entre de verdad a la beta, dejen impresiones reales aquí para que la guía deje de ser pura teoría.", "s433": "Guardar notas", "s434": "Copiar plantilla de la Horda", "s435": "Copiar plantilla de la Alianza", "s436": "Copiar lista de tareas", "s437": "Filtrar por rol:", "s438": "Todos", "s439": "Tanque", "s440": "Sanador", "s441": "DPS", "s442": "Híbrido", "s443": "Cuenta regresiva"}</script>
+<script>
+  (function(){
+    try{
+      var ES = JSON.parse(document.getElementById('i18n-es-data').textContent);
+      var STORAGE_KEY = 'la-fogata-lang';
+      var cache = {};
+      function applyLang(lang){
+        document.querySelectorAll('[data-i18n]').forEach(function(el){
+          var key = el.getAttribute('data-i18n');
+          if(cache[key] === undefined) cache[key] = el.innerHTML;
+          if(lang === 'es' && Object.prototype.hasOwnProperty.call(ES, key)){
+            el.innerHTML = ES[key];
+          } else {
+            el.innerHTML = cache[key];
+          }
+        });
+        document.documentElement.setAttribute('lang', lang);
+        var btn = document.getElementById('langToggle');
+        if(btn){
+          btn.setAttribute('data-lang', lang);
+          btn.setAttribute('aria-pressed', lang === 'es' ? 'true' : 'false');
+        }
+      }
+      function getInitialLang(){
+        try{
+          var saved = localStorage.getItem(STORAGE_KEY);
+          if(saved === 'en' || saved === 'es') return saved;
+        }catch(e){}
+        return 'en';
+      }
+      var lang = getInitialLang();
+      var btn = document.getElementById('langToggle');
+      if(btn){
+        btn.setAttribute('data-lang', lang);
+        btn.addEventListener('click', function(){
+          lang = (lang === 'en') ? 'es' : 'en';
+          applyLang(lang);
+          try{ localStorage.setItem(STORAGE_KEY, lang); }catch(e){}
+        });
+      }
+      if(lang !== 'en'){ applyLang(lang); }
+      else { document.documentElement.setAttribute('lang', 'en'); }
+    }catch(e){}
+  })();
+</script>
+<script>
+  window.__PRISTINE_HTML__ = "<!doctype html>\n" + document.documentElement.outerHTML;
+</script>
+</body></html>

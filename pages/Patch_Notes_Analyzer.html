@@ -1,0 +1,1097 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Patch Notes Analyzer</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..900&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;600&display=swap"><style>:root{color-scheme:light dark;
+--void:#EDF1F8;--deep:#F7F9FD;--panel:#FFFFFF;--panel2:#F0F3FA;--line:#D3DBEA;--line2:#B7C3DC;
+--gold:#8F6300;--goldfill:#F2C14E;--azure:#2F62D6;--sky:#2B4E9E;--epic:#7A2BC2;
+--text:#101A33;--text2:#33415F;--muted:#586582;--ok:#1B7F4E;--warn:#A85A08;--bad:#B4303A;
+--wash:rgba(16,26,51,.045);--navbg:rgba(237,241,248,.88);--shadowc:rgba(16,26,51,.18);
+--sans:"Google Sans","Google Sans Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+--mono:"Google Sans Code","Google Sans",ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-ff="light"]){color-scheme:dark;
+--void:#070B14;--deep:#0C1220;--panel:#121B2E;--panel2:#182339;--line:#26324D;--line2:#33436A;
+--gold:#F2C14E;--azure:#3B7BFF;--sky:#9FB6E8;--epic:#C07CF5;--text:#ECE7D8;--text2:#C5CEE3;--muted:#95A2BE;--ok:#6FD39A;--warn:#F0A04B;--bad:#F07A82;
+--wash:rgba(255,255,255,.035);--navbg:rgba(7,11,20,.86);--shadowc:rgba(0,0,0,.55)}}
+:root[data-theme="dark"],:root[data-ff="dark"]{color-scheme:dark;
+--void:#070B14;--deep:#0C1220;--panel:#121B2E;--panel2:#182339;--line:#26324D;--line2:#33436A;
+--gold:#F2C14E;--azure:#3B7BFF;--sky:#9FB6E8;--epic:#C07CF5;--text:#ECE7D8;--text2:#C5CEE3;--muted:#95A2BE;--ok:#6FD39A;--warn:#F0A04B;--bad:#F07A82;
+--wash:rgba(255,255,255,.035);--navbg:rgba(7,11,20,.86);--shadowc:rgba(0,0,0,.55)}
+:root[data-ff="light"]{color-scheme:light;--void:#EDF1F8;--deep:#F7F9FD;--panel:#FFFFFF;--panel2:#F0F3FA;--line:#D3DBEA;--line2:#B7C3DC;--gold:#8F6300;--azure:#2F62D6;--sky:#2B4E9E;--epic:#7A2BC2;--text:#101A33;--text2:#33415F;--muted:#586582;--ok:#1B7F4E;--warn:#A85A08;--bad:#B4303A;--wash:rgba(16,26,51,.045);--navbg:rgba(237,241,248,.88);--shadowc:rgba(16,26,51,.18)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-inline:20px}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+h1,h2,h3,h4{margin:0;text-wrap:balance}p{margin:0}
+.wrap{width:100%;max-width:1120px;margin-inline:auto}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:650}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;margin-inline:-20px;padding-inline:20px;background:var(--navbg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:10px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--gold);white-space:nowrap}
+.brand svg{width:22px;height:22px;flex:none}
+.nav nav{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none;min-width:0}
+.nav nav::-webkit-scrollbar{display:none}
+.nav nav a{color:var(--muted);text-decoration:none;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;padding:9px 10px;border-radius:999px;white-space:nowrap}
+.nav nav a:hover{color:var(--text);background:var(--wash)}
+.iconbtn{min-width:40px;min-height:40px;display:inline-grid;place-content:center;border-radius:10px;border:1px solid var(--line);background:var(--panel)}
+.iconbtn svg{width:18px;height:18px}
+.hero{position:relative;overflow:hidden;margin-inline:-20px;padding-inline:20px;border-bottom:1px solid var(--line);background:radial-gradient(120% 120% at 50% 0%,#14284f 0%,#0b1630 46%,#070B14 82%);color:#ECE7D8}
+.hero .wrap{position:relative;padding-block:52px 40px}.ridge{position:absolute;left:0;right:0;bottom:0;width:100%;height:52%;pointer-events:none}
+.hero .eyebrow{color:#F2C14E}
+.hero h1{font-size:clamp(30px,5.6vw,52px);line-height:1.04;font-weight:800;letter-spacing:-.02em;max-width:18ch;margin-top:10px;background:linear-gradient(180deg,#FFE9A8,#F2C14E 48%,#B98A2B);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{max-width:62ch;color:#C5CEE3;font-size:15.5px;margin-top:12px}
+.hero p.lede b{color:#ECE7D8}
+section.blk{padding-block:40px 4px}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.sh h2{font-size:clamp(22px,3.2vw,30px);font-weight:750;letter-spacing:-.015em;margin-top:4px}
+.sh p{max-width:54ch;color:var(--muted);font-size:14px}
+.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px;min-width:0}
+.panel.tight{padding:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:860px){.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.g2,.g3{grid-template-columns:minmax(0,1fr)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:7px 14px;border-radius:10px;border:1px solid var(--line2);background:var(--panel);font-weight:600;font-size:13.5px}
+.btn:hover{border-color:var(--gold)}.btn.gold{background:var(--goldfill);border-color:var(--goldfill);color:#1a1200}
+.btn.sm{min-height:30px;padding:3px 10px;font-size:12.5px}.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=text],input[type=search],input[type=number],input[type=date],select,textarea{min-height:38px;padding:7px 11px;border-radius:10px;border:1px solid var(--line2);background:var(--deep);min-width:0;font-size:14px}
+textarea{width:100%;resize:vertical;min-height:80px}
+label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.chip{font-size:10.5px;padding:2px 8px;border-radius:99px;border:1px solid var(--line2);color:var(--text2);background:var(--wash);white-space:nowrap;display:inline-block;line-height:1.5}
+.chip.off{border-color:var(--ok);color:var(--ok)}.chip.com{border-color:var(--sky);color:var(--sky)}.chip.inf{border-color:var(--warn);color:var(--warn)}.chip.bad{border-color:var(--bad);color:var(--bad)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;font-weight:650}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}
+.note{font-size:12.5px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;background:var(--text);color:var(--void);padding:10px 16px;border-radius:12px;font-size:13.5px;max-width:calc(100% - 32px);box-shadow:0 10px 30px var(--shadowc);opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+.sync{font-size:11px;color:var(--muted);display:inline-flex;gap:6px;align-items:center}.sync i{width:7px;height:7px;border-radius:50%;background:var(--warn)}.sync.on i{background:var(--ok)}
+footer{margin-top:56px;padding-block:24px 56px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+footer a{color:var(--text2)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---- analyzer ---- */
+.meter{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}@media(max-width:760px){.meter{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.meter div{border:1px solid #33436A;background:rgba(12,18,32,.78);border-radius:12px;padding:10px 14px}.meter small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9EABC6}.meter b{font-size:22px;color:#F2C14E;display:block;overflow-wrap:anywhere;line-height:1.25}
+.floor{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.floor span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9EABC6;margin-right:4px}
+.floor button{border:1px solid #33436A;background:rgba(12,18,32,.78);color:#C5CEE3;border-radius:999px;padding:6px 12px;font-size:12.5px;min-height:34px}
+.floor button[aria-pressed="true"]{background:#F2C14E;border-color:#F2C14E;color:#1a1200;font-weight:650}
+.chip.c-off{border-color:var(--gold);color:var(--gold)}.chip.c-cor{border-color:var(--epic);color:var(--epic)}.chip.c-one{border-color:var(--azure);color:var(--azure)}.chip.c-spec{border-color:var(--line2);color:var(--muted)}
+.chip.k-buff{background:color-mix(in srgb,var(--ok) 14%,transparent);border-color:var(--ok);color:var(--ok)}
+.chip.k-new{background:color-mix(in srgb,var(--sky) 14%,transparent);border-color:var(--sky);color:var(--sky)}
+.chip.k-nerf,.chip.k-removed{background:color-mix(in srgb,var(--bad) 12%,transparent);border-color:var(--bad);color:var(--bad)}
+.chip.k-rework{background:color-mix(in srgb,var(--warn) 12%,transparent);border-color:var(--warn);color:var(--warn)}
+.chip.k-fix{color:var(--muted)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.filters input[type=search]{flex:1 1 220px}
+td.cx{min-width:300px}td.cx b{font-weight:650}
+.who{white-space:nowrap}.who b{font-weight:650}
+.more{display:flex;justify-content:center;padding:12px}
+/* impact map */
+.map{display:grid;grid-template-columns:minmax(120px,160px) repeat(3,minmax(150px,1fr));gap:8px;min-width:640px}
+.mapwrap{overflow-x:auto;padding-bottom:4px}
+.map .cl{display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:12px;border:1px solid var(--line);border-left:4px solid var(--c);background:var(--panel)}
+.map .cl b{font-size:14px;color:color-mix(in srgb,var(--c) 62%,var(--text))}
+.cell{text-align:left;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:color-mix(in srgb,var(--tone) var(--amt),var(--panel));display:grid;gap:4px;min-height:74px}
+.cell:hover{border-color:var(--gold)}.cell[aria-pressed="true"]{outline:2px solid var(--gold);outline-offset:1px}
+.cell .sp{font-weight:650;font-size:13.5px}.cell .net{font-family:var(--mono);font-size:18px;font-weight:600}
+.cell .cnt{font-family:var(--mono);font-size:11.5px;color:var(--text2);display:flex;gap:8px;flex-wrap:wrap}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+.detail{margin-top:16px}
+.detail h3{font-size:20px}.detail .sub{color:var(--muted);font-size:13.5px;margin-top:2px}
+.clist{display:grid;gap:0;margin-top:12px}
+.ci{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.ci .tags{display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:86px}
+.ci b{font-weight:650}.ci p{font-size:14px;color:var(--text2)}
+/* weights */
+.wtop{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}
+.wgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}@media(max-width:900px){.wgrid{grid-template-columns:minmax(0,1fr)}}
+.wt td{vertical-align:middle}.wt input{width:78px;min-height:32px;padding:4px 8px;font-family:var(--mono);font-size:13px}
+.wt input.ov{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.dv{position:relative;height:14px;min-width:120px;background:var(--wash);border-radius:4px}
+.dv::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line2)}
+.dv i{position:absolute;top:2px;bottom:2px;border-radius:3px}
+.dv i.up{left:50%;background:var(--ok)}.dv i.dn{right:50%;background:var(--bad)}
+.dl{font-family:var(--mono);font-size:12.5px;white-space:nowrap}.dl.up{color:var(--ok)}.dl.dn{color:var(--bad)}.dl.nw{color:var(--sky)}
+.mods{display:grid;gap:0}
+.mod{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}.mod:first-child{border-top:0}
+.mod input{width:18px;height:18px;margin-top:3px;accent-color:var(--goldfill);flex:none}
+.mod .t{font-size:13.5px;font-weight:600}.mod .d{font-size:12.5px;color:var(--muted);margin-top:2px}
+.mod.dim .t{color:var(--muted);text-decoration:line-through}
+/* roster */
+.ch{border:1px solid var(--line);border-top:3px solid var(--c);border-radius:14px;background:var(--panel);padding:14px;display:grid;gap:10px;align-content:start}
+.ch header{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.ch header b{color:color-mix(in srgb,var(--c) 62%,var(--text));font-size:15px;overflow-wrap:anywhere}
+.specrow{display:flex;justify-content:space-between;gap:8px;font-size:13px;align-items:center}
+.specrow .n{font-family:var(--mono)}
+.ch ul{margin:0;padding-left:18px;font-size:12.5px;color:var(--text2);display:grid;gap:3px}
+.shift{font-size:12.5px;color:var(--muted)}.shift b{color:var(--text);font-weight:600}
+/* gear */
+.gt td,.gt th{vertical-align:middle}.gt input{width:84px;min-height:32px;padding:4px 8px;font-family:var(--mono);font-size:13px}
+.gt tfoot td{font-weight:650;border-top:1px solid var(--line2)}
+.gt .nm input{width:100%;min-width:150px}.gt td:nth-child(2),.gt td:nth-child(3){width:26%}
+.verdict{display:grid;gap:6px;font-size:14px}.verdict b{font-weight:650}
+.flip{color:var(--warn);font-weight:650}
+.claudebox{display:grid;gap:8px}
+.muted{color:var(--muted)}
+.prev td input{width:18px;height:18px;accent-color:var(--goldfill)}
+.spin{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--line2);border-top-color:var(--gold);animation:sp 0.8s linear infinite;vertical-align:-1px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.srcs{columns:2 280px;margin:8px 0 0;padding-left:18px}
+.srcs li{margin-bottom:4px;break-inside:avoid}
+
+/* ---- v2 ---- */
+.lang{position:relative;display:inline-flex;align-items:center;flex:none;width:64px;height:30px;padding:2px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);font-family:var(--mono)}
+.lang .th{position:absolute;top:2px;left:2px;width:30px;height:24px;border-radius:999px;background:var(--goldfill);transition:transform .18s ease}
+.lang[data-lang="es"] .th{transform:translateX(30px)}
+.lang span.l{position:relative;z-index:1;flex:1;text-align:center;font-size:10.5px;font-weight:700;color:var(--muted)}
+.lang[data-lang="en"] .l.en,.lang[data-lang="es"] .l.es{color:#1a1200}
+.comp{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.comp span.lb{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9EABC6;margin-right:4px}
+.comp a{font-size:12.5px;color:#C5CEE3;text-decoration:none;border:1px solid #33436A;border-radius:999px;padding:5px 11px;background:rgba(12,18,32,.6)}
+.comp a:hover{border-color:#F2C14E;color:#F2C14E}
+.hero .newbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px;font-size:13px;color:#C5CEE3}
+.hero .newbar button{border:1px solid #33436A;background:rgba(12,18,32,.78);color:#C5CEE3;border-radius:999px;padding:5px 12px;font-size:12.5px}
+.chip.nw{background:var(--goldfill);border-color:var(--goldfill);color:#1a1200;font-weight:650}
+.chip.lk{text-decoration:none;border-color:var(--sky);color:var(--sky)}
+.chip.lk:hover{border-color:var(--gold);color:var(--gold)}
+.imp{font-family:var(--mono);font-size:12px;font-weight:600}
+.imp.up{color:var(--ok)}.imp.dn{color:var(--bad)}.imp.z{color:var(--muted)}
+.gbar{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.gb{font-size:11.5px;border:1px solid var(--line2);background:var(--deep);border-radius:999px;padding:2px 9px;min-height:26px;color:var(--text2);white-space:nowrap}
+.gb:hover{border-color:var(--gold)}
+.gb[aria-pressed="true"]{background:color-mix(in srgb,var(--goldfill) 30%,var(--panel));border-color:var(--gold);color:var(--text);font-weight:600}
+.gb.dif[aria-pressed="true"]{background:color-mix(in srgb,var(--bad) 18%,var(--panel));border-color:var(--bad)}
+.tabs{display:inline-flex;gap:4px;border:1px solid var(--line);border-radius:12px;padding:3px;background:var(--panel2)}
+.tabs button{border:0;background:transparent;border-radius:9px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--muted);min-height:32px}
+.tabs button[aria-pressed="true"]{background:var(--panel);color:var(--text);box-shadow:0 1px 3px var(--shadowc)}
+.tree{display:grid;gap:8px;margin-top:12px}
+.trow{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;align-items:start}
+.trow .rl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-top:10px;font-weight:650}
+.tcells{display:flex;gap:8px;flex-wrap:wrap;min-height:44px;border:1px dashed var(--line);border-radius:12px;padding:6px}
+.tn{border:1px solid var(--line);border-left:4px solid var(--kc);border-radius:10px;background:var(--panel);padding:6px 10px;font-size:12.5px;max-width:260px;display:grid;gap:2px}
+.tn b{font-weight:650;font-size:13px}
+.tn select{min-height:28px;padding:2px 6px;font-size:12px;border-radius:8px}
+@media(max-width:600px){.trow{grid-template-columns:minmax(0,1fr)}.trow .rl{padding-top:0}}
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:14px;align-items:start}@media(max-width:900px){.pgrid{grid-template-columns:minmax(0,1fr)}}
+.tl{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.tl .dt{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:8px 12px;font-size:12.5px;display:grid;gap:2px;min-width:120px}
+.tl .dt b{font-family:var(--mono);font-size:14px}
+.tl .dt.on{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.mv td{vertical-align:middle}
+.hb{position:relative;height:12px;min-width:140px;background:var(--wash);border-radius:4px}
+.hb::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--line2)}
+.hb i{position:absolute;top:2px;bottom:2px;border-radius:3px}.hb i.up{left:50%;background:var(--ok)}.hb i.dn{right:50%;background:var(--bad)}
+.ctx{display:flex;gap:6px;flex-wrap:wrap}
+.capgrid{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:6px 10px;align-items:center;font-size:12.5px;margin-top:8px}
+.capgrid input{width:100%;min-height:30px;padding:3px 8px;font-family:var(--mono);font-size:13px}
+.capgrid .h{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:650}
+.bd{border:1px solid var(--line);border-top:3px solid var(--c);border-radius:14px;background:var(--panel);padding:14px;display:grid;gap:10px;align-content:start}
+.bd header{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.bd header b{color:color-mix(in srgb,var(--c) 62%,var(--text));font-size:15px}
+.pts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pts label{font-size:11.5px;color:var(--muted);display:grid;gap:3px}
+.pts input{width:100%;min-height:32px;padding:3px 8px;font-family:var(--mono)}
+.ptsum{font-family:var(--mono);font-size:12.5px}.ptsum.bad{color:var(--bad)}.ptsum.ok{color:var(--ok)}
+.kchips{display:flex;gap:5px;flex-wrap:wrap}
+.kchips button{font-size:11.5px;border:1px solid var(--line2);background:var(--deep);border-radius:999px;padding:2px 9px;min-height:26px;color:var(--text2)}
+.kchips button[aria-pressed="true"]{background:color-mix(in srgb,var(--goldfill) 30%,var(--panel));border-color:var(--gold);color:var(--text);font-weight:600}
+.bd input[type=text],.bd textarea{width:100%}
+.bd textarea{min-height:56px}
+.sheet td{vertical-align:middle}
+.sheet tr.lose td:first-child{box-shadow:inset 3px 0 0 var(--bad)}.sheet tr.gain td:first-child{box-shadow:inset 3px 0 0 var(--ok)}
+.hitline{font-size:13px;margin-top:8px}
+.hitline b{font-family:var(--mono)}
+.gtabs{margin-bottom:14px}
+.autonote{font-size:12px;color:#9EABC6;margin-top:4px}
+[hidden]{display:none!important}
+#pList{max-height:720px;overflow:auto;padding-right:4px}
+@media(max-width:640px){.brand span,.sync span{display:none}.nav .wrap{gap:6px}}
+</style>
+<script>(function(){"use strict";
+var W=window.WF={};
+W.esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+W.$=function(s,r){return(r||document).querySelector(s)};W.$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var tt;W.toast=function(m){var t=W.$("#toast");if(!t)return;t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("show")},1800)};
+W.copy=function(str,msg){function fb(){try{var a=document.createElement("textarea");a.value=str;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();document.execCommand("copy");document.body.removeChild(a);return true}catch(e){return false}}
+var ok=function(){W.toast(msg||"Copied")};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(str).then(ok).catch(function(){if(fb())ok()})}else if(fb())ok()};
+W.uid=function(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)};
+function lsGet(k){try{var r=localStorage.getItem("wf_"+k);return r?JSON.parse(r):null}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem("wf_"+k,JSON.stringify(v))}catch(e){}}
+W.lsGet=lsGet;W.lsSet=lsSet;
+W.dbp=null;var dbReady=(async function(){try{if(window.claude&&window.claude.use){W.dbp=await window.claude.use("db")}}catch(e){}return W.dbp})();
+function sync(on){var s=W.$("#sync");if(s){s.className="sync"+(on?" on":"");s.lastChild.textContent=on?"Synced":"This device only"}}
+W.store=function(key,init,onChange){var st=Object.assign({},init,lsGet(key)||{}),timer=null,ref=null,api={};
+api.get=function(){return st};
+api.set=function(fn){fn(st);lsSet(key,st);onChange&&onChange(st);if(ref){clearTimeout(timer);timer=setTimeout(function(){timer=null;ref.set({v:st}).catch(function(){})},700)}};
+dbReady.then(function(db){if(!db){sync(false);return}try{ref=db.doc("state/"+key);ref.onSnapshot(function(s){sync(true);if(timer)return;if(s.exists){var d=s.data().v;if(d&&JSON.stringify(d)!==JSON.stringify(st)){st=Object.assign({},init,d);lsSet(key,st);onChange&&onChange(st)}}else if(JSON.stringify(st)!==JSON.stringify(init)){ref.set({v:st}).catch(function(){})}},function(){sync(false)})}catch(e){sync(false)}});
+return api};
+W.coll=function(name,onChange,seed){var items=lsGet("c_"+name),api={},col=null;if(!items){items={};(seed||[]).forEach(function(d){items[d.id]=d})}
+api.all=function(){return Object.keys(items).map(function(k){return items[k]})};
+api.put=function(d){items[d.id]=d;lsSet("c_"+name,items);onChange&&onChange();if(col)col.doc(d.id).set(d).catch(function(){})};
+api.del=function(id){delete items[id];lsSet("c_"+name,items);onChange&&onChange();if(col)col.doc(id).delete().catch(function(){})};
+dbReady.then(function(db){if(!db){sync(false);return}try{col=db.collection(name);col.onSnapshot(function(s){sync(true);if(s.empty&&Object.keys(items).length){api.all().forEach(function(d){col.doc(d.id).set(d).catch(function(){})});return}var n={};s.docs.forEach(function(x){n[x.id]=Object.assign({id:x.id},x.data())});items=n;lsSet("c_"+name,items);onChange&&onChange()},function(){sync(false)})}catch(e){sync(false)}});
+return api};
+W.R=[
+{k:"mage",cls:"Mage",name:"Pyrolord Emberspanner",race:"Gnome",role:"MAIN",specs:["Fire","Arcane"],profs:["Tailoring","Enchanting"],c:"#3FC7EB"},
+{k:"druid",cls:"Druid",name:"Maviand Swiftclaw",race:"Night Elf",role:"MAIN",specs:["Feral","Restoration"],profs:["Herbalism","Alchemy"],c:"#FF7D0A"},
+{k:"warrior",cls:"Warrior",name:"Legionaire Ironvow",race:"Human",role:"ALT",specs:["Fury","Protection"],profs:["Mining","Blacksmithing"],c:"#C79C6E"},
+{k:"hunter",cls:"Hunter",name:"Wildheart Thornstride",race:"Night Elf",role:"ALT",specs:["Beast Mastery","Survival"],profs:["Skinning","Leatherworking"],c:"#ABD473"},
+{k:"shaman",cls:"Shaman",name:"Thorgrim Thunderbringer",race:"Dwarf",role:"ALT",specs:["Enhancement","Elemental"],profs:["Mining","Engineering"],c:"#0070DE"},
+{k:"paladin",cls:"Paladin",name:"Aldric Dawnhammer",race:"Dwarf",role:"ALT",specs:["Protection","Retribution"],profs:["Mining","Blacksmithing"],c:"#F58CBA"},
+{k:"priest",cls:"Priest",name:"Seraphine Lightmender",race:"Night Elf",role:"ALT",specs:["Discipline","Holy"],profs:["Tailoring","Herbalism"],c:"#D9D9D9"},
+{k:"rogue",cls:"Rogue",name:"Vex Nightwhisper",race:"Human",role:"ALT",specs:["Combat","Assassination"],profs:["Engineering","Mining"],c:"#FFF569"},
+{k:"warlock",cls:"Warlock",name:"Malachai Hellbringer",race:"Gnome",role:"ALT",specs:["Demonology","Destruction"],profs:["Tailoring","Enchanting"],c:"#8788EE"}];
+var TH=[null,"light","dark"],ti=0;try{var sv=localStorage.getItem("wf_theme");ti=Math.max(0,TH.indexOf(sv))}catch(e){}
+function ico(m){if(m==="light")return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>';if(m==="dark")return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>';return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>'}
+function ap(){var m=TH[ti],b=W.$("#themeBtn");if(m)document.documentElement.setAttribute("data-ff",m);else document.documentElement.removeAttribute("data-ff");if(b){b.innerHTML=ico(m);b.setAttribute("aria-label","Theme: "+(m||"auto"))}try{m?localStorage.setItem("wf_theme",m):localStorage.removeItem("wf_theme")}catch(e){}}
+document.addEventListener("DOMContentLoaded",function(){var b=W.$("#themeBtn");if(b)b.addEventListener("click",function(){ti=(ti+1)%3;ap()});ap()});
+})();
+</script>
+<a href="../index.html" class="wf-home" style="position:fixed;left:14px;bottom:14px;z-index:60;padding:7px 12px;border-radius:999px;border:1px solid #33436A;background:rgba(12,18,32,.9);color:#F2C14E;font:600 12px/1 system-ui,sans-serif;letter-spacing:.06em;text-decoration:none;text-transform:uppercase">&larr; Hub</a><div class="nav"><div class="wrap"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 20 6.5v8L12 22 4 14.5v-8Z"/><path d="M12 7v8M8.5 10.5h7"/></svg><span>Warcraft Forever</span></div><nav aria-label="Sections"><a href="#impact" data-i18n="nav_impact">Impact</a><a href="#patches" data-i18n="nav_patches">Patches</a><a href="#weights" data-i18n="nav_weights">Stat weights</a><a href="#roster" data-i18n="nav_roster">Roster</a><a href="#builds" data-i18n="nav_builds">Builds</a><a href="#gear" data-i18n="nav_gear">Gear check</a><a href="#feed" data-i18n="nav_log">Change log</a><a href="#import" data-i18n="nav_import">Import</a></nav><span class="sync" id="sync"><i></i><span>This device only</span></span><button type="button" class="lang" id="langBtn" data-lang="en" aria-label="English / Español"><span class="th" aria-hidden="true"></span><span class="l en" aria-hidden="true">EN</span><span class="l es" aria-hidden="true">ES</span></button><button type="button" class="iconbtn" id="themeBtn" aria-label="Theme"></button></div></div>
+
+<div class="hero"><svg class="ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="rg1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#132a57"/><stop offset="1" stop-color="#070B14"/></linearGradient><linearGradient id="rg2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0d1b3a"/><stop offset="1" stop-color="#070B14"/></linearGradient></defs><path d="M0 210 L90 150 L160 190 L260 100 L340 170 L430 120 L520 190 L640 90 L730 160 L820 110 L930 190 L1030 130 L1120 180 L1200 140 V300 H0Z" fill="url(#rg1)" opacity=".85"/><path d="M0 250 L110 200 L210 240 L330 180 L450 240 L560 200 L700 250 L820 190 L960 245 L1080 205 L1200 240 V300 H0Z" fill="url(#rg2)"/></svg><div class="wrap">
+<div class="eyebrow"><span data-i18n="hero_eyebrow">Patch analysis · vanilla 1.12 → Forever beta · notes through</span> <span id="hLatest">Sep 24</span></div>
+<h1 data-i18n="hero_h1">What the patch notes change for your nine.</h1>
+<p class="lede" data-i18n-html="hero_lede">Every Forever change from Blizzard's development notes and Wowhead's coverage, scored against each <b>talent tree</b> and traced into <b>stat weights</b>. New notes arrive every week on their own, and anything you paste gets filed here for the whole guild.</p>
+<div class="meter"><div><small data-i18n="m_n">Changes tracked</small><b class="mono" id="mN">0</b></div><div><small data-i18n="m_top">Biggest winner</small><b id="mUp">—</b></div><div><small data-i18n="m_new">New since your last visit</small><b class="mono" id="mNew">0</b></div><div><small data-i18n="m_auto">Auto-refresh</small><b id="mAuto">—</b></div></div>
+<div class="newbar" id="newbar" hidden><span id="newTxt"></span><button type="button" id="markSeen" data-i18n="mark_seen">Mark all as seen</button></div>
+<div class="floor" role="group" aria-label="Confidence floor"><span data-i18n="floor_lbl">Count changes that are</span><button type="button" data-floor="1" data-i18n="fl1">Official</button><button type="button" data-floor="2" data-i18n="fl2">+ Corroborated</button><button type="button" data-floor="3" data-i18n="fl3">+ Single-source</button><button type="button" data-floor="4" data-i18n="fl4">+ Speculative</button></div>
+<div class="comp" id="comp"></div>
+</div></div>
+
+<main class="wrap">
+<section class="blk" id="impact"><div class="sh"><div><div class="eyebrow" data-i18n="imp_eyebrow">Talent trees</div><h2 data-i18n="imp_h">Spec impact map</h2></div><p data-i18n="imp_p">Each cell adds up the impact of the spec's changes and its class-wide ones, from −3 to +3 per change. Official counts in full, corroborated ¾, single-source ½, speculative ¼. Beta confirmations raise a change's confidence.</p></div>
+<div class="mapwrap"><div class="map" id="map"></div></div>
+<div class="legend"><span class="chip k-buff" data-i18n="k_buff">▲ Buff</span><span class="chip k-new" data-i18n="k_new">✦ New</span><span class="chip k-nerf" data-i18n="k_nerf">▼ Nerf</span><span class="chip k-rework" data-i18n="k_rework">↻ Rework</span><span id="mapAvg"></span></div>
+<div class="panel detail" id="detail"></div>
+</section>
+
+<section class="blk" id="patches"><div class="sh"><div><div class="eyebrow" data-i18n="pat_eyebrow">Patches</div><h2 data-i18n="pat_h">Compare two points in time</h2></div><p data-i18n="pat_p">Pick a start and an end. You see only what changed in between, and which specs it moved most.</p></div>
+<div class="tl" id="ptl"></div>
+<div class="row" style="margin-bottom:14px"><label class="f"><span data-i18n="p_from">After</span><select id="pFrom"></select></label><label class="f"><span data-i18n="p_to">Up to and including</span><select id="pTo"></select></label><span class="note" id="pSum"></span></div>
+<div class="pgrid"><div class="tablewrap"><table class="mv"><thead><tr><th data-i18n="p_spec">Spec</th><th data-i18n="p_net">Net</th><th></th><th data-i18n="p_n">Changes</th></tr></thead><tbody id="pMv"></tbody></table></div><div class="panel tight"><div class="clist" id="pList" style="margin-top:0"></div></div></div>
+</section>
+
+<section class="blk" id="weights"><div class="sh"><div><div class="eyebrow" data-i18n="w_eyebrow">Gear</div><h2 data-i18n="w_h">Stat weights, vanilla vs. Forever</h2></div><p data-i18n="w_p">Vanilla weights are a community-style baseline. Forever weights apply each stat modifier, and each one traces to a specific change. Type over a Forever weight to set a guild override.</p></div>
+<div class="wtop"><div class="tabs" role="group" aria-label="Context"><button type="button" data-ctx="raid" data-i18n="ctx_raid">Raid at 60</button><button type="button" data-ctx="level" data-i18n="ctx_lvl">Leveling (beta 20–30)</button></div><label class="f"><span data-i18n="spec">Spec</span><select id="wp"></select></label><button class="btn sm" id="wCopy" type="button" data-i18n="copy_w">Copy weights</button><button class="btn sm" id="wPawn" type="button" data-i18n="pawn">Copy Pawn scale</button><button class="btn sm" id="wReset" type="button" data-i18n="clear_ov">Clear overrides for this spec</button></div>
+<p class="note" id="wNote" style="margin:-4px 0 12px"></p>
+<div class="wgrid"><div class="tablewrap"><table class="wt"><thead><tr><th data-i18n="stat">Stat</th><th>Vanilla</th><th>Forever</th><th data-i18n="shift">Shift</th><th></th></tr></thead><tbody id="wtb"></tbody></table></div>
+<div class="grid"><div class="panel tight"><div class="eyebrow" data-i18n="mods_h">Modifiers for this spec</div><p class="note" style="margin:4px 0 6px" data-i18n="mods_p">Untick one to test the weights without it. Ticks sync for the guild.</p><div class="mods" id="mods"></div></div>
+<div class="panel tight"><div class="eyebrow" data-i18n="caps_h">Hit caps · placeholders</div><p class="note" style="margin-top:4px" data-i18n="caps_p">Blizzard hasn't published Forever's caps. Edit these when it does. Hit past the cap keeps almost no value, except white swings for dual-wielders.</p><div class="capgrid" id="caps"></div></div></div></div>
+</section>
+
+<section class="blk" id="roster"><div class="sh"><div><div class="eyebrow">Forever Roster</div><h2 data-i18n="r_h">Your nine, after the notes</h2></div><p data-i18n="r_p">Net talent impact for each character's two specs, the changes that move them most, and the stat that shifts hardest in their first spec.</p></div>
+<div class="grid g3" id="rgrid"></div></section>
+
+<section class="blk" id="builds"><div class="sh"><div><div class="eyebrow" data-i18n="b_eyebrow">Builds</div><h2 data-i18n="b_h">Talent builds for the nine</h2></div><p data-i18n="b_p">Log each character's point split, key talents and calculator link. A point-by-point planner needs Forever's full tree layout, which isn't published in a form this page can read yet.</p></div>
+<div class="grid g3" id="bgrid"></div></section>
+
+<section class="blk" id="gear"><div class="sh"><div><div class="eyebrow" data-i18n="g_eyebrow">Gear check</div><h2 data-i18n="g_h">Does the upgrade still hold?</h2></div><p data-i18n="g_p">Score gear under both weight sets. Paste tooltips or an Armory gear list and Claude fills the stats, or type them.</p></div>
+<div class="tabs gtabs" role="group" aria-label="Gear mode"><button type="button" data-gmode="two" data-i18n="g_two">Two items</button><button type="button" data-gmode="char" data-i18n="g_char">Whole character</button></div>
+<div id="gTwo">
+<div class="grid g3" style="align-items:start">
+<div class="panel tight"><label class="f"><span data-i18n="score_as">Score as</span><select id="gp"></select></label><label class="f" style="margin-top:8px"><span data-i18n="have_hit">Hit % you already have</span><input type="number" id="gHit" min="0" max="30" step="0.5"></label><div class="verdict" id="gv" style="margin-top:12px"></div></div>
+<div class="panel tight claudebox"><div class="eyebrow" data-i18n="fill_h">Fill from text</div><textarea id="gTxt" maxlength="6000" data-i18n-ph="fill_ph" placeholder="Paste two item tooltips. The first fills A, the second fills B."></textarea><div class="row"><button class="btn gold sm" id="gParse" type="button" data-i18n="fill_btn">Fill with Claude</button><span class="note" id="gMsg" data-i18n="uses_usage">Uses your own Claude usage.</span></div></div>
+<div class="panel tight"><div class="eyebrow" data-i18n="look_h">Look up a character</div><div class="row" style="margin-top:8px"><input type="text" id="aName" data-i18n-ph="char_name" placeholder="Character name" aria-label="Character name" style="flex:1 1 160px"><a class="btn sm" id="aArm" href="https://worldofwarcraft.blizzard.com/en-us/search" target="_blank" rel="noopener" data-i18n="armory">Armory search</a><a class="btn sm" id="aWh" href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead Forever</a></div><p class="note" style="margin-top:6px" data-i18n="look_p">Opens in a new tab. Copy the gear from there and paste it here.</p></div>
+</div>
+<div class="tablewrap" style="margin-top:14px"><table class="gt"><thead><tr><th data-i18n="stat">Stat</th><th data-i18n="item_a">Item A</th><th data-i18n="item_b">Item B</th><th data-i18n="w_van">Vanilla weight</th><th data-i18n="w_for">Forever weight</th></tr></thead><tbody id="gtb"></tbody><tfoot id="gtf"></tfoot></table></div>
+</div>
+<div id="gChar" hidden>
+<div class="grid g3" style="align-items:start">
+<div class="panel tight"><label class="f"><span data-i18n="character">Character</span><select id="cChar"></select></label><label class="f" style="margin-top:8px"><span data-i18n="score_as">Score as</span><select id="cProf"></select></label><label class="f" style="margin-top:8px"><span data-i18n="talent_hit">Hit % from talents and buffs</span><input type="number" id="cHit" min="0" max="20" step="0.5"></label><div class="hitline" id="cHitLine"></div></div>
+<div class="panel tight claudebox"><div class="eyebrow" data-i18n="fillc_h">Paste the whole character</div><textarea id="cTxt" maxlength="20000" style="min-height:120px" data-i18n-ph="fillc_ph" placeholder="Paste an Armory gear list, an addon export, or every tooltip. Up to 19 slots."></textarea><div class="row"><button class="btn gold sm" id="cParse" type="button" data-i18n="fillc_btn">Read gear with Claude</button><span class="note" id="cMsg" data-i18n="uses_usage">Uses your own Claude usage.</span></div></div>
+<div class="panel tight"><div class="eyebrow" data-i18n="csum_h">Summary</div><div class="verdict" id="cSum" style="margin-top:8px"></div></div>
+</div>
+<div class="tablewrap" style="margin-top:14px"><table class="sheet"><thead><tr><th data-i18n="slot">Slot</th><th data-i18n="item">Item</th><th>Vanilla</th><th>Forever</th><th data-i18n="shift">Shift</th><th></th></tr></thead><tbody id="cTb"></tbody><tfoot id="cTf"></tfoot></table></div>
+</div>
+</section>
+
+<section class="blk" id="feed"><div class="sh"><div><div class="eyebrow" data-i18n="f_eyebrow">Change log</div><h2 data-i18n="f_h">Every change on file</h2></div><p data-i18n="f_p">Mark what you felt or confirmed in the beta. Confirmations raise a change's confidence for everyone.</p></div>
+<div class="filters"><input type="search" id="fq" data-i18n-ph="f_search" placeholder="Search abilities, talents, numbers" aria-label="Search changes"><select id="fcl" aria-label="Class"></select><select id="fk" aria-label="Type"></select><select id="fs" aria-label="Source"></select><select id="fo" aria-label="Sort"></select><button class="btn" id="fMd" type="button" data-i18n="copy_md">Copy as Markdown</button></div>
+<div class="tablewrap"><table><thead><tr><th data-i18n="date">Date</th><th data-i18n="cls_spec">Class · spec</th><th data-i18n="change">Change</th><th data-i18n="type">Type</th><th data-i18n="conf">Confidence</th><th data-i18n="source">Source</th><th></th></tr></thead><tbody id="ftb"></tbody></table></div>
+<div class="more" id="fMore"></div>
+</section>
+
+<section class="blk" id="import"><div class="sh"><div><div class="eyebrow" data-i18n="i_eyebrow">Import</div><h2 data-i18n="i_h">File new patch notes</h2></div><p data-i18n="i_p">Paste a Blizzard development notes post or a Wowhead article. Claude splits it into class and spec changes with an impact score and a Spanish version, you review them, then they join the map, the roster and the log.</p></div>
+<div class="grid g2" style="align-items:start">
+<div class="panel claudebox"><label class="f"><span data-i18n="i_txt">Patch notes text</span><textarea id="iTxt" maxlength="30000" style="min-height:180px" data-i18n-ph="i_ph" placeholder="Paste the notes here. Quests, sounds and UI fixes are skipped."></textarea></label>
+<div class="row"><label class="f" style="flex:1 1 180px"><span data-i18n="i_src">Source label</span><input type="text" id="iSrc" placeholder="Dev notes Oct 1"></label><label class="f"><span data-i18n="date">Date</span><input type="date" id="iDate"></label></div>
+<div class="row"><button class="btn gold" id="iParse" type="button" data-i18n="i_btn">Split with Claude</button><span class="note" id="iMsg" data-i18n="i_msg">Uses your own Claude usage. Nothing is saved until you add it.</span></div></div>
+<div class="panel"><div class="eyebrow" data-i18n="m_h">Add one by hand</div>
+<form id="mf" class="grid" style="margin-top:10px"><div class="grid g2"><label class="f"><span data-i18n="cls">Class</span><select id="mCls"></select></label><label class="f"><span data-i18n="spec">Spec</span><select id="mSpec"></select></label></div>
+<label class="f"><span data-i18n="m_name">Ability or talent</span><input type="text" id="mName" placeholder="Hot Streak"></label>
+<div class="grid g3"><label class="f"><span data-i18n="type">Type</span><select id="mKind"></select></label><label class="f"><span data-i18n="conf">Confidence</span><select id="mConf"></select></label><label class="f"><span data-i18n="impact">Impact</span><select id="mImp"><option value="3">+3</option><option value="2">+2</option><option value="1" selected>+1</option><option value="0">0</option><option value="-1">−1</option><option value="-2">−2</option><option value="-3">−3</option></select></label></div>
+<label class="f"><span data-i18n="m_text">What changed</span><input type="text" id="mText" placeholder="Buff duration 15 → 20 sec"></label>
+<label class="f"><span data-i18n="m_text_es">In Spanish (optional)</span><input type="text" id="mTextEs" placeholder="Duración del beneficio 15 → 20 s"></label>
+<div class="row" style="justify-content:flex-end"><button class="btn gold" type="submit" data-i18n="m_add">Add change</button></div></form></div>
+</div>
+<div class="panel" id="iPrev" style="margin-top:14px" hidden></div>
+</section>
+</main>
+<footer class="wrap"><p data-i18n="foot_p">Patch Notes Analyzer · Forever Roster companion. Talent and ability data reflect the pre-beta BlizzCon snapshot (Sep 12–16) and Blizzard's beta development notes updated Sep 24, 2026, and ForeverChanges patch notes through the Oct 30 hotfix (build 1.60.1.70707), plus anything added since. Impact scores and stat weights are estimates for comparing options, not simulation output. The page can't read Wowhead or the Armory itself; new data arrives by the weekly refresh or by paste.</p>
+<ul class="srcs">
+<li><a href="https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-september-24/2360696" target="_blank" rel="noopener">Blizzard: Beta development notes, updated Sep 24</a></li>
+<li><a href="https://www.wowhead.com/blue-tracker/topic/us/wow-forever-beta-development-notes-updated-september-24-2360696" target="_blank" rel="noopener">Wowhead Blue Tracker mirror</a></li>
+<li><a href="https://www.icy-veins.com/wow-forever/news/class-and-race-changes-gamepad-support-and-more-wow-forever-beta-development-notes-september-24th/" target="_blank" rel="noopener">Icy Veins: Sep 24 notes summary</a></li>
+<li><a href="https://lfcarry.com/guides/wow-forever-class-changes" target="_blank" rel="noopener">LFCarry: class and stat changes</a></li>
+<li><a href="https://classicwow.gg/forever/changes" target="_blank" rel="noopener">classicwow.gg: Forever vs Classic Era</a></li>
+<li><a href="https://foreverchanges.pro/changes" target="_blank" rel="noopener">ForeverChanges: talent diff</a></li>
+<li><a href="https://mmohuts.com/news/wow-forever-beta-adds-cooldown-manager-testing-and-more-class-tuning" target="_blank" rel="noopener">MMOHuts: beta tuning recap</a></li>
+<li><a href="https://github.com/VgerMods/Pawn" target="_blank" rel="noopener">Pawn addon (scale format)</a></li>
+<li><a href="https://www.wowhead.com/forever" target="_blank" rel="noopener">Wowhead Forever hub</a></li>
+</ul></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+window.PNA_T={
+en:{nav_impact:"Impact",nav_patches:"Patches",nav_weights:"Stat weights",nav_roster:"Roster",nav_builds:"Builds",nav_gear:"Gear check",nav_log:"Change log",nav_import:"Import",
+hero_eyebrow:"Patch analysis · vanilla 1.12 → Forever beta · notes through",hero_h1:"What the patch notes change for your nine.",
+hero_lede:"Every Forever change from Blizzard's development notes and Wowhead's coverage, scored against each <b>talent tree</b> and traced into <b>stat weights</b>. New notes arrive every week on their own, and anything you paste gets filed here for the whole guild.",
+m_n:"Changes tracked",m_top:"Biggest winner",m_new:"New since your last visit",m_auto:"Auto-refresh",mark_seen:"Mark all as seen",
+floor_lbl:"Count changes that are",fl1:"Official",fl2:"+ Corroborated",fl3:"+ Single-source",fl4:"+ Speculative",comp_lbl:"Companion pages",
+imp_eyebrow:"Talent trees",imp_h:"Spec impact map",imp_p:"Each cell adds up the impact of the spec's changes and its class-wide ones, from −3 to +3 per change. Official counts in full, corroborated ¾, single-source ½, speculative ¼. Beta confirmations raise a change's confidence.",
+k_buff:"▲ Buff",k_new:"✦ New",k_nerf:"▼ Nerf",k_rework:"↻ Rework",k_removed:"✕ Removed",k_fix:"Fix",
+c_off:"Official",c_cor:"Corroborated",c_one:"Single-source",c_spec:"Speculative",
+pat_eyebrow:"Patches",pat_h:"Compare two points in time",pat_p:"Pick a start and an end. You see only what changed in between, and which specs it moved most.",p_from:"After",p_to:"Up to and including",p_spec:"Spec",p_net:"Net",p_n:"Changes",p_start:"Vanilla 1.12 (start)",p_sum:"{n} changes: {b} buffs, {nw} new, {nf} nerfs, {r} reworks",p_none:"Nothing changed in this range at the current confidence floor.",
+w_eyebrow:"Gear",w_h:"Stat weights, vanilla vs. Forever",w_p:"Vanilla weights are a community-style baseline. Forever weights apply each stat modifier, and each one traces to a specific change. Type over a Forever weight to set a guild override.",
+ctx_raid:"Raid at 60",ctx_lvl:"Leveling (beta 20–30)",spec:"Spec",copy_w:"Copy weights",pawn:"Copy Pawn scale",clear_ov:"Clear overrides for this spec",stat:"Stat",shift:"Shift",
+mods_h:"Modifiers for this spec",mods_p:"Untick one to test the weights without it. Ticks sync for the guild.",caps_h:"Hit caps · placeholders",caps_p:"Blizzard hasn't published Forever's caps. Edit these when it does. Hit past the cap keeps almost no value, except white swings for dual-wielders.",
+cap_melee:"Melee",cap_spell:"Spells",cap_ranged:"Ranged",cap_lvl:"Leveling uses same-level caps: 5% melee and ranged, 4% spells.",
+w_note:"Per point; hit, crit and dodge/parry reduction per 1%; weapon DPS per 1 DPS.",w_note_lvl:"Leveling weights assume same-level mobs and quest gear. Overrides for leveling are kept apart from raid.",ov_n:"{n} guild override(s) on {s}.",until_cap:"Full value up to the {c}% cap",
+below:"Below the confidence floor.",nomods:"No Forever modifiers touch this spec yet.",
+r_h:"Your nine, after the notes",r_p:"Net talent impact for each character's two specs, the changes that move them most, and the stat that shifts hardest in their first spec.",
+shift_for:"Biggest stat shift for {s}:",now_counts:"now counts",view:"View",new_for:"{n} new since your last visit",
+b_eyebrow:"Builds",b_h:"Talent builds for the nine",b_p:"Log each character's point split, key talents and calculator link. A point-by-point planner needs Forever's full tree layout, which isn't published in a form this page can read yet.",
+pts_sum:"{u} / 51 points",pts_over:"{u} / 51 · over by {o}",link_ph:"Wowhead Forever calculator link",notes_ph:"Notes: rotation, why this build, what to test",key_t:"Key talents",open_link:"Open link",legacy_tip:"Legacy's Talented perk",touched:"{n} key talents changed in Forever, net {x}",main_spec:"Main spec",
+g_eyebrow:"Gear check",g_h:"Does the upgrade still hold?",g_p:"Score gear under both weight sets. Paste tooltips or an Armory gear list and Claude fills the stats, or type them.",g_two:"Two items",g_char:"Whole character",
+score_as:"Score as",have_hit:"Hit % you already have",fill_h:"Fill from text",fill_ph:"Paste two item tooltips. The first fills A, the second fills B.",fill_btn:"Fill with Claude",uses_usage:"Uses your own Claude usage.",
+look_h:"Look up a character",char_name:"Character name",armory:"Armory search",look_p:"Opens in a new tab. Copy the gear from there and paste it here.",
+item_a:"Item A",item_b:"Item B",w_van:"Vanilla weight",w_for:"Forever weight",name:"Name",van_score:"Vanilla score",for_score:"Forever score",
+verdict_for:"Verdict for {s}",van_picks:"Vanilla picks",for_picks:"Forever picks",tie:"a tie",by:"by",flips:"The pick flips under Forever.",same:"Same pick under both rule sets.",
+ex_a:"Example: caster cloak",ex_b:"Example: healer cloak",
+character:"Character",talent_hit:"Hit % from talents and buffs",fillc_h:"Paste the whole character",fillc_ph:"Paste an Armory gear list, an addon export, or every tooltip. Up to 19 slots.",fillc_btn:"Read gear with Claude",csum_h:"Summary",
+slot:"Slot",item:"Item",c_empty:"No gear on file for {c}. Paste it in the middle panel.",hit_from:"Hit from gear and talents: {h}% · cap {c}%",over_cap:" · {o}% past the cap",loses:"Loses the most under Forever",gains:"Gains the most",total:"Total",compare:"Compare",remove:"Remove",updated:"Updated {d}",
+f_eyebrow:"Change log",f_h:"Every change on file",f_p:"Mark what you felt or confirmed in the beta. Confirmations raise a change's confidence for everyone.",f_search:"Search abilities, talents, numbers",copy_md:"Copy as Markdown",
+date:"Date",cls_spec:"Class · spec",change:"Change",type:"Type",conf:"Confidence",source:"Source",impact:"Impact",
+s_new:"Newest",s_felt:"Most felt",s_imp:"Biggest impact",any_type:"Any type",any_src:"Any source",all_cls:"All classes",every_cls:"Every class (global)",
+show_all:"Show all {n}",show_less:"Show fewer",shown:"{n} shown",no_match:"No changes match. Loosen a filter or lower the confidence floor.",del:"Delete",confirm:"Confirm",
+felt:"Felt it",meh:"Doesn't matter",seen:"Seen in beta",differs:"Differs",new_chip:"New",class_wide:"class-wide",all_specs:"All specs",global:"Global",
+d_sub:"{n} changes at this confidence floor: {b} buffs, {nw} new, {nf} nerfs, {r} reworks.",open_w:"Open stat weights",copy_dc:"Copy for Discord",lst:"List",tree:"Tree",no_spec:"No spec-specific changes at this floor.",cw_changes:"Class-wide {c} changes ({n})",class_card:"Class card",
+t_base:"Baseline",t_row:"Row {n}",t_un:"Row not known",t_set:"Set row",tree_note:"Rows come from the notes where they're stated. Set the rest from the Wowhead calculator or the beta client; rows sync for the guild.",
+avg:"Shading compares each spec with the average ({a}). Pick a cell to read its changes.",
+new_txt:"{n} changes since {d}",auto_wed:"Wednesdays",auto_checked:"Checked {d}",auto_found:"{n} found last run",
+i_eyebrow:"Import",i_h:"File new patch notes",i_p:"Paste a Blizzard development notes post or a Wowhead article. Claude splits it into class and spec changes with an impact score and a Spanish version, you review them, then they join the map, the roster and the log.",
+i_txt:"Patch notes text",i_ph:"Paste the notes here. Quests, sounds and UI fixes are skipped.",i_src:"Source label",i_btn:"Split with Claude",i_msg:"Uses your own Claude usage. Nothing is saved until you add it.",
+m_h:"Add one by hand",cls:"Class",m_name:"Ability or talent",m_text:"What changed",m_text_es:"In Spanish (optional)",m_add:"Add change",
+reading:"Claude is reading…",found:"{n} changes found. Review them below.",none_found:"No class or stat changes found in that text.",added_n:"{n} changes added.",discarded:"Discarded.",review:"Review",from_claude:"{n} changes from Claude",discard:"Discard",add_sel:"Add {n} selected",add:"Add",
+no_claude:"Claude isn't available in this view. Add changes by hand on the right.",no_claude_g:"Claude isn't available in this view. Type the stats into the table.",
+e_grant:"Claude access was declined for this page.",e_rate:"Claude is busy. Try again in a minute.",e_gen:"Claude couldn't read that. Check the text and try again.",e_none:"No item stats found in that text.",
+filled:"Filled {n} item(s). Check the numbers against the tooltip.",read_n:"Read {n} items for {c}.",
+t_copied_dc:"Copied for Discord",t_copied_w:"Weights copied",t_pawn:"Pawn scale copied. In Pawn, choose Import and paste.",t_ov:"Overrides cleared",t_added:"Change added",t_need:"Add the ability name and what changed",t_paste:"Paste the text first",t_del:"Change deleted",t_seen:"All caught up",t_md:"Copied as Markdown",t_saved:"Saved",
+foot_p:"Patch Notes Analyzer · Forever Roster companion. Talent and ability data reflect the pre-beta BlizzCon snapshot (Sep 12–16) and Blizzard's beta development notes updated Sep 24, 2026, and ForeverChanges patch notes through the Oct 30 hotfix (build 1.60.1.70707), plus anything added since. Impact scores and stat weights are estimates for comparing options, not simulation output. The page can't read Wowhead or the Armory itself; new data arrives by the weekly refresh or by paste."},
+es:{nav_impact:"Impacto",nav_patches:"Parches",nav_weights:"Pesos",nav_roster:"Plantilla",nav_builds:"Builds",nav_gear:"Equipo",nav_log:"Registro",nav_import:"Importar",
+hero_eyebrow:"Análisis de parches · vanilla 1.12 → beta de Forever · notas hasta el",hero_h1:"Lo que las notas del parche cambian para tus nueve.",
+hero_lede:"Cada cambio de Forever, tomado de las notas de desarrollo de Blizzard y de la cobertura de Wowhead, puntuado contra cada <b>árbol de talentos</b> y llevado a <b>pesos de atributos</b>. Las notas nuevas llegan solas cada semana, y lo que pegues queda archivado aquí para todo el gremio.",
+m_n:"Cambios registrados",m_top:"Mayor ganador",m_new:"Nuevos desde tu última visita",m_auto:"Actualización automática",mark_seen:"Marcar todo como visto",
+floor_lbl:"Contar cambios",fl1:"Oficiales",fl2:"+ Corroborados",fl3:"+ De una fuente",fl4:"+ Especulativos",comp_lbl:"Páginas hermanas",
+imp_eyebrow:"Árboles de talentos",imp_h:"Mapa de impacto por especialización",imp_p:"Cada celda suma el impacto de los cambios de la especialización y los de toda la clase, de −3 a +3 por cambio. Lo oficial cuenta completo, lo corroborado ¾, lo de una fuente ½ y lo especulativo ¼. Las confirmaciones de la beta suben la confianza.",
+k_buff:"▲ Potenciado",k_new:"✦ Nuevo",k_nerf:"▼ Reducido",k_rework:"↻ Rediseño",k_removed:"✕ Eliminado",k_fix:"Corrección",
+c_off:"Oficial",c_cor:"Corroborado",c_one:"Una fuente",c_spec:"Especulativo",
+pat_eyebrow:"Parches",pat_h:"Compara dos momentos",pat_p:"Elige un inicio y un final. Verás solo lo que cambió entre ambos y qué especializaciones se movieron más.",p_from:"Después de",p_to:"Hasta, inclusive",p_spec:"Especialización",p_net:"Neto",p_n:"Cambios",p_start:"Vanilla 1.12 (inicio)",p_sum:"{n} cambios: {b} potenciados, {nw} nuevos, {nf} reducidos, {r} rediseños",p_none:"No cambió nada en este rango con el filtro de confianza actual.",
+w_eyebrow:"Equipo",w_h:"Pesos de atributos, vanilla vs. Forever",w_p:"Los pesos de vanilla son una referencia de la comunidad. Los de Forever aplican cada modificador, y cada uno viene de un cambio concreto. Escribe sobre un peso de Forever para fijar un ajuste del gremio.",
+ctx_raid:"Banda a nivel 60",ctx_lvl:"Subiendo de nivel (beta 20–30)",spec:"Especialización",copy_w:"Copiar pesos",pawn:"Copiar escala de Pawn",clear_ov:"Borrar ajustes de esta especialización",stat:"Atributo",shift:"Cambio",
+mods_h:"Modificadores de esta especialización",mods_p:"Desmarca uno para probar los pesos sin él. Las marcas se sincronizan con el gremio.",caps_h:"Topes de golpe · provisionales",caps_p:"Blizzard no ha publicado los topes de Forever. Edítalos cuando lo haga. El golpe por encima del tope casi no vale, salvo en ataques blancos con dos armas.",
+cap_melee:"Cuerpo a cuerpo",cap_spell:"Hechizos",cap_ranged:"A distancia",cap_lvl:"Al subir de nivel se usan topes contra enemigos de tu nivel: 5% físico y a distancia, 4% hechizos.",
+w_note:"Por punto; golpe, crítico y reducción de esquiva/parada por 1%; DPS del arma por 1 DPS.",w_note_lvl:"Los pesos de subida asumen enemigos de tu nivel y equipo de misiones. Los ajustes de subida se guardan aparte de los de banda.",ov_n:"{n} ajuste(s) del gremio en {s}.",until_cap:"Valor completo hasta el tope de {c}%",
+below:"Por debajo del filtro de confianza.",nomods:"Ningún modificador de Forever afecta esta especialización todavía.",
+r_h:"Tus nueve, después de las notas",r_p:"Impacto neto de talentos en las dos especializaciones de cada personaje, los cambios que más les afectan y el atributo que más cambia en su primera especialización.",
+shift_for:"Mayor cambio de atributo para {s}:",now_counts:"ahora cuenta",view:"Ver",new_for:"{n} nuevos desde tu última visita",
+b_eyebrow:"Builds",b_h:"Builds de talentos de los nueve",b_p:"Anota el reparto de puntos, los talentos clave y el enlace de la calculadora de cada personaje. Un planificador punto por punto necesita la estructura completa de los árboles de Forever, que aún no está publicada en un formato que esta página pueda leer.",
+pts_sum:"{u} / 51 puntos",pts_over:"{u} / 51 · te pasas por {o}",link_ph:"Enlace de la calculadora de Wowhead Forever",notes_ph:"Notas: rotación, por qué este build, qué probar",key_t:"Talentos clave",open_link:"Abrir enlace",legacy_tip:"Beneficio Talented de Legacy",touched:"{n} talentos clave cambian en Forever, neto {x}",main_spec:"Especialización principal",
+g_eyebrow:"Revisión de equipo",g_h:"¿Sigue valiendo la mejora?",g_p:"Puntúa el equipo con ambos juegos de pesos. Pega descripciones o una lista del Armory y Claude llena los atributos, o escríbelos tú.",g_two:"Dos objetos",g_char:"Personaje completo",
+score_as:"Puntuar como",have_hit:"Golpe % que ya tienes",fill_h:"Llenar desde texto",fill_ph:"Pega dos descripciones de objetos. La primera llena A y la segunda B.",fill_btn:"Llenar con Claude",uses_usage:"Usa tu propio uso de Claude.",
+look_h:"Buscar un personaje",char_name:"Nombre del personaje",armory:"Buscar en el Armory",look_p:"Se abre en otra pestaña. Copia el equipo desde allí y pégalo aquí.",
+item_a:"Objeto A",item_b:"Objeto B",w_van:"Peso vanilla",w_for:"Peso Forever",name:"Nombre",van_score:"Puntaje vanilla",for_score:"Puntaje Forever",
+verdict_for:"Veredicto para {s}",van_picks:"Vanilla elige",for_picks:"Forever elige",tie:"empate",by:"por",flips:"La elección cambia con Forever.",same:"La misma elección con ambas reglas.",
+ex_a:"Ejemplo: capa de lanzador",ex_b:"Ejemplo: capa de sanador",
+character:"Personaje",talent_hit:"Golpe % por talentos y beneficios",fillc_h:"Pega el personaje completo",fillc_ph:"Pega una lista del Armory, una exportación de addon o todas las descripciones. Hasta 19 ranuras.",fillc_btn:"Leer equipo con Claude",csum_h:"Resumen",
+slot:"Ranura",item:"Objeto",c_empty:"No hay equipo guardado para {c}. Pégalo en el panel del medio.",hit_from:"Golpe por equipo y talentos: {h}% · tope {c}%",over_cap:" · {o}% por encima del tope",loses:"Lo que más pierde con Forever",gains:"Lo que más gana",total:"Total",compare:"Comparar",remove:"Quitar",updated:"Actualizado {d}",
+f_eyebrow:"Registro de cambios",f_h:"Todos los cambios registrados",f_p:"Marca lo que sentiste o confirmaste en la beta. Las confirmaciones suben la confianza del cambio para todos.",f_search:"Buscar habilidades, talentos, números",copy_md:"Copiar como Markdown",
+date:"Fecha",cls_spec:"Clase · especialización",change:"Cambio",type:"Tipo",conf:"Confianza",source:"Fuente",impact:"Impacto",
+s_new:"Más recientes",s_felt:"Más sentidos",s_imp:"Mayor impacto",any_type:"Cualquier tipo",any_src:"Cualquier fuente",all_cls:"Todas las clases",every_cls:"Todas las clases (global)",
+show_all:"Ver los {n}",show_less:"Ver menos",shown:"{n} mostrados",no_match:"Ningún cambio coincide. Afloja un filtro o baja el filtro de confianza.",del:"Borrar",confirm:"Confirmar",
+felt:"Se siente",meh:"No importa",seen:"Visto en la beta",differs:"Es distinto",new_chip:"Nuevo",class_wide:"de toda la clase",all_specs:"Todas",global:"Global",
+d_sub:"{n} cambios con este filtro: {b} potenciados, {nw} nuevos, {nf} reducidos, {r} rediseños.",open_w:"Ver pesos de atributos",copy_dc:"Copiar para Discord",lst:"Lista",tree:"Árbol",no_spec:"No hay cambios propios de esta especialización con este filtro.",cw_changes:"Cambios de toda la clase {c} ({n})",class_card:"Carta de clase",
+t_base:"Base",t_row:"Fila {n}",t_un:"Fila sin confirmar",t_set:"Fijar fila",tree_note:"Las filas vienen de las notas cuando las indican. Fija las demás con la calculadora de Wowhead o el cliente de la beta; se sincronizan con el gremio.",
+avg:"El sombreado compara cada especialización con el promedio ({a}). Elige una celda para ver sus cambios.",
+new_txt:"{n} cambios desde el {d}",auto_wed:"Los miércoles",auto_checked:"Revisado {d}",auto_found:"{n} en la última revisión",
+i_eyebrow:"Importar",i_h:"Registrar notas nuevas",i_p:"Pega una publicación de notas de desarrollo de Blizzard o un artículo de Wowhead. Claude la divide en cambios por clase y especialización con puntaje de impacto y versión en español; los revisas y luego se suman al mapa, la plantilla y el registro.",
+i_txt:"Texto de las notas",i_ph:"Pega las notas aquí. Se omiten misiones, sonidos y arreglos de interfaz.",i_src:"Etiqueta de la fuente",i_btn:"Dividir con Claude",i_msg:"Usa tu propio uso de Claude. No se guarda nada hasta que lo agregues.",
+m_h:"Agregar uno a mano",cls:"Clase",m_name:"Habilidad o talento",m_text:"Qué cambió",m_text_es:"En español (opcional)",m_add:"Agregar cambio",
+reading:"Claude está leyendo…",found:"{n} cambios encontrados. Revísalos abajo.",none_found:"No hay cambios de clase ni de atributos en ese texto.",added_n:"{n} cambios agregados.",discarded:"Descartado.",review:"Revisión",from_claude:"{n} cambios de Claude",discard:"Descartar",add_sel:"Agregar {n} seleccionados",add:"Agregar",
+no_claude:"Claude no está disponible en esta vista. Agrega cambios a mano a la derecha.",no_claude_g:"Claude no está disponible en esta vista. Escribe los atributos en la tabla.",
+e_grant:"Se rechazó el acceso de Claude para esta página.",e_rate:"Claude está ocupado. Intenta en un minuto.",e_gen:"Claude no pudo leer eso. Revisa el texto e intenta de nuevo.",e_none:"No hay atributos de objetos en ese texto.",
+filled:"Se llenaron {n} objeto(s). Compara los números con la descripción.",read_n:"Se leyeron {n} objetos para {c}.",
+t_copied_dc:"Copiado para Discord",t_copied_w:"Pesos copiados",t_pawn:"Escala de Pawn copiada. En Pawn, elige Importar y pega.",t_ov:"Ajustes borrados",t_added:"Cambio agregado",t_need:"Escribe la habilidad y qué cambió",t_paste:"Pega el texto primero",t_del:"Cambio borrado",t_seen:"Todo al día",t_md:"Copiado como Markdown",t_saved:"Guardado",
+foot_p:"Patch Notes Analyzer · complemento de Forever Roster. Los datos de talentos y habilidades vienen de la instantánea previa a la beta de BlizzCon (12–16 sep) y de las notas de desarrollo de Blizzard actualizadas el 24 sep 2026 y de las notas de parche de ForeverChanges hasta el hotfix del 30 oct (compilación 1.60.1.70707), más lo agregado después. Los puntajes de impacto y los pesos son estimados para comparar opciones, no resultados de simulación. La página no puede leer Wowhead ni el Armory por sí sola; los datos nuevos llegan con la actualización semanal o pegándolos."}
+};
+window.PNA_ES={
+cls:{Warrior:"Guerrero",Paladin:"Paladín",Hunter:"Cazador",Rogue:"Pícaro",Priest:"Sacerdote",Shaman:"Chamán",Mage:"Mago",Warlock:"Brujo",Druid:"Druida",Racial:"Racial"},
+spec:{Arms:"Armas",Fury:"Furia",Protection:"Protección",Holy:"Sagrado",Retribution:"Reprensión","Beast Mastery":"Dominio de bestias",Marksmanship:"Puntería",Survival:"Supervivencia",Assassination:"Asesinato",Combat:"Combate",Subtlety:"Sutileza",Discipline:"Disciplina",Shadow:"Sombra",Elemental:"Elemental",Enhancement:"Mejora",Restoration:"Restauración",Arcane:"Arcano",Fire:"Fuego",Frost:"Escarcha",Affliction:"Aflicción",Demonology:"Demonología",Destruction:"Destrucción",Balance:"Equilibrio",Feral:"Feral"},
+race:{Human:"Humano",Dwarf:"Enano","Night Elf":"Elfo de la noche",Gnome:"Gnomo",Orc:"Orco",Undead:"No-muerto",Tauren:"Tauren",Troll:"Trol",Skyborne:"Skyborne"},
+slot:{Head:"Cabeza",Neck:"Cuello",Shoulder:"Hombros",Back:"Espalda",Chest:"Pecho",Wrist:"Muñecas",Hands:"Manos",Waist:"Cintura",Legs:"Piernas",Feet:"Pies",Finger:"Dedo",Trinket:"Abalorio","Main Hand":"Mano principal","Off Hand":"Mano secundaria","Two-Hand":"Dos manos",Ranged:"A distancia",Relic:"Reliquia"}
+};
+</script>
+<script>
+/* Research snapshot. s16 = BlizzCon panel + Wowhead Forever talent calculator + community cross-checks (Sep 12–16, 2026). d24 = Blizzard beta development notes, updated Sep 24, 2026. h23, b28 and b30 = ForeverChanges patch notes (Oct 16–23 hotfixes, Oct 28 hotfix and build 1.60.1.70685, Oct 30 hotfix and build 1.60.1.70707), checked Oct 31, 2026; Blizzard posted no notes for them.
+   Row: [class, spec, name, kind, confidence, source, impact −3..+3, text EN, text ES, extra]
+   extra: b = baseline ability (not a talent), row = talent row when a source states it, rel = companion page key */
+window.PNA_SRC={s16:{label:"Pre-beta snapshot",es:"Instantánea previa a la beta",date:"2026-09-16"},d24:{label:"Dev notes Sep 24",es:"Notas de desarrollo 24 sep",date:"2026-09-24"},h23:{label:"Hotfixes Oct 16–23",es:"Hotfixes 16–23 oct",date:"2026-10-23"},b28:{label:"Oct 28 hotfix and build",es:"Hotfix y compilación 28 oct",date:"2026-10-28"},b30:{label:"Oct 30 hotfix and build",es:"Hotfix y compilación 30 oct",date:"2026-10-30"}};
+window.PNA_CH=[
+["All","All","Unified hit","rework","off","s16",2,"Spell, melee and ranged hit chance merge into one stat, so one number covers swings, spells, taunts, traps and poisons.","El golpe de hechizo, cuerpo a cuerpo y a distancia se fusionan en un solo atributo que cubre golpes, hechizos, provocaciones, trampas y venenos.",{b:1}],
+["All","All","Unified crit","rework","off","s16",1,"Spell, melee and ranged critical strike chance merge into one stat pool.","La probabilidad de crítico de hechizo, cuerpo a cuerpo y a distancia se fusiona en un solo atributo.",{b:1}],
+["All","All","Weapon skill on items","nerf","off","s16",-1,"Items carry less weapon skill, so a weapon-skill piece is no longer the automatic best choice. Per-point value is unchanged.","Los objetos traen menos habilidad con armas; una pieza con habilidad de arma ya no es la mejor opción automática. El valor por punto no cambia.",{b:1}],
+["All","All","Healing gear grants spell damage","buff","off","s16",1,"Bonus healing now also grants 1/3 as much bonus spell damage, so a healing set can quest and solo.","La sanación adicional ahora también da 1/3 de daño con hechizos, así que un set de sanador puede hacer misiones solo.",{b:1}],
+["All","All","Spirit regen in combat","buff","cor","s16",2,"Every class that heals or deals damage with mana regains mana from Spirit in combat.","Toda clase que sana o hace daño con maná recupera maná del Espíritu en combate.",{b:1}],
+["All","All","Dodge and parry reduction stat","new","cor","s16",1,"New gear stat reduces the enemy's chance to dodge or parry your attacks. Official name not yet published.","Nuevo atributo de equipo que reduce la probabilidad del enemigo de esquivar o parar tus ataques. Aún sin nombre oficial.",{b:1}],
+["All","All","DoTs and HoTs can crit","buff","cor","s16",2,"Periodic damage and healing can critically strike, system-wide.","El daño y la sanación periódicos pueden ser críticos en todo el juego.",{b:1}],
+["All","All","Caster weapons and trinkets","rework","off","s16",1,"Caster weapons carry spell power down to low levels; trinkets become more situational; some gear bonuses tie to environments or creature types.","Las armas de lanzador traen poder con hechizos desde niveles bajos; los abalorios son más situacionales; algunos bonos dependen del entorno o del tipo de criatura.",{b:1}],
+["All","All","Wizard Oils","nerf","off","d24",-1,"Minor, Lesser and regular Wizard Oil revert to Classic values (8 / 16 / 24 spell power). Brilliant unchanged.","Aceite de zahorí menor, inferior y normal vuelven a los valores de Classic (8 / 16 / 24 de poder con hechizos). El brillante no cambia.",{b:1,rel:"prof"}],
+["All","All","Wands","nerf","off","d24",-1,"Wands no longer gain damage from the user's spell damage.","Las varitas ya no ganan daño del daño con hechizos del usuario.",{b:1}],
+["All","All","Talent respec cost","fix","off","d24",0,"Beta only: first reset after a change costs 1 silver, rising on repeats, back to 1 silver after an hour.","Solo en la beta: el primer reinicio tras un cambio cuesta 1 de plata, sube si repites y vuelve a 1 de plata tras una hora.",{b:1,rel:"legacy"}],
+["Warrior","All","Victory Rush","new","cor","s16",1,"New post-kill attack that heals. Values still shifting.","Nuevo ataque tras matar que cura. Los valores aún cambian.",{b:1}],
+["Warrior","All","Recklessness · Retaliation · Shield Wall","buff","cor","s16",2,"The shared long cooldown is gone or greatly shortened, so each is available far more often.","El tiempo de reutilización compartido desaparece o se acorta mucho; cada uno está disponible mucho más seguido.",{b:1}],
+["Warrior","All","Weaponmaster","rework","cor","s16",1,"One talent replaces the four Axe, Sword, Mace and Polearm Specializations.","Un solo talento reemplaza las cuatro especializaciones de hacha, espada, maza y arma de asta."],
+["Warrior","All","Sunder Armor","buff","off","d24",1,"Threat values corrected, with a small Attack Power threat increase.","Valores de amenaza corregidos, con un pequeño aumento de amenaza por poder de ataque.",{b:1}],
+["Warrior","Arms","Spearing Strike","new","cor","s16",1,"15 Rage, 40% weapon damage, bonus vs. Giants and Dragonkin, dismounts mounted targets.","15 de Ira, 40% del daño del arma, bono contra gigantes y dragonantes, desmonta objetivos montados."],
+["Warrior","Arms","Bloodthrill","new","one","s16",1,"Melee attacks against a Rend-afflicted target can proc a free Overpower.","Los ataques contra un objetivo con Desgarrar pueden activar un Abrumar gratis."],
+["Warrior","Arms","Bloodthrill","buff","off","d24",1,"Proc chance 2/4/6/8/10% → 4/8/12/16/20%. Now procs only from main-hand attacks, including Cleave and Heroic Strike.","Probabilidad 2/4/6/8/10% → 4/8/12/16/20%. Ahora solo con la mano principal, incluidos Rajar y Golpe heroico."],
+["Warrior","Arms","Improved Slam","buff","cor","s16",2,"Drops to 2 points and no longer resets your swing timer.","Baja a 2 puntos y ya no reinicia tu temporizador de golpe."],
+["Warrior","Arms","Slam","nerf","off","d24",-1,"Cooldown 15 → 18 sec. Improved Slam now cuts it by 1.5 / 3 sec.","Reutilización 15 → 18 s. Embate mejorado ahora la reduce 1.5 / 3 s.",{b:1}],
+["Warrior","Fury","Dual Wield Specialization","buff","cor","s16",2,"Also grants off-hand hit chance and Rage generation.","También da probabilidad de golpe y generación de Ira con la mano secundaria."],
+["Warrior","Fury","Raging Blows","new","cor","s16",2,"Whirlwind also strikes with the off-hand; Cleave costs less.","Torbellino también golpea con la mano secundaria; Rajar cuesta menos."],
+["Warrior","Fury","Enrage","rework","one","s16",0,"Triggers off any damage taken or dealt, not only crits, at a smaller bonus.","Se activa con cualquier daño recibido o infligido, no solo críticos, con un bono menor."],
+["Warrior","Fury","Bloodthirst and Blood Craze","rework","spec","s16",-1,"One source reports Bloodthirst healing moving to a speed buff, with Blood Craze taking over sustain.","Una fuente reporta que la sanación de Sed de sangre pasa a ser velocidad y Locura sangrienta asume la sostenibilidad."],
+["Warrior","Fury","Precision","new","one","s16",1,"New talent: +1% chance to hit.","Talento nuevo: +1% de probabilidad de golpe."],
+["Warrior","Fury","Unbridled Wrath","buff","one","s16",1,"Rage proc chance 8% → 12%; two-handers generate 2 Rage per proc.","Probabilidad de Ira 8% → 12%; las armas a dos manos generan 2 de Ira por activación."],
+["Warrior","Protection","Vanguard","new","cor","s16",2,"Charge and Thunder Clap usable in Defensive Stance.","Cargar y Atronar se pueden usar en actitud defensiva."],
+["Warrior","Protection","Shield requirement","nerf","cor","s16",-1,"Most Protection talents now require a shield, ending dual-wield tank builds.","La mayoría de talentos de Protección requieren escudo; se acaban los tanques con dos armas.",{b:1}],
+["Warrior","Protection","Bastion · Master of Defense · Focused Rage · Vitality","new","cor","s16",2,"Damage while shielded, Rage on dodge or parry with a shield, plus two new sustain talents.","Daño con escudo, Ira al esquivar o parar con escudo y dos talentos nuevos de aguante."],
+["Warrior","Protection","Defiance","rework","cor","s16",1,"Scales all threat generated in Defensive Stance.","Escala toda la amenaza generada en actitud defensiva."],
+["Warrior","Protection","Shield Slam","buff","cor","s16",3,"Scales with block value, 50% chance to dispel a magic effect, very high threat.","Escala con el valor de bloqueo, 50% de disipar un efecto mágico, amenaza muy alta."],
+["Warrior","Protection","Bastion","rework","off","d24",0,"Moves to row 5 (swapped with Focused Rage).","Pasa a la fila 5 (intercambiado con Ira concentrada).",{row:5}],
+["Warrior","Protection","Focused Rage","rework","off","d24",0,"Moves to row 6 (swapped with Bastion).","Pasa a la fila 6 (intercambiado con Bastión).",{row:6}],
+["Druid","All","Revive","new","cor","s16",1,"Out-of-combat resurrection, separate from Rebirth.","Resurrección fuera de combate, distinta de Renacer.",{b:1}],
+["Druid","All","Omen of Clarity","buff","cor","s16",2,"Baseline, and procs from offensive spells and heals as well as melee.","Ahora es base y se activa con hechizos ofensivos y sanaciones, además de cuerpo a cuerpo.",{b:1}],
+["Druid","All","Furor","nerf","cor","s16",-1,"Shifting grants scaled Energy (Cat) or flat Rage (Bear), ending powershifting.","Cambiar de forma da Energía escalada (felino) o Ira fija (oso); se acaba el powershifting."],
+["Druid","All","Improved Mark of the Wild","buff","off","s16",1,"Now baseline, freeing a talent point.","Ahora es base y libera un punto de talento.",{b:1}],
+["Druid","All","Thorns","buff","off","d24",1,"Scales with the caster's spell power; reverts to base if the caster is away.","Escala con el poder con hechizos del lanzador; vuelve a la base si el lanzador está lejos.",{b:1}],
+["Druid","Balance","Eclipse-style Wrath","new","cor","s16",3,"Each Wrath shortens your next Starfire cast, up to 4 charges.","Cada Cólera acorta tu siguiente Fuego estelar, hasta 4 cargas."],
+["Druid","Balance","Nature's Grace","rework","cor","s16",1,"Any non-periodic crit grants flat casting speed.","Cualquier crítico no periódico da velocidad de lanzamiento fija."],
+["Druid","Balance","Moonkin Form aura","buff","cor","s16",1,"Aura buffs more spell and ability types for the party.","El aura potencia más tipos de hechizos y habilidades del grupo."],
+["Druid","Balance","Wrath","buff","off","d24",2,"Base damage increased about 50%.","Daño base aumentado cerca de 50%.",{b:1}],
+["Druid","Feral","Tiger's Fury","rework","cor","s16",1,"Grants Energy plus a damage buff instead of costing Energy.","Da Energía y un bono de daño en vez de costar Energía."],
+["Druid","Feral","Berserk","new","cor","s16",3,"3 min, 15 sec. Bear: no Mangle cooldown, hits 3 targets. Cat: builders always crit. Fear immune.","3 min, 15 s. Oso: Destrozar sin reutilización, golpea 3 objetivos. Felino: los generadores siempre son críticos. Inmune a miedo."],
+["Druid","Feral","Mangle (Bear)","new","cor","s16",3,"Core Bear ability with no dodge or parry requirement.","Habilidad central del oso sin requisito de esquivar o parar."],
+["Druid","Feral","Lacerate","new","cor","s16",2,"Stacking bleed, up to 5, for sustained threat.","Sangrado acumulable hasta 5 para amenaza sostenida."],
+["Druid","Feral","Natural Reaction","new","cor","s16",1,"Dodges generate Rage.","Las esquivas generan Ira."],
+["Druid","Feral","Thick Hide","buff","one","s16",1,"Also scales with Defense skill.","También escala con la habilidad de Defensa."],
+["Druid","Feral","Frenzied Regeneration","buff","one","s16",1,"Much stronger self-heal than vanilla.","Autosanación mucho más fuerte que en vanilla."],
+["Druid","Feral","Weapon damage in forms","rework","one","s16",0,"Cat and Bear attacks scale with the equipped weapon's damage.","Los ataques en forma felina y de oso escalan con el daño del arma equipada.",{b:1}],
+["Druid","Feral","Mangle → Primal Bite","nerf","off","d24",-1,"Renamed Primal Bite; its signature debuff is removed.","Se renombra Mordisco primario; se elimina su perjuicio característico."],
+["Druid","Feral","Primal Fury → Blood Frenzy","fix","off","d24",0,"Renamed, original icon restored.","Renombrado; se restaura el ícono original."],
+["Druid","Feral","Feral Charge (Cat)","fix","off","d24",0,"Can no longer target allies.","Ya no puede usarse sobre aliados."],
+["Druid","Restoration","Wild Growth","new","one","s16",3,"Party-wide heal over time.","Sanación en el tiempo para todo el grupo."],
+["Druid","Restoration","Swiftmend","buff","cor","s16",2,"No longer consumes the HoT it's cast on.","Ya no consume la sanación en el tiempo sobre la que se lanza."],
+["Druid","Restoration","Gift of the Earthmother","new","cor","s16",2,"Rejuvenation, Swiftmend and Wild Growth GCD reduced by 0.5 sec.","Tiempo global de Rejuvenecimiento, Alivio presto y Crecimiento salvaje reducido 0.5 s."],
+["Druid","Restoration","Rejuvenation · Tranquility · Wild Growth","buff","off","d24",1,"All three can now critically heal.","Los tres ahora pueden sanar con crítico."],
+["Paladin","All","Holy Strike","new","off","s16",2,"Level 6: instant weapon strike dealing Holy damage, 12 sec cooldown.","Nivel 6: golpe instantáneo con el arma que hace daño Sagrado, 12 s de reutilización.",{b:1}],
+["Paladin","All","Seals and Judgment","rework","off","s16",2,"Judgment no longer consumes the active Seal.","Sentencia ya no consume el Sello activo.",{b:1}],
+["Paladin","All","Seal of Fury","new","off","s16",2,"Favors fast weapons, grants an absorb shield, makes Judgment taunt.","Favorece armas rápidas, da un escudo de absorción y hace que Sentencia provoque.",{b:1}],
+["Paladin","All","Consecration","rework","off","s16",2,"Baseline at level 20; high damage and threat to the first four targets.","Base en nivel 20; mucho daño y amenaza a los primeros cuatro objetivos.",{b:1}],
+["Paladin","All","Holy Strike scaling","buff","off","d24",1,"Per-rank damage 25/25/30/30/35/35/40/40% → 25/29/32/36/39/43/46/50%.","Daño por rango 25/25/30/30/35/35/40/40% → 25/29/32/36/39/43/46/50%.",{b:1}],
+["Paladin","All","Righteous Fury","nerf","off","d24",-1,"Holy threat bonus 90% → 60%.","Bono de amenaza Sagrada 90% → 60%.",{b:1}],
+["Paladin","All","Retribution Aura","buff","off","d24",1,"Scales with spell power.","Escala con el poder con hechizos.",{b:1}],
+["Paladin","All","Echo of Justice","nerf","off","d24",-1,"Proc chance lowered to the intended value.","Probabilidad de activación bajada al valor previsto."],
+["Paladin","Holy","Holy Shock","rework","off","s16",1,"Moves to a 10 sec cooldown.","Pasa a 10 s de reutilización."],
+["Paladin","Holy","Infusion of Light","new","off","s16",2,"Holy Shock or Flash of Light crits shorten the next Holy Light.","Los críticos de Choque Sagrado o Destello de Luz acortan la siguiente Luz Sagrada."],
+["Paladin","Holy","Reverence","new","off","s16",1,"Mana regen from Spirit while casting.","Regeneración de maná por Espíritu mientras lanzas."],
+["Paladin","Holy","Voice of Truth","new","off","s16",1,"Immunity to Silence and Interrupt.","Inmunidad a Silencio e Interrupción."],
+["Paladin","Holy","Consecrated Ground","new","off","s16",1,"Bonus Holy damage inside your Consecration.","Daño Sagrado adicional dentro de tu Consagración."],
+["Paladin","Holy","Light's Vigil","new","off","s16",2,"Costly cooldown that resets Holy Shock or pulses party-wide damage and healing.","Reutilización costosa que reinicia Choque Sagrado o emite daño y sanación para el grupo."],
+["Paladin","Holy","Holy Strike cooldown","buff","off","d24",1,"12 → 10 sec baseline; Improved Holy Strike removed from the tree.","12 → 10 s como base; Golpe Sagrado mejorado sale del árbol.",{b:1}],
+["Paladin","Holy","Holy Power","buff","off","d24",1,"Also +15% critical strike chance on Holy Strike.","También +15% de probabilidad de crítico en Golpe Sagrado."],
+["Paladin","Protection","Improved Seal of Fury","new","off","s16",1,"Absorbs restore mana.","Las absorciones restauran maná."],
+["Paladin","Protection","Shield Specialization","rework","off","s16",1,"Blocks restore mana.","Los bloqueos restauran maná."],
+["Paladin","Protection","Swift Judgment","new","off","s16",1,"Resets Judgment's cooldown once per minute.","Reinicia la reutilización de Sentencia una vez por minuto."],
+["Paladin","Protection","Templar's Bulwark","new","off","s16",2,"Absorb shield scaling with maximum health.","Escudo de absorción que escala con la salud máxima."],
+["Paladin","Protection","Reckoning","rework","off","s16",1,"Built around crit-immune tanking; triggers off blocks.","Pensado para tanquear inmune a críticos; se activa con bloqueos."],
+["Paladin","Protection","Iron Creed","new","off","s16",2,"Well-timed Holy Strikes reduce incoming damage.","Golpes Sagrados bien sincronizados reducen el daño recibido."],
+["Paladin","Retribution","Vindication","rework","off","s16",1,"Lowers enemy Attack Power and raises yours.","Reduce el poder de ataque enemigo y sube el tuyo."],
+["Paladin","Retribution","Sacred Arbiter","new","off","s16",2,"Empowers Holy Strike and refreshes Judgments.","Potencia Golpe Sagrado y renueva las Sentencias."],
+["Paladin","Retribution","Champion of the Light","new","off","s16",2,"Spell damage scales off Intellect.","El daño con hechizos escala con el Intelecto."],
+["Paladin","Retribution","Instrument of the Law","new","off","s16",1,"Lowers threat; Holy Wrath becomes instant.","Reduce la amenaza; Cólera Sagrada pasa a ser instantánea."],
+["Paladin","Retribution","Twist of Light","new","off","s16",2,"Seal twisting without an addon; optional Holy Shock ranged build.","Alternar sellos sin addon; opción de build a distancia con Choque Sagrado."],
+["Paladin","Retribution","Vengeance","nerf","off","d24",-2,"Only non-periodic crits trigger it; max stacks 5 → 3.","Solo la activan críticos no periódicos; acumulaciones máximas 5 → 3."],
+["Paladin","Retribution","Two-Handed Weapon Specialization","nerf","off","d24",-1,"Damage 3/6/9% → 2/4/6%.","Daño 3/6/9% → 2/4/6%."],
+["Paladin","Retribution","Sacred Arbiter","buff","off","d24",1,"Holy Strike damage bonus 10% → 20%.","Bono de daño de Golpe Sagrado 10% → 20%."],
+["Paladin","Retribution","Twist of Light","buff","off","d24",1,"Also cuts Seal mana cost by 20%.","También reduce 20% el costo de maná de los Sellos."],
+["Hunter","All","Aspect of the Beast","buff","cor","s16",1,"Also grants melee Attack Power.","También da poder de ataque cuerpo a cuerpo.",{b:1}],
+["Hunter","All","Traps","buff","off","s16",1,"Unified hit makes traps land more reliably.","El golpe unificado hace que las trampas acierten con más seguridad.",{b:1}],
+["Hunter","All","Furious Howl","nerf","off","d24",-1,"Pet Attack Power bonus reduced 40%.","Bono de poder de ataque de la mascota reducido 40%.",{b:1}],
+["Hunter","All","Sonic Blast","buff","off","d24",0,"Now available to Bat pets.","Ahora disponible para mascotas murciélago.",{b:1}],
+["Hunter","All","Tame Beast","fix","off","d24",0,"Only works on beasts at or below the hunter's level.","Solo funciona con bestias de nivel igual o menor al del cazador.",{b:1}],
+["Hunter","Beast Mastery","Summon Hawk","new","cor","s16",3,"Hawk dive-bombs the target for 18 sec, up to 2 at once, shares a 6 sec cooldown with Arcane Shot.","Un halcón ataca en picada 18 s, hasta 2 a la vez; comparte 6 s de reutilización con Disparo arcano."],
+["Hunter","Beast Mastery","Focused Fire","rework","cor","s16",1,"Flat damage per point while your pet is out.","Daño fijo por punto mientras tu mascota está fuera."],
+["Hunter","Marksmanship","Lone Wolf","new","cor","s16",3,"+20% damage to all attacks with no active pet.","+20% de daño a todos los ataques sin mascota activa."],
+["Hunter","Marksmanship","Lone Wolf","buff","off","d24",1,"No longer applies −4% damage while a pet is active.","Ya no aplica −4% de daño con la mascota activa."],
+["Hunter","Marksmanship","Careful Aim","rework","cor","s16",2,"Converts 20% of Intellect into Attack Power.","Convierte 20% del Intelecto en poder de ataque."],
+["Hunter","Marksmanship","Sniper Shot","new","one","s16",1,"New cast-time nuke.","Nuevo disparo potente con tiempo de lanzamiento."],
+["Hunter","Survival","Melee identity","rework","cor","s16",2,"Survival becomes the Hunter's melee spec.","Supervivencia pasa a ser la especialización cuerpo a cuerpo del cazador.",{b:1}],
+["Hunter","Survival","Strider Kick","new","cor","s16",1,"New melee attack.","Nuevo ataque cuerpo a cuerpo."],
+["Hunter","Survival","Lacerating Strikes","new","cor","s16",2,"Mongoose Bite adds a bleed for 40% of its damage over 21 sec.","Mordedura de mangosta añade un sangrado del 40% de su daño en 21 s."],
+["Hunter","Survival","Entrapment","rework","one","s16",1,"Traps also root briefly.","Las trampas también enraízan un momento."],
+["Hunter","Survival","Lacerating Strikes","buff","off","d24",1,"The bleed can now crit.","El sangrado ahora puede ser crítico."],
+["Hunter","Survival","Strider Kick","buff","off","d24",1,"Also grants +30% movement speed for 3 sec.","También da +30% de velocidad de movimiento por 3 s."],
+["Rogue","All","Sap","buff","cor","s16",1,"No longer breaks Stealth.","Ya no rompe el Sigilo.",{b:1}],
+["Rogue","All","One-handed Axes","new","cor","s16",1,"Rogues can equip one-handed axes.","Los pícaros pueden usar hachas de una mano.",{b:1}],
+["Rogue","All","Poisons","buff","off","s16",1,"Unified hit and crit apply to poison application and poison crits.","El golpe y el crítico unificados aplican a la aplicación y críticos de venenos.",{b:1}],
+["Rogue","All","Sap PvP flag","fix","off","d24",0,"Correctly flags you when used on flagged targets.","Te marca para JcJ correctamente al usarlo sobre objetivos marcados.",{b:1}],
+["Rogue","Assassination","Mutilate","new","cor","s16",3,"Both weapons for 75% damage plus a flat bonus, 2 combo points, +20% vs. poisoned targets.","Ambas armas al 75% más un bono fijo, 2 puntos de combo, +20% contra objetivos envenenados."],
+["Rogue","Assassination","Venom","new","one","s16",2,"Finisher that raises poison damage and application chance.","Remate que sube el daño y la probabilidad de aplicar venenos."],
+["Rogue","Combat","Restless Blades","new","one","s16",2,"Finishers cut Adrenaline Rush, Blade Flurry, Evasion, Sprint and Vanish by 2 sec per combo point.","Los remates reducen Subidón de adrenalina, Aluvión de acero, Evasión, Sprint y Esfumarse 2 s por punto de combo."],
+["Rogue","Combat","Hack and Slash","rework","one","s16",1,"One talent replaces the five weapon specializations.","Un talento reemplaza las cinco especializaciones de arma."],
+["Rogue","Subtlety","Hemorrhage","rework","cor","s16",1,"Baseline; applies a personal +15% Rupture damage debuff.","Ahora es base; aplica un perjuicio personal de +15% al daño de Ruptura.",{b:1}],
+["Rogue","Subtlety","Thousand Cuts","new","one","s16",1,"Rupture ticks cheapen your next builder.","Cada tic de Ruptura abarata tu siguiente generador."],
+["Rogue","Subtlety","Cutthroat","new","one","s16",2,"Backstab can let your next Ambush skip the Stealth requirement.","Puñalada puede permitir que tu siguiente Emboscada no requiera Sigilo."],
+["Priest","All","Divine Spirit","buff","cor","s16",1,"Baseline for all Priests.","Base para todos los sacerdotes.",{b:1}],
+["Priest","All","Devouring Plague and Fear Ward","buff","cor","s16",1,"Open to every Priest race.","Disponibles para todas las razas de sacerdote.",{b:1}],
+["Priest","All","Renew","buff","off","d24",1,"Can now critically heal.","Ahora puede sanar con crítico.",{b:1}],
+["Priest","All","Power Word: Shield","buff","off","d24",1,"Always overwrites an existing shield on targets without Weakened Soul.","Siempre sobrescribe un escudo existente en objetivos sin Alma debilitada.",{b:1}],
+["Priest","Discipline","Penance","new","cor","s16",3,"Channeled bolts that damage or heal, 12 sec cooldown.","Descargas canalizadas que dañan o sanan, 12 s de reutilización."],
+["Priest","Discipline","Divine Aegis","new","cor","s16",2,"Critical heals leave an absorb shield.","Las sanaciones críticas dejan un escudo de absorción."],
+["Priest","Discipline","Soul Warding","buff","one","s16",1,"Lowers Power Word: Shield cooldown and cost.","Reduce la reutilización y el costo de Palabra de poder: escudo."],
+["Priest","Holy","Prayer of Mending","new","cor","s16",3,"Heal-on-damage buff that jumps up to 5 times.","Beneficio que sana al recibir daño y salta hasta 5 veces."],
+["Priest","Holy","Litany of Light","new","one","s16",1,"Refunds mana when you rotate heals.","Devuelve maná cuando alternas sanaciones."],
+["Priest","Holy","Binding Heal","new","cor","s16",2,"Heals target and caster at reduced threat.","Sana al objetivo y al lanzador con menos amenaza."],
+["Priest","Holy","Spirit of Redemption","buff","one","s16",1,"Duration 10 → 15 sec.","Duración 10 → 15 s."],
+["Priest","Shadow","Shadowform","rework","cor","s16",1,"Damage bonus 15% → 10%, Shadow spells cost 50% less, doubled crit damage.","Bono de daño 15% → 10%, los hechizos de Sombra cuestan 50% menos, daño crítico doble."],
+["Priest","Shadow","Vampiric Embrace","rework","one","s16",0,"Own cooldown; triggers Spirit Tap on a kill.","Reutilización propia; activa Aprovechar espíritu al matar."],
+["Priest","Shadow","Shadow Weaving","rework","one","s16",-1,"Becomes a personal stacking damage buff.","Pasa a ser un bono de daño personal acumulable."],
+["Shaman","All","Two-handed axes and maces","buff","cor","s16",1,"Usable without a talent point.","Se pueden usar sin gastar un punto de talento.",{b:1}],
+["Shaman","All","Lightning Bolt","buff","cor","s16",2,"Cast time 3.0 → 2.5 sec.","Tiempo de lanzamiento 3.0 → 2.5 s.",{b:1}],
+["Shaman","All","Totemic Projection and Recall","new","one","s16",1,"Reposition totems without redropping them.","Reubica tótems sin volver a ponerlos.",{b:1}],
+["Shaman","All","Call of the Elements","new","one","s16",1,"Drops a full totem set in one cast.","Pone un juego completo de tótems en un solo lanzamiento.",{b:1}],
+["Shaman","All","Fire Nova","rework","one","s16",0,"Detonates your active Fire totem.","Detona tu tótem de Fuego activo.",{b:1}],
+["Shaman","All","Lightning Bolt ranks 3–4","buff","off","d24",1,"Damage raised for smoother progression.","Daño aumentado para una progresión más pareja.",{b:1}],
+["Shaman","All","Totem stacking","nerf","off","d24",-1,"Windfury, Grace of Air and Tranquil Air no longer stack across shamans; Flametongue Totem no longer stacks with Flametongue Weapon or Windfury.","Viento Furioso, Gracia del Aire y Aire Tranquilo ya no se acumulan entre chamanes; el tótem Lengua de Fuego no se acumula con Arma Lengua de Fuego ni Viento Furioso.",{b:1}],
+["Shaman","Elemental","Lava Burst","new","cor","s16",3,"+20% damage if your Flame Shock is on the target.","+20% de daño si tu Choque de llamas está en el objetivo."],
+["Shaman","Elemental","Call of Flame","buff","one","s16",1,"Also buffs Flame Shock, Fire Nova and Lava Burst.","También potencia Choque de llamas, Nova de Fuego y Estallido de lava."],
+["Shaman","Elemental","Lightning Overload","new","cor","s16",2,"Nature spells can duplicate at no extra threat.","Los hechizos de Naturaleza pueden duplicarse sin amenaza extra."],
+["Shaman","Elemental","Elemental Fury","rework","off","d24",0,"Moves to row 3 (swapped with Elemental Alacrity).","Pasa a la fila 3 (intercambiado con Presteza elemental).",{row:3}],
+["Shaman","Elemental","Elemental Alacrity","rework","off","d24",0,"Moves to row 6 (swapped with Elemental Fury).","Pasa a la fila 6 (intercambiado con Furia elemental).",{row:6}],
+["Shaman","Elemental","Lava Burst ranks 1–2","buff","off","d24",1,"About 10% above a similar-level Lightning Bolt.","Cerca de 10% por encima de un Descarga de relámpagos de nivel similar."],
+["Shaman","Enhancement","Maelstrom Weapon","new","cor","s16",3,"Melee stacks up to 5 charges that cut Lightning Bolt's cast time and cost.","El cuerpo a cuerpo acumula hasta 5 cargas que reducen el tiempo y costo de Descarga de relámpagos."],
+["Shaman","Enhancement","Stormstrike","rework","cor","s16",1,"Personal +20% Nature damage buff, much shorter cooldown.","Bono personal de +20% al daño de Naturaleza, reutilización mucho más corta."],
+["Shaman","Enhancement","Spirit Weapons","rework","one","s16",1,"Grants Parry; can flip to raise threat for off-tanking.","Da Parada; puede subir la amenaza para tanque secundario."],
+["Shaman","Enhancement","Rage of the Far Seer","nerf","off","d24",-1,"Spell casting speed bonus removed.","Se elimina el bono de velocidad de lanzamiento."],
+["Shaman","Restoration","Riptide","new","cor","s16",3,"Direct heal plus HoT; empowers a follow-up Chain Heal.","Sanación directa más sanación en el tiempo; potencia la siguiente Sanación en cadena."],
+["Shaman","Restoration","Water Shield","new","cor","s16",2,"3 charges; restores mana when hit or on a healing crit.","3 cargas; restaura maná al recibir golpes o con sanación crítica.",{b:1}],
+["Shaman","Restoration","Tidal Focus","rework","one","s16",1,"Also raises your hit chance.","También sube tu probabilidad de golpe."],
+["Shaman","Restoration","Riptide","buff","off","d24",1,"Can now critically heal.","Ahora puede sanar con crítico."],
+["Mage","All","Frostfire Bolt","new","cor","s16",1,"Talentable hybrid Fire and Frost spell.","Hechizo híbrido de Fuego y Escarcha por talento."],
+["Mage","All","Improved Counterspell","buff","cor","s16",1,"Rank 1 guarantees a 2 sec silence.","El rango 1 garantiza 2 s de silencio."],
+["Mage","All","Arcane Missiles","buff","off","d24",1,"Line of sight checked once at channel start, not per missile.","La línea de visión se revisa al inicio de la canalización, no por misil.",{b:1}],
+["Mage","Arcane","Arcane Blast","new","cor","s16",3,"Stacking self-buff that raises spell damage at rising mana cost.","Bono propio acumulable que sube el daño con hechizos a mayor costo de maná."],
+["Mage","Arcane","Missile Barrage","new","cor","s16",2,"Procs halve Arcane Missiles' channel and make it free.","Las activaciones reducen a la mitad la canalización de Misiles arcanos y los hacen gratis."],
+["Mage","Arcane","Arcane Meditation","buff","cor","s16",2,"Much more mana regen while casting.","Mucha más regeneración de maná mientras lanzas."],
+["Mage","Fire","Hot Streak","new","cor","s16",3,"Non-periodic crits stack up to 3; each cuts Pyroblast cast time 25%.","Los críticos no periódicos acumulan hasta 3; cada uno reduce 25% el lanzamiento de Piroexplosión."],
+["Mage","Fire","Combustion","buff","cor","s16",1,"Ends after 4 Fire crits instead of 3.","Termina tras 4 críticos de Fuego en vez de 3."],
+["Mage","Fire","Wake of Fire","buff","off","d24",1,"Buff duration 20 → 30 sec.","Duración del beneficio 20 → 30 s."],
+["Mage","Fire","Hot Streak","buff","off","d24",1,"Buff duration 15 → 20 sec.","Duración del beneficio 15 → 20 s."],
+["Mage","Fire","Ignite","nerf","off","d24",-1,"No longer double-dips on percentage damage modifiers.","Ya no se beneficia dos veces de los modificadores porcentuales de daño."],
+["Mage","Frost","Ice Lance","new","cor","s16",2,"Instant; about +300% damage against frozen targets.","Instantáneo; cerca de +300% de daño contra objetivos congelados."],
+["Mage","Frost","Fingers of Frost","new","cor","s16",2,"Chill effects can make your next spell treat the target as frozen.","Los efectos de frío pueden hacer que tu siguiente hechizo trate al objetivo como congelado."],
+["Mage","Frost","Shatter","buff","cor","s16",1,"Maxes at 3 points instead of 5.","Se completa con 3 puntos en vez de 5."],
+["Warlock","All","DoT crits","buff","cor","s16",3,"The class's biggest baseline change: every DoT can crit.","El mayor cambio base de la clase: todo daño en el tiempo puede ser crítico.",{b:1}],
+["Warlock","All","Banes","rework","cor","s16",2,"Bane of Agony and Bane of Doom replace the curses and stack with a separate curse.","Perdición de agonía y Perdición de fatalidad reemplazan las maldiciones y se acumulan con otra maldición.",{b:1}],
+["Warlock","All","Pet scaling","buff","cor","s16",2,"Demons scale with the Warlock's own stats.","Los demonios escalan con los atributos del brujo.",{b:1}],
+["Warlock","All","Life Tap","rework","off","d24",0,"Life-to-mana conversion scales with Spirit only.","La conversión de vida a maná escala solo con Espíritu.",{b:1}],
+["Warlock","All","Voidwalker Sacrifice","buff","off","d24",1,"Scales with 10% of the Warlock's spell healing.","Escala con 10% de la sanación con hechizos del brujo.",{b:1}],
+["Warlock","Affliction","Drain Hope","new","one","s16",3,"Capstone channel that also buffs your other Shadow DoTs on the target.","Canalización final del árbol que también potencia tus otros daños de Sombra en el tiempo.",{row:7}],
+["Warlock","Affliction","Improved Drains","rework","one","s16",2,"Drain damage per active DoT; Drain Soul tripled below 20% health.","Daño de Drenar por cada daño en el tiempo activo; Drenar alma triple bajo 20% de salud."],
+["Warlock","Demonology","Demonic Pact","new","one","s16",3,"Demonic Sacrifice's buff persists after summoning another demon.","El beneficio de Sacrificio demoníaco persiste al invocar otro demonio.",{row:7}],
+["Warlock","Demonology","Demonic Sacrifice","buff","one","s16",1,"Buffs reshuffled; duration 30 min → 2 hours.","Beneficios reorganizados; duración 30 min → 2 horas."],
+["Warlock","Demonology","Demonic Knowledge","rework","one","s16",1,"Raises your spell damage and healing while a demon is out.","Sube tu daño y sanación con hechizos mientras hay un demonio fuera."],
+["Warlock","Destruction","Incinerate","new","cor","s16",3,"Capstone nuke with bonus damage on Immolated targets.","Hechizo final del árbol con daño extra contra objetivos con Inmolar.",{row:7}],
+["Warlock","Destruction","Shadow and Flame","new","one","s16",1,"Conflagrate buffs Shadow; Shadowburn buffs Fire.","Conflagrar potencia Sombra; Quemadura de las Sombras potencia Fuego."],
+["Warlock","Destruction","Bane of Havoc","new","one","s16",2,"Copies part of your damage onto a second, Baned target.","Copia parte de tu daño a un segundo objetivo con Perdición."],
+["Racial","Gnome","Eureka","rework","off","d24",1,"10% discount on Mana, Rage or Energy abilities, for every class.","10% de descuento en habilidades de Maná, Ira o Energía, para toda clase.",{b:1}],
+["Racial","Gnome","Contingency Plan","buff","off","d24",1,"Can now crit.","Ahora puede ser crítico.",{b:1}],
+["Racial","Tauren","Cultivation","nerf","off","d24",-1,"Requires player level equal to herb level ÷ 5; level 60 for 300+ herbs.","Requiere nivel de jugador igual al nivel de la hierba ÷ 5; nivel 60 para hierbas de 300+.",{b:1,rel:"prof"}],
+["Racial","Tauren","Touch of the Grave","fix","off","d24",0,"No longer breaks crowd control or fires from damage-less or periodic effects.","Ya no rompe el control de masas ni se activa con efectos sin daño o periódicos.",{b:1}],
+["Racial","Undead","Dark Sacrifice","fix","off","d24",0,"No longer breaks crowd control; tooltip shows mana scaling with Spirit.","Ya no rompe el control de masas; la descripción muestra el maná escalando con Espíritu.",{b:1}],
+["Racial","Night Elf","Starshards","buff","off","d24",1,"Gains pushback resistance from Twilight Focus.","Gana resistencia a interrupción por Enfoque crepuscular.",{b:1}],
+["Mage","Frost","Elemental Precision","rework","one","h23",0,"5 ranks of 1% → 3 ranks of 2%, up to 6%. Oct 20 hotfix.","De 5 rangos de 1% a 3 rangos de 2%, hasta 6%. Hotfix del 20 oct."],
+["Mage","Frost","Ice Barrier · Frost Ward · Frost Warding","buff","one","h23",1,"Ice Barrier absorbs 493 at rank 1 (was 448) and raises Frost damage 3% for 1 min. Frost Ward absorbs 178 (was 162), adds 10% of Frost spell power, and now negates spells instead of reflecting them. Frost Warding raises both absorbs by 10 or 20%. Oct 20 hotfix.","Barrera de hielo absorbe 493 en el rango 1 (antes 448) y sube 3% el daño de Escarcha por 1 min. Resguardo de escarcha absorbe 178 (antes 162), añade 10% del poder con hechizos de Escarcha y ahora anula hechizos en vez de reflejarlos. Frost Warding sube ambas absorciones 10 o 20%. Hotfix del 20 oct."],
+["Mage","Frost","Piercing Ice","removed","one","h23",-1,"Removed. It gave 2/4/6% more Frost damage. Oct 20 hotfix.","Eliminado. Daba 2/4/6% más de daño de Escarcha. Hotfix del 20 oct."],
+["Hunter","Marksmanship","Hunter's Mark","buff","one","h23",1,"Rank 4 grants 143 ranged Attack Power (was 71). Oct 21 hotfix.","El rango 4 da 143 de poder de ataque a distancia (antes 71). Hotfix del 21 oct.",{b:1}],
+["Shaman","Elemental","Lava Burst","buff","one","h23",1,"Rank 3's Flame Shock bonus is set to 20%. Oct 21 hotfix.","El bono de Choque de llamas del rango 3 queda en 20%. Hotfix del 21 oct."],
+["Priest","Holy","Holy Fire","nerf","one","h23",-1,"Rank 1 deals 53–65 instead of 57–70. Oct 18 hotfix.","El rango 1 hace 53–65 en vez de 57–70. Hotfix del 18 oct.",{b:1}],
+["Warlock","Affliction","Amplify Curse","buff","one","h23",1,"Rises to 20%. Oct 16 hotfix.","Sube a 20%. Hotfix del 16 oct."],
+["All","All","Beta-only items","fix","one","h23",0,"The Oct 22 hotfix added 127 beta-only items: Molten Core loot copies, Tier 1 sets and elixirs. Blizzard says they will not carry over to WoW Forever after launch.","El hotfix del 22 oct añadió 127 objetos solo de la beta: copias del botín de Núcleo de Magma, sets de Nivel 1 y elixires. Blizzard dice que no pasarán a WoW Forever tras el lanzamiento.",{b:1}],
+["Mage","Frost","Frost Blast","removed","one","b28",-1,"Removed from the spellbook and can no longer be trained.","Se elimina del libro de hechizos y ya no se puede entrenar.",{b:1}],
+["Mage","Arcane","Arcane Focus","removed","one","b28",-1,"Talent removed. Arcane Resilience, Missile Barrage and Improved Channeling move in the tree.","Talento eliminado. Arcane Resilience, Missile Barrage e Improved Channeling cambian de lugar en el árbol."],
+["Mage","Frost","Precision","buff","one","b28",2,"Now gives 2/4/6% hit chance to all spells.","Ahora da 2/4/6% de probabilidad de golpe a todos los hechizos."],
+["Mage","Frost","Ice Lance","nerf","one","b28",-1,"Gets an 8 sec cooldown.","Pasa a tener 8 s de reutilización."],
+["Mage","Fire","Incineration","buff","one","b28",1,"Now 5 ranks, up to 10% crit (was 6%).","Ahora 5 rangos, hasta 10% de crítico (antes 6%)."],
+["Mage","Fire","Critical Mass","nerf","one","b28",-1,"5 → 3 ranks; up to 6% crit for Fire spells (was 10%).","De 5 a 3 rangos; hasta 6% de crítico con hechizos de Fuego (antes 10%)."],
+["Mage","Fire","Accelerant","buff","one","b28",1,"Formerly Improved Fireball. Now also cuts Arcane Wrath's cast time by 0.1 to 0.5 sec.","Antes Improved Fireball. Ahora también reduce de 0.1 a 0.5 s el lanzamiento de Arcane Wrath."],
+["Hunter","Beast Mastery","Aspect of the Hawk","nerf","one","b28",-2,"Ranged Attack Power by rank 20/35/50/70/90 → 15/22/30/38/47.","Poder de ataque a distancia por rango 20/35/50/70/90 → 15/22/30/38/47.",{b:1}],
+["Hunter","Marksmanship","Trueshot Aura","nerf","one","b28",-2,"Ranged Attack Power by rank 30/40/50/75 → 15/22/30/40.","Poder de ataque a distancia por rango 30/40/50/75 → 15/22/30/40."],
+["All","All","Root diminishing returns","fix","one","b28",0,"Counterattack, Entrapment, Improved Wing Clip, Improved Hamstring and Frostbite now share one root diminishing returns group.","Counterattack, Entrapment, Improved Wing Clip, Improved Hamstring y Frostbite ahora comparten un mismo grupo de rendimientos decrecientes de inmovilización.",{b:1}],
+["Warrior","Protection","Revenge","buff","one","b30",1,"Scales with Attack Power: rank 6 deals 138 + 22.5% AP to 168 + 22.5% AP (was 138 to 168 flat).","Escala con el poder de ataque: el rango 6 hace 138 + 22.5% de AP a 168 + 22.5% de AP (antes 138 a 168 fijo).",{b:1}],
+["Druid","All","Talent tree rework","rework","one","b30",0,"The Oct 30 hotfix reworks the Druid talent tree. Blizzard posted no notes and ForeverChanges lists no per-patch numbers, so compare your build with foreverchanges.pro/class/druid before respeccing.","El hotfix del 30 oct rehace el árbol de talentos del druida. Blizzard no publicó notas y ForeverChanges no detalla cifras por parche; compara tu build con foreverchanges.pro/class/druid antes de recalcular talentos."],
+["Paladin","All","Righteous Fury","rework","one","b30",1,"Now gives +33% to all threat plus +90% more for Holy attacks (before: +90% Holy only). Learned at level 10 since the Oct 23 hotfix (was 16).","Ahora da +33% de amenaza total más +90% adicional en ataques Sagrados (antes: +90% solo Sagrado). Se aprende en nivel 10 desde el hotfix del 23 oct (antes 16).",{b:1}],
+["Paladin","Holy","Holy tree rework","rework","one","b30",1,"Reverence 3 → 2 ranks and moves to row 2; Spiritual Focus 2 → 5; Improved Seals 3 → 5 (same maximums). Divine Precision 3 → 2 ranks, no longer needs Holy Shock, hit chance up to 8% (was 18%). Light's Vigil only heals friendly targets, range 20 → 40 yd.","Reverence de 3 a 2 rangos y sube a la fila 2; Spiritual Focus de 2 a 5; Improved Seals de 3 a 5 (mismos máximos). Divine Precision de 3 a 2 rangos, ya no requiere Choque Sagrado y da hasta 8% de golpe (antes 18%). Light's Vigil solo sana aliados, alcance 20 → 40 m."],
+["Paladin","Holy","Holy Power","rework","one","b30",1,"Holy spell crits heal 10–50% more. This replaces the old 3–15% crit chance on Holy Shock and Holy Strike and 1–5% on other spells.","Los críticos de hechizos Sagrados sanan 10–50% más. Reemplaza el 3–15% de crítico de Choque Sagrado y Golpe Sagrado y el 1–5% de los demás hechizos."],
+["Paladin","Holy","Oath of Light · Boundless Light","new","one","b30",2,"Two new talents. Oath of Light sits in row 4 (heal amounts are not in the data). Boundless Light is row 5, 2 ranks, up to 30% more Holy Shock crit chance on allies without your Oath.","Dos talentos nuevos. Oath of Light en la fila 4 (las cifras de sanación no están en los datos). Boundless Light en la fila 5, 2 rangos, hasta 30% más de crítico de Choque Sagrado en aliados sin tu Oath."],
+["Paladin","Protection","Redoubt","buff","one","b30",1,"Block chance 20% → 30%.","Probabilidad de bloqueo 20% → 30%."],
+["Paladin","Protection","Improved Righteous Fury","buff","one","b30",1,"Damage reduction 6% → 9%.","Reducción de daño 6% → 9%."],
+["Paladin","Protection","Shield Specialization · Iron Creed","rework","one","b30",0,"Shield Specialization 3 → 2 ranks (2 now match the old 3). Iron Creed 5 → 3 ranks: Holy Strike threat 25% → 30%, damage taken reduction 10% → 6%.","Shield Specialization de 3 a 2 rangos (2 equivalen a los 3 anteriores). Iron Creed de 5 a 3 rangos: amenaza de Golpe Sagrado 25% → 30%, reducción de daño recibido 10% → 6%."],
+["Paladin","Protection","Holy Shield · Seal of Fury · Swift Judgement","rework","one","b30",0,"Holy Shield rank 1 is learned at level 30 and moves from row 7 to row 5. Seal of Fury's Judgement taunt lasts 3 sec (was 4). Swift Judgement is reworked and needs Templar's Bulwark. One-Handed Weapon Specialization and Improved Seal of Fury are removed.","Holy Shield rango 1 se aprende en nivel 30 y baja de la fila 7 a la 5. La provocación de Sentencia de Seal of Fury dura 3 s (antes 4). Swift Judgement se rehace y requiere Templar's Bulwark. One-Handed Weapon Specialization e Improved Seal of Fury se eliminan."],
+["Paladin","Retribution","Conviction","nerf","one","b30",-1,"5 → 3 ranks; up to 6% crit with all spells and attacks.","De 5 a 3 rangos; hasta 6% de crítico con todos los hechizos y ataques."],
+["Paladin","Retribution","Champion of the Light","buff","one","b30",1,"3 → 5 ranks, up to 60% of Intellect, plus up to 1 sec off Hammer of Wrath's cast. It had returned to 20/40/60% on Oct 16 after a 10/20/30% nerf on Oct 15.","De 3 a 5 rangos, hasta 60% del Intelecto y hasta 1 s menos en el lanzamiento de Martillo de ira. Había vuelto a 20/40/60% el 16 oct tras bajar a 10/20/30% el 15 oct."],
+["Paladin","Retribution","Two-Handed Weapon Specialization · Vindication","rework","one","b30",0,"Two-Handed Weapon Specialization now gives up to 6% all physical damage (was two-handed damage) and cuts threat up to 20% with a two-hander. Vindication no longer raises your own Attack Power.","Two-Handed Weapon Specialization ahora da hasta 6% de todo el daño físico (antes daño a dos manos) y reduce hasta 20% la amenaza con un arma a dos manos. Vindication ya no aumenta tu poder de ataque."],
+["Paladin","Retribution","Vengeance · Instrument of Law · Turn Evil","rework","one","b30",0,"Vengeance now needs Seal of Command instead of Sanctified Judgement. Instrument of Law is removed. Turn Evil is new in row 5: 2 ranks, up to 1 sec faster cast, up to 10 sec less cooldown, works on Demons.","Vengeance ahora requiere Seal of Command en vez de Sanctified Judgement. Instrument of Law se elimina. Turn Evil es nuevo en la fila 5: 2 rangos, hasta 1 s menos de lanzamiento, hasta 10 s menos de reutilización, funciona contra demonios."],
+["Racial","Human","The Human Spirit · Ruthless","rework","one","b30",0,"The Human Spirit: Spirit +10% (was 5%). Ruthless: 1% crit (was 2%). Racial pass announced Oct 26, in the client with the Oct 30 hotfix.","The Human Spirit: Espíritu +10% (antes 5%). Ruthless: 1% de crítico (antes 2%). Pase de razas anunciado el 26 oct, en el cliente con el hotfix del 30 oct.",{b:1}],
+["Racial","Orc","Blood Fury · Savage · Command","rework","one","b30",1,"Blood Fury cooldown 2 min (was 3). Savage is removed and Command returns: Hunter and Warlock pets deal 5% more damage.","Blood Fury: 2 min de reutilización (antes 3). Savage se elimina y vuelve Command: las mascotas de cazador y brujo hacen 5% más de daño.",{b:1}],
+["Racial","Dwarf","Earth Fury · Artisan's Precision","rework","one","b30",0,"Earth Fury is removed. Artisan's Precision gives 1% hit with spells and attacks.","Earth Fury se elimina. Artisan's Precision da 1% de golpe con hechizos y ataques.",{b:1}],
+["Racial","Undead","Touch of the Grave","buff","one","b30",1,"Internal cooldown 15 sec (was 25).","Reutilización interna 15 s (antes 25).",{b:1}],
+["Racial","Tauren","Endurance · Plainsrunning","rework","one","b30",0,"Endurance keeps only +5% Health (the 2% crit damage and healing is gone). Plainsrunning gives 2% per stack (was 1%), up to 60% (was 30%), with no mounted speed.","Endurance conserva solo +5% de Salud (se pierde el 2% de daño y sanación crítica). Plainsrunning da 2% por acumulación (antes 1%), hasta 60% (antes 30%), sin velocidad montada.",{b:1}],
+["Racial","Troll","Berserking","buff","one","b30",1,"Lasts 15 sec (was 10).","Dura 15 s (antes 10).",{b:1}],
+["Racial","Skyborne","Wind Blessed · Read Leyline · Skysight","rework","one","b30",0,"Wind Blessed 2% haste (was 3%). Read Leyline: regen +50% (was 100%) for 15 sec; reading it at a leyline makes you Attuned for 1 hour at 100%. Skysight: 15% movement speed (was 10%) for 15 sec; at an elemental convergence you become Charged for 1 hour at 30%.","Wind Blessed 2% de celeridad (antes 3%). Read Leyline: regeneración +50% (antes 100%) por 15 s; al leerla en una línea ley quedas Attuned 1 hora al 100%. Skysight: 15% de velocidad de movimiento (antes 10%) por 15 s; en una convergencia elemental quedas Charged 1 hora al 30%.",{b:1}]
+];
+
+/* Stat weight profiles. Vanilla 1.12 baseline, community-style estimate. Hit and crit per 1%, weapon DPS per 1 DPS, everything else per point. ht = which hit cap applies; dw = dual-wield white hits keep value past the cap. */
+window.PNA_STATS=[["str","Strength","Fuerza"],["agi","Agility","Agilidad"],["sta","Stamina","Aguante"],["int","Intellect","Intelecto"],["spi","Spirit","Espíritu"],["ap","Attack power","Poder de ataque"],["sp","Spell damage","Daño con hechizos"],["heal","Healing","Sanación"],["mp5","Mana per 5","Maná cada 5 s"],["hit","Hit %","Golpe %"],["crit","Crit %","Crítico %"],["exp","Dodge/parry reduction %","Reducción de esquiva/parada %"],["wskill","Weapon skill","Habilidad con armas"],["def","Defense","Defensa"],["block","Block value","Valor de bloqueo"],["wdps","Weapon DPS","DPS del arma"]];
+window.PNA_P=[
+{k:"war-arms",cls:"Warrior",spec:"Arms",ht:"melee",w:{str:1,agi:.9,sta:.3,ap:.5,hit:16,crit:14,wskill:5,wdps:6}},
+{k:"war-fury",cls:"Warrior",spec:"Fury",ht:"melee",dw:1,w:{str:1,agi:.85,sta:.2,ap:.5,hit:18,crit:15,wskill:6,wdps:4}},
+{k:"war-prot",cls:"Warrior",spec:"Protection",ht:"melee",w:{sta:1,def:1.4,agi:.6,str:.6,block:.4,hit:10,crit:6,wskill:2,wdps:1}},
+{k:"dru-bal",cls:"Druid",spec:"Balance",ht:"spell",w:{sp:1,crit:10,hit:12,int:.45,spi:.1,mp5:1.5}},
+{k:"dru-cat",cls:"Druid",spec:"Feral",lab:"Feral (Cat)",labes:"Feral (felino)",ht:"melee",w:{agi:1,str:1,ap:.5,crit:14,hit:12,sta:.1}},
+{k:"dru-bear",cls:"Druid",spec:"Feral",lab:"Feral (Bear)",labes:"Feral (oso)",ht:"melee",w:{sta:1,agi:.9,def:.9,str:.4,hit:6,crit:3}},
+{k:"dru-resto",cls:"Druid",spec:"Restoration",ht:"none",w:{heal:1,mp5:2.2,int:.6,spi:.5,crit:4}},
+{k:"pal-holy",cls:"Paladin",spec:"Holy",ht:"none",w:{heal:1,int:.8,crit:12,mp5:2,spi:.1}},
+{k:"pal-prot",cls:"Paladin",spec:"Protection",ht:"melee",w:{sta:1,def:1.1,sp:.6,block:.5,int:.3,hit:6,str:.3}},
+{k:"pal-ret",cls:"Paladin",spec:"Retribution",ht:"melee",w:{str:1,agi:.8,sta:.2,ap:.5,crit:14,hit:14,int:.2,sp:.25,wdps:7,wskill:4}},
+{k:"hun-bm",cls:"Hunter",spec:"Beast Mastery",ht:"ranged",w:{agi:1,ap:.45,crit:13,hit:14,int:.25,sta:.1,wdps:3}},
+{k:"hun-mm",cls:"Hunter",spec:"Marksmanship",ht:"ranged",w:{agi:1,ap:.45,crit:14,hit:15,int:.2,sta:.1,wdps:4}},
+{k:"hun-sv",cls:"Hunter",spec:"Survival",ht:"melee",w:{agi:1.1,str:.05,ap:.45,crit:13,hit:14,int:.2,sta:.1,wdps:3}},
+{k:"rog-assa",cls:"Rogue",spec:"Assassination",ht:"melee",dw:1,w:{agi:1,str:.5,ap:.5,crit:14,hit:16,wskill:5,wdps:5,sta:.1}},
+{k:"rog-combat",cls:"Rogue",spec:"Combat",ht:"melee",dw:1,w:{agi:1,str:.5,ap:.5,crit:13,hit:18,wskill:7,wdps:6,sta:.1}},
+{k:"rog-sub",cls:"Rogue",spec:"Subtlety",ht:"melee",dw:1,w:{agi:1,str:.5,ap:.5,crit:13,hit:15,wskill:4,wdps:6,sta:.1}},
+{k:"pri-disc",cls:"Priest",spec:"Discipline",ht:"none",w:{heal:1,mp5:2,int:.7,spi:.6,crit:5}},
+{k:"pri-holy",cls:"Priest",spec:"Holy",ht:"none",w:{heal:1,spi:.8,mp5:2,int:.6,crit:6}},
+{k:"pri-shadow",cls:"Priest",spec:"Shadow",ht:"spell",w:{sp:1,hit:12,crit:2,int:.3,spi:.3,mp5:1,sta:.1}},
+{k:"sha-ele",cls:"Shaman",spec:"Elemental",ht:"spell",w:{sp:1,crit:12,hit:12,int:.4,mp5:1.8}},
+{k:"sha-enh",cls:"Shaman",spec:"Enhancement",ht:"melee",w:{str:1,agi:.7,sta:.2,ap:.5,crit:13,hit:15,int:.15,sp:.1,wdps:8,wskill:4}},
+{k:"sha-resto",cls:"Shaman",spec:"Restoration",ht:"none",w:{heal:1,mp5:2.4,int:.7,crit:6,spi:.1}},
+{k:"mag-arc",cls:"Mage",spec:"Arcane",ht:"spell",w:{sp:1,int:.6,spi:.35,crit:8,hit:13,mp5:1.5}},
+{k:"mag-fire",cls:"Mage",spec:"Fire",ht:"spell",w:{sp:1,crit:13,hit:14,int:.3,mp5:1}},
+{k:"mag-frost",cls:"Mage",spec:"Frost",ht:"spell",w:{sp:1,crit:10,hit:14,int:.3,mp5:1}},
+{k:"wlk-aff",cls:"Warlock",spec:"Affliction",ht:"spell",w:{sp:1,hit:13,crit:3,int:.25,spi:.1,sta:.2,mp5:1}},
+{k:"wlk-demo",cls:"Warlock",spec:"Demonology",ht:"spell",w:{sp:1,hit:12,crit:6,sta:.3,int:.25}},
+{k:"wlk-destro",cls:"Warlock",spec:"Destruction",ht:"spell",w:{sp:1,crit:12,hit:14,int:.25,sta:.15}}
+];
+
+(function(){
+var CASTER=["dru-bal","pri-shadow","sha-ele","mag-arc","mag-fire","mag-frost","wlk-aff","wlk-demo","wlk-destro"],
+HEAL=["dru-resto","pal-holy","pri-disc","pri-holy","sha-resto"],
+MELEE=["war-arms","war-fury","dru-cat","pal-ret","hun-sv","rog-assa","rog-combat","rog-sub","sha-enh"],
+TANK=["war-prot","dru-bear","pal-prot"],HUN=["hun-bm","hun-mm","hun-sv"],ROG=["rog-assa","rog-combat","rog-sub"],WLK=["wlk-aff","wlk-demo","wlk-destro"],
+HYB=["hun-bm","hun-mm","hun-sv","pal-ret","pal-prot","sha-enh"];
+window.PNA_GROUPS={CASTER:CASTER,HEAL:HEAL,MELEE:MELEE,TANK:TANK,HUN:HUN,HYB:HYB};
+/* Forever stat modifiers. eff: [profile keys, op, stat, value, fromStat]. op x = multiply, + = add, of = add value × current weight of fromStat. */
+window.PNA_M=[
+{id:"hit",t:"Unified hit",te:"Golpe unificado",conf:"off",d:"One hit stat covers swings and spells for hybrids, taunts for tanks, poisons and traps.",de:"Un solo golpe cubre ataques y hechizos para híbridos, provocaciones para tanques, venenos y trampas.",eff:[[["pal-ret","sha-enh"],"x","hit",1.25],[["war-prot"],"x","hit",1.2],[ROG,"x","hit",1.1],[HUN,"x","hit",1.05]]},
+{id:"crit",t:"Unified crit",te:"Crítico unificado",conf:"off",d:"One crit pool feeds both melee and spell damage for hybrids and poison crits for Rogues.",de:"Un solo crítico alimenta el daño físico y de hechizos de los híbridos y los críticos de veneno.",eff:[[["pal-ret","sha-enh"],"x","crit",1.15],[ROG,"x","crit",1.05]]},
+{id:"heal3",t:"Healing grants 1/3 spell damage",te:"La sanación da 1/3 de daño",conf:"off",d:"Each point of bonus healing on gear is worth a third of a spell damage point to anyone who uses spell damage.",de:"Cada punto de sanación en el equipo vale un tercio de punto de daño con hechizos para quien lo usa.",eff:[[CASTER.concat(HEAL,["pal-ret","pal-prot"]),"of","heal",.33,"sp"]]},
+{id:"spirit",t:"Spirit regenerates mana in combat",te:"El Espíritu regenera maná en combate",conf:"cor",d:"Spirit becomes a real throughput stat for every mana user.",de:"El Espíritu pasa a ser un atributo útil en combate para todo usuario de maná.",eff:[[CASTER.concat(HEAL),"+","spi",.2],[HYB,"+","spi",.08]]},
+{id:"exp",t:"New dodge/parry reduction stat",te:"Nuevo atributo contra esquiva/parada",conf:"cor",d:"Valued against hit: melee damage dealers at 0.8× hit, tanks at 0.9× for threat.",de:"Valorado contra el golpe: 0.8× para daño cuerpo a cuerpo, 0.9× para tanques por amenaza.",eff:[[MELEE,"of","exp",.8,"hit"],[TANK,"of","exp",.9,"hit"]]},
+{id:"dotcrit",t:"DoTs and HoTs can crit",te:"Daños y sanaciones periódicas pueden ser críticos",conf:"cor",d:"Crit starts scaling periodic damage and healing.",de:"El crítico empieza a escalar el daño y la sanación periódicos.",eff:[[["wlk-aff"],"x","crit",2.5],[["wlk-demo"],"x","crit",1.4],[["wlk-destro"],"x","crit",1.1],[["pri-shadow"],"x","crit",2.5],[["dru-resto"],"x","crit",2],[["dru-bal","dru-cat"],"x","crit",1.1]]},
+{id:"hot24",t:"Rejuvenation, Renew and Riptide crit",te:"Rejuvenecimiento, Renovar y Mareas vivas con crítico",conf:"off",d:"Sep 24 notes extend crits to more heals over time.",de:"Las notas del 24 sep extienden los críticos a más sanaciones en el tiempo.",eff:[[["dru-resto"],"x","crit",1.1],[["pri-holy"],"x","crit",1.3],[["pri-disc"],"x","crit",1.15],[["sha-resto"],"x","crit",1.2]]},
+{id:"sform",t:"Shadowform rework",te:"Rediseño de Forma de las Sombras",conf:"cor",d:"Doubled crit damage raises crit; halved mana costs lower Intellect and mp5.",de:"El daño crítico doble sube el crítico; el maná a mitad de costo baja el Intelecto y el mp5.",eff:[[["pri-shadow"],"x","crit",1.6],[["pri-shadow"],"x","int",.8],[["pri-shadow"],"x","mp5",.8]]},
+{id:"aim",t:"Careful Aim: 20% of Intellect to AP",te:"Puntería cuidadosa: 20% del Intelecto a poder de ataque",conf:"cor",d:"Intellect gains a fifth of an Attack Power point.",de:"El Intelecto gana un quinto de punto de poder de ataque.",eff:[[["hun-mm"],"of","int",.2,"ap"]]},
+{id:"champ",t:"Champion of the Light",te:"Campeón de la Luz",conf:"off",d:"Retribution spell damage scales off Intellect.",de:"El daño con hechizos de Reprensión escala con el Intelecto.",eff:[[["pal-ret"],"+","int",.3],[["pal-ret"],"x","sp",1.3]]},
+{id:"ret24",t:"Vengeance and Two-Hand Spec nerfs",te:"Reducciones a Venganza y Especialización a dos manos",conf:"off",d:"Sep 24: fewer Vengeance stacks, smaller two-hander bonus.",de:"24 sep: menos acumulaciones de Venganza, menor bono a dos manos.",eff:[[["pal-ret"],"x","crit",.9],[["pal-ret"],"x","wdps",.95]]},
+{id:"holy24",t:"Holy Power adds Holy Strike crit",te:"Poder Sagrado da crítico a Golpe Sagrado",conf:"off",d:"Infusion of Light and Holy Power make crit worth more to Holy Paladins.",de:"Infusión de Luz y Poder Sagrado hacen que el crítico valga más para paladines Sagrados.",eff:[[["pal-holy"],"x","crit",1.15]]},
+{id:"palblock",t:"Protection Paladin block and health",te:"Bloqueo y salud del paladín Protección",conf:"off",d:"Shield Specialization and Reckoning run on blocks; Templar's Bulwark scales with health.",de:"Especialización en escudos y Ajuste de cuentas funcionan con bloqueos; Baluarte del templario escala con la salud.",eff:[[["pal-prot"],"x","block",1.5],[["pal-prot"],"x","sta",1.1]]},
+{id:"auras24",t:"Thorns and Retribution Aura scale with spell power",te:"Espinas y Aura de reprensión escalan con poder con hechizos",conf:"off",d:"Small spell damage value for tanks and Retribution.",de:"Pequeño valor de daño con hechizos para tanques y Reprensión.",eff:[[["pal-prot"],"x","sp",1.05],[["pal-ret"],"+","sp",.05],[["dru-bear"],"+","sp",.03]]},
+{id:"sslam",t:"Shield Slam scales with block value",te:"Embate con escudo escala con el bloqueo",conf:"cor",d:"Block value becomes a threat stat for Protection Warriors.",de:"El valor de bloqueo pasa a ser atributo de amenaza para guerreros Protección.",eff:[[["war-prot"],"x","block",1.6]]},
+{id:"fury",t:"Precision and off-hand hit",te:"Precisión y golpe de mano secundaria",conf:"one",d:"Talented hit lowers what Fury needs from gear.",de:"El golpe por talentos reduce lo que Furia necesita del equipo.",eff:[[["war-fury"],"x","hit",.9]]},
+{id:"feralwpn",t:"Forms scale with weapon damage",te:"Las formas escalan con el daño del arma",conf:"one",d:"Weapon DPS matters to Feral for the first time.",de:"El DPS del arma importa a Feral por primera vez.",eff:[[["dru-cat"],"+","wdps",3],[["dru-bear"],"+","wdps",1.5]]},
+{id:"thick",t:"Thick Hide scales with Defense",te:"Piel gruesa escala con Defensa",conf:"one",d:"Defense gains value for Bear tanks.",de:"La Defensa gana valor para tanques oso.",eff:[[["dru-bear"],"x","def",1.2]]},
+{id:"svmelee",t:"Survival goes melee",te:"Supervivencia pasa a cuerpo a cuerpo",conf:"cor",d:"Aspect of the Beast melee AP makes Strength and the melee weapon count.",de:"El poder de ataque de Aspecto de la bestia hace que cuenten la Fuerza y el arma cuerpo a cuerpo.",eff:[[["hun-sv"],"+","str",.45],[["hun-sv"],"x","wdps",2],[["hun-sv"],"+","wskill",3]]},
+{id:"mael",t:"Maelstrom Weapon",te:"Arma vorágine",conf:"cor",d:"Instant Lightning Bolts turn spell damage and Intellect into Enhancement stats.",de:"Las Descargas instantáneas convierten el daño con hechizos y el Intelecto en atributos de Mejora.",eff:[[["sha-enh"],"x","sp",2.5],[["sha-enh"],"x","int",1.5]]},
+{id:"hotstreak",t:"Hot Streak",te:"Racha caliente",conf:"cor",d:"Crit chains shorten Pyroblast.",de:"Las cadenas de críticos acortan Piroexplosión.",eff:[[["mag-fire"],"x","crit",1.15]]},
+{id:"ignite24",t:"Ignite stops double-dipping",te:"Ignición deja de duplicar bonos",conf:"off",d:"Sep 24: trims crit value slightly for Fire.",de:"24 sep: baja un poco el valor del crítico para Fuego.",eff:[[["mag-fire"],"x","crit",.95]]},
+{id:"frost",t:"Fingers of Frost and cheap Shatter",te:"Dedos de Escarcha y Hacer añicos más barato",conf:"cor",d:"More reliable Shatter crits.",de:"Críticos de Hacer añicos más seguros.",eff:[[["mag-frost"],"x","crit",1.15]]},
+{id:"arcane",t:"Arcane Blast and Arcane Meditation",te:"Explosión arcana y Meditación arcana",conf:"cor",d:"Rising mana costs and better casting regen favor Intellect, Spirit and mp5.",de:"El costo creciente de maná y la mejor regeneración favorecen Intelecto, Espíritu y mp5.",eff:[[["mag-arc"],"x","spi",1.3],[["mag-arc"],"x","int",1.2],[["mag-arc"],"x","mp5",1.2]]},
+{id:"ng",t:"Nature's Grace haste on any crit",te:"Gracia de la Naturaleza con cualquier crítico",conf:"cor",d:"Crit feeds cast speed for Balance.",de:"El crítico alimenta la velocidad de lanzamiento de Equilibrio.",eff:[[["dru-bal"],"x","crit",1.1]]},
+{id:"aegis",t:"Divine Aegis",te:"Égida divina",conf:"cor",d:"Critical heals leave shields.",de:"Las sanaciones críticas dejan escudos.",eff:[[["pri-disc"],"x","crit",1.5]]},
+{id:"tap24",t:"Life Tap scales with Spirit",te:"Transfusión de vida escala con Espíritu",conf:"off",d:"Sep 24: Spirit feeds the Warlock mana engine.",de:"24 sep: el Espíritu alimenta el maná del brujo.",eff:[[WLK,"+","spi",.1]]},
+{id:"pets",t:"Demons scale with your stats",te:"Los demonios escalan con tus atributos",conf:"cor",d:"Stamina and spell damage carry over to the pet.",de:"El Aguante y el daño con hechizos pasan a la mascota.",eff:[[["wlk-demo"],"x","sta",1.3],[["wlk-demo"],"x","sp",1.05]]}
+];
+})();
+</script>
+<script>
+(function(){"use strict";
+var $=WF.$,$$=WF.$$,E=WF.esc,R=WF.R,SRC=window.PNA_SRC,STATS=window.PNA_STATS,PROF=window.PNA_P,MODS=window.PNA_M,G=window.PNA_GROUPS,TT=window.PNA_T,ES=window.PNA_ES;
+var ORDER=["Warrior","Paladin","Hunter","Rogue","Priest","Shaman","Mage","Warlock","Druid"];
+var SPECS={Warrior:["Arms","Fury","Protection"],Paladin:["Holy","Protection","Retribution"],Hunter:["Beast Mastery","Marksmanship","Survival"],Rogue:["Assassination","Combat","Subtlety"],Priest:["Discipline","Holy","Shadow"],Shaman:["Elemental","Enhancement","Restoration"],Mage:["Arcane","Fire","Frost"],Warlock:["Affliction","Demonology","Destruction"],Druid:["Balance","Feral","Restoration"]};
+var RACES=["Human","Dwarf","Night Elf","Gnome","Orc","Undead","Tauren","Troll","Skyborne"];
+var SLOTS=["Head","Neck","Shoulder","Back","Chest","Wrist","Hands","Waist","Legs","Feet","Finger","Finger","Trinket","Trinket","Main Hand","Off Hand","Two-Hand","Ranged","Relic"];
+var CC={Warrior:"#C79C6E",Paladin:"#F58CBA",Hunter:"#ABD473",Rogue:"#FFF569",Priest:"#D9D9D9",Shaman:"#0070DE",Mage:"#3FC7EB",Warlock:"#8788EE",Druid:"#FF7D0A",All:"#F2C14E",Racial:"#9FB6E8"};
+var CONFW={off:1,cor:.75,one:.5,spec:.25},CONFR={off:1,cor:2,one:3,spec:4},UP={spec:"one",one:"cor",cor:"cor",off:"off"};
+var KINDS=["buff","new","nerf","removed","rework","fix"],KC={buff:"var(--ok)","new":"var(--sky)",nerf:"var(--bad)",removed:"var(--bad)",rework:"var(--warn)",fix:"var(--line2)"};
+var COMP=[["La Fogata","La_Fogata.html"],["Forever Roster","Forever_Roster_Page.html"],["Class Card Vault","Class_Card_Vault.html"],["Legacy Optimizer","Legacy_Optimizer.html"],["Profession Ledger","Profession_Ledger.html"],["Beta Lab Notebook","Beta_Lab_Notebook.html"]];
+var REL={prof:COMP[4],legacy:COMP[3],beta:COMP[5],cards:COMP[2]};
+var SL={};STATS.forEach(function(s){SL[s[0]]=s});
+var PK={};PROF.forEach(function(p){PK[p.k]=p});
+var inG=function(g,k){return(G[g]||[]).indexOf(k)>=0};
+
+/* ---------- prefs (per viewer) ---------- */
+var pref=Object.assign({floor:3,cls:"Mage",spec:"Fire",wp:"mag-fire",gp:"pri-shadow",show:60,lang:"en",ctx:"raid",dview:"list",gmode:"two",cchar:"mage",fo:"new",pFrom:null,pTo:null},WF.lsGet("pna_pref")||{});
+function savePref(){WF.lsSet("pna_pref",pref)}
+var gear=WF.lsGet("pna_gear")||{hit:0,a:{name:"",s:{sp:24}},b:{name:"",s:{heal:66,int:10,spi:15}}};
+function saveGear(){WF.lsSet("pna_gear",gear)}
+var NOW=Date.now(),prevSeen=WF.lsGet("pna_seen");if(typeof prevSeen!=="number")prevSeen=NOW;WF.lsSet("pna_seen",NOW);
+var myId=WF.lsGet("pna_uid");if(!myId){myId="local-"+WF.uid();WF.lsSet("pna_uid",myId)}
+
+/* ---------- i18n ---------- */
+function t(k,o){var s=(TT[pref.lang]&&TT[pref.lang][k])||TT.en[k]||k;if(o)Object.keys(o).forEach(function(x){s=s.split("{"+x+"}").join(o[x])});return s}
+var es=function(){return pref.lang==="es"};
+function cn(c){return c==="All"?t("global"):es()?(ES.cls[c]||c):c}
+function sn(s){return s==="All"?t("all_specs"):es()?(ES.spec[s]||ES.race[s]||s):s}
+function kl(k){return t("k_"+k)}function cl(c){return t("c_"+c)}function stl(s){return SL[s]?(es()?SL[s][2]:SL[s][1]):s}
+function slotl(s){return es()?(ES.slot[s]||s):s}
+function plab(p){var sp=es()?(p.labes||ES.spec[p.spec]||p.spec):(p.lab||p.spec);return es()?sp+" · "+cn(p.cls):sp+" "+p.cls}
+function ctext(c){return es()&&c.textEs?c.textEs:c.text}
+function sgn(n){return(n>0.049?"+":n<-0.049?"−":"±")+Math.abs(n).toFixed(1)}
+function fmt(n){return n>=10?n.toFixed(1):n.toFixed(2)}
+var MON={en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],es:["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"]};
+function sd(d){try{var p=String(d).slice(0,10).split("-");return es()?(+p[2])+" "+MON.es[+p[1]-1]:MON.en[+p[1]-1]+" "+(+p[2])}catch(e){return d}}
+function sdMs(ms){var d=new Date(ms);return sd(d.toISOString())}
+function applyI18n(){document.documentElement.lang=pref.lang;$$("[data-i18n]").forEach(function(el){el.textContent=t(el.dataset.i18n)});$$("[data-i18n-html]").forEach(function(el){el.innerHTML=t(el.dataset.i18nHtml)});$$("[data-i18n-ph]").forEach(function(el){el.placeholder=t(el.dataset.i18nPh)});$("#langBtn").dataset.lang=pref.lang}
+
+/* ---------- shared state ---------- */
+var CAPS0={v:{melee:9,spell:16,ranged:9},f:{melee:9,spell:16,ranged:9}};
+var ST=WF.store("pna",{off:{},ov:{},rows:{},caps:CAPS0},renderAll);
+var META=WF.store("pna_meta",{last:null,found:0,note:""},renderHero);
+var IMP=WF.coll("pna_changes",renderAll,[]),VER=WF.coll("pna_verify",renderAll,[]),VOT=WF.coll("pna_votes",renderAll,[]),BLD=WF.coll("pna_builds",renderBuilds,[]),SHT=WF.coll("pna_sheets",renderChar,[]);
+function caps(){var c=ST.get().caps||CAPS0;return{v:Object.assign({},CAPS0.v,c.v||{}),f:Object.assign({},CAPS0.f,c.f||{})}}
+
+/* ---------- changes ---------- */
+var BASE=window.PNA_CH.map(function(r,i){var x=r[9]||{},s=SRC[r[5]];return{id:"b"+i,cls:r[0],spec:r[1],name:r[2],kind:r[3],conf:r[4],src:s.label,srcEs:s.es,date:s.date,added:Date.parse(s.date+"T16:00:00Z"),impact:r[6],text:r[7],textEs:r[8],b:!!x.b,row:x.row||null,rel:x.rel||null,base:true}});
+function all(){return BASE.concat(IMP.all().map(function(d){return{id:d.id,cls:d.cls,spec:d.spec,name:d.name,kind:d.kind,conf:d.conf,src:d.src||"Imported",srcEs:d.src_es||d.src,date:d.date||"",added:d.added||Date.parse((d.date||"2026-09-25")+"T16:00:00Z"),impact:typeof d.impact==="number"?d.impact:(({buff:1,"new":1,nerf:-1,removed:-1})[d.kind]||0),text:d.text,textEs:d.text_es||"",b:!!d.b,row:d.row||null,rel:d.rel||null,base:false,auto:!!d.auto}}))}
+var IDX={v:{},r:{}};
+function buildIdx(){var v={},r={};VOT.all().forEach(function(d){var o=v[d.cid]||(v[d.cid]={felt:0,meh:0,mine:null});if(d.v==="felt"||d.v==="meh")o[d.v]++;if(d.uid===myId)o.mine=d.v});
+VER.all().forEach(function(d){var o=r[d.cid]||(r[d.cid]={seen:0,diff:0,mine:null});if(d.v==="seen"||d.v==="diff")o[d.v]++;if(d.uid===myId)o.mine=d.v});IDX={v:v,r:r}}
+function effConf(c){var x=IDX.r[c.id];if(!x||c.conf==="off")return c.conf;if(x.seen>=2)return c.conf==="cor"?"cor":"cor";if(x.seen===1)return UP[c.conf];return c.conf}
+function vis(c){return(CONFR[effConf(c)]||4)<=pref.floor}
+function score(c){return(c.impact||0)*(CONFW[effConf(c)]||.25)}
+function rowOf(c){var o=(ST.get().rows||{})[c.id];return o||c.row||null}
+function specData(cls,spec,list,filt){var ch=list.filter(function(c){return c.cls===cls&&(c.spec===spec||c.spec==="All")&&vis(c)&&(!filt||filt(c))}),net=0,n={buff:0,"new":0,nerf:0,rework:0,removed:0,fix:0};
+ch.forEach(function(c){net+=score(c);n[c.kind]=(n[c.kind]||0)+1});return{ch:ch,net:net,n:n}}
+function isNew(c){return c.added>prevSeen}
+
+/* ---------- weights engine ---------- */
+function modOn(m){return(CONFR[m.conf]||4)<=pref.floor&&!ST.get().off[m.id]}
+function modsFor(k){return MODS.filter(function(m){return m.eff.some(function(e){return e[0].indexOf(k)>=0})})}
+function ctxBase(k){var w=Object.assign({},PK[k].w);if(pref.ctx!=="level")return w;
+function mul(s,f){if(w[s])w[s]*=f}
+w.sta=(w.sta||0)*1.8+.15;mul("def",.3);mul("block",.4);mul("wskill",.4);mul("hit",.55);
+if(inG("CASTER",k)||inG("HEAL",k)||inG("HYB",k)){w.spi=(w.spi||0)*1.5+.15;mul("int",1.3);mul("mp5",1.2)}
+if(inG("MELEE",k)||inG("HUN",k))mul("wdps",1.3);
+if(inG("HEAL",k)){w.sp=(w.sp||0)+.5;mul("heal",.6)}
+return w}
+function ovKey(k){return pref.ctx==="level"?k+"@lvl":k}
+function weights(k){var v=ctxBase(k),f=Object.assign({},v),dr={};
+MODS.forEach(function(m){if(!modOn(m))return;m.eff.forEach(function(e){if(e[0].indexOf(k)<0)return;var s=e[2],cur=f[s]||0;
+if(e[1]==="x")f[s]=cur*e[3];else if(e[1]==="+")f[s]=cur+e[3];else if(e[1]==="of")f[s]=cur+e[3]*(f[e[4]]||0);
+var ttl=es()?m.te:m.t;(dr[s]=dr[s]||[]).indexOf(ttl)<0&&dr[s].push(ttl)})});
+var ov=(ST.get().ov||{})[ovKey(k)]||{},calc=Object.assign({},f);Object.keys(ov).forEach(function(s){f[s]=+ov[s]});
+return{v:v,f:f,calc:calc,dr:dr,ov:ov}}
+function shift(v,f){if(!v&&f>0.001)return{t:"new",p:1};if(!v)return{t:"",p:0};var p=(f-v)/v;return{t:(p>=0?"+":"−")+Math.round(Math.abs(p)*100)+"%",p:p}}
+function capFor(k,era){var ht=PK[k].ht;if(ht==="none")return null;if(pref.ctx==="level")return ht==="spell"?4:5;return caps()[era][ht]||null}
+/* score a stat block; baseHit = hit already present from everything else */
+function sscore(s,w,k,era,baseHit){var tot=0;Object.keys(s||{}).forEach(function(x){if(x==="hit")return;tot+=(+s[x]||0)*(w[x]||0)});
+var h=+((s||{}).hit)||0;if(h){var cap=capFor(k,era),wh=w.hit||0;if(cap==null)tot+=h*wh;else{var room=Math.max(0,cap-(baseHit||0)),inn=Math.min(h,room),over=h-inn;tot+=inn*wh+over*wh*(PK[k].dw?.45:.05)}}
+return tot}
+
+/* ---------- identity ---------- */
+(async function(){try{if(window.claude&&window.claude.use){var u=await window.claude.use("user");if(u){var id=await u.id();if(id){myId=id;renderAll()}}}}catch(e){}})();
+
+/* ---------- hero ---------- */
+function renderHero(){var list=all(),v=list.filter(vis);$("#mN").textContent=v.length;
+var top=null;ORDER.forEach(function(c){SPECS[c].forEach(function(s){var n=specData(c,s,list).net;if(!top||n>top.n)top={c:c,s:s,n:n}})});
+$("#mUp").textContent=top?(es()?sn(top.s)+" · "+cn(top.c):top.s+" "+top.c)+" "+sgn(top.n):"—";
+var nw=list.filter(isNew).length;$("#mNew").textContent=nw;$("#newbar").hidden=!nw;if(nw)$("#newTxt").textContent=t("new_txt",{n:nw,d:sdMs(prevSeen)});
+var m=META.get();$("#mAuto").textContent=m.last?t("auto_checked",{d:sd(m.last)}):t("auto_wed");
+var latest=list.reduce(function(a,c){return c.date>a?c.date:a},"");if(latest)$("#hLatest").textContent=sd(latest);
+$$("[data-floor]").forEach(function(b){b.setAttribute("aria-pressed",String(+b.dataset.floor===pref.floor))});
+$("#comp").innerHTML='<span class="lb">'+E(t("comp_lbl"))+'</span>'+COMP.map(function(c){return'<a href="'+c[1]+'" target="_blank" rel="noopener">'+E(c[0])+'</a>'}).join("")}
+
+/* ---------- guild bar ---------- */
+function gbar(c){var v=IDX.v[c.id]||{felt:0,meh:0,mine:null},r=IDX.r[c.id]||{seen:0,diff:0,mine:null};
+return'<div class="gbar"><button type="button" class="gb" data-vote="'+E(c.id)+'|felt" aria-pressed="'+(v.mine==="felt")+'">'+E(t("felt"))+' · '+v.felt+'</button><button type="button" class="gb" data-vote="'+E(c.id)+'|meh" aria-pressed="'+(v.mine==="meh")+'">'+E(t("meh"))+' · '+v.meh+'</button><button type="button" class="gb" data-ver="'+E(c.id)+'|seen" aria-pressed="'+(r.mine==="seen")+'">✓ '+E(t("seen"))+' · '+r.seen+'</button><button type="button" class="gb dif" data-ver="'+E(c.id)+'|diff" aria-pressed="'+(r.mine==="diff")+'">'+E(t("differs"))+' · '+r.diff+'</button></div>'}
+function confChip(c){var ec=effConf(c);return'<span class="chip c-'+ec+'" title="'+(ec!==c.conf?E(cl(c.conf)+" → "+cl(ec)):"")+'">'+E(cl(ec))+(ec!==c.conf?" ↑":"")+'</span>'}
+function impChip(c){var n=c.impact||0;return'<span class="imp '+(n>0?"up":n<0?"dn":"z")+'">'+(n>0?"+":n<0?"−":"±")+Math.abs(n)+'</span>'}
+function relChip(c){if(!c.rel||!REL[c.rel])return"";var r=REL[c.rel];return' <a class="chip lk" href="'+r[1]+'" target="_blank" rel="noopener">'+E(r[0])+' ↗</a>'}
+
+/* ---------- map ---------- */
+function renderMap(list){var h="",sum=0;ORDER.forEach(function(c){SPECS[c].forEach(function(s){sum+=specData(c,s,list).net})});var avg=sum/27;$("#mapAvg").textContent=t("avg",{a:sgn(avg)});
+ORDER.forEach(function(cls){var cw=list.filter(function(c){return c.cls===cls&&c.spec==="All"&&vis(c)}).length;
+h+='<div class="cl" style="--c:'+CC[cls]+'"><b>'+E(cn(cls))+'</b><span class="note">'+cw+' '+E(t("class_wide"))+'</span></div>';
+SPECS[cls].forEach(function(sp){var d=specData(cls,sp,list),dv=d.net-avg,tone=dv>0.5?"var(--ok)":dv<-0.5?"var(--bad)":"var(--line2)",amt=Math.min(26,Math.abs(dv)*4)+"%",on=pref.cls===cls&&pref.spec===sp,nn=d.ch.filter(isNew).length;
+h+='<button type="button" class="cell" data-cell="'+cls+'|'+sp+'" aria-pressed="'+on+'" style="--tone:'+tone+';--amt:'+amt+'"><span class="sp">'+E(sn(sp))+(nn?' <span class="chip nw">'+nn+' '+E(t("new_chip"))+'</span>':'')+'</span><span class="net">'+sgn(d.net)+'</span><span class="cnt"><span>▲'+d.n.buff+'</span><span>✦'+d.n["new"]+'</span><span>▼'+(d.n.nerf+d.n.removed)+'</span><span>↻'+d.n.rework+'</span></span></button>'})});
+$("#map").innerHTML=h}
+function chRow(c,noG){return'<div class="ci"><div class="tags"><span class="chip k-'+c.kind+'">'+E(kl(c.kind))+'</span>'+confChip(c)+(isNew(c)?'<span class="chip nw">'+E(t("new_chip"))+'</span>':'')+'</div><div><b>'+E(c.name)+'</b> '+impChip(c)+(c.spec==="All"?' <span class="note">· '+E(t("class_wide"))+'</span>':'')+relChip(c)+'<p>'+E(ctext(c))+'</p><div class="note">'+E(es()?c.srcEs||c.src:c.src)+(c.date?' · '+sd(c.date):'')+'</div>'+(noG?'':gbar(c))+'</div></div>'}
+function renderDetail(list){var cls=pref.cls,sp=pref.spec,d=specData(cls,sp,list),k=pkey(cls,sp);
+var own=d.ch.filter(function(c){return c.spec===sp}).sort(function(a,b){return Math.abs(score(b))-Math.abs(score(a))||(b.date>a.date?1:-1)}),cw=d.ch.filter(function(c){return c.spec==="All"});
+var head='<div class="sh" style="margin-bottom:0"><div><div class="eyebrow" style="color:color-mix(in srgb,'+CC[cls]+' 62%,var(--text))">'+E(cn(cls))+' · <a href="'+REL.cards[1]+'" target="_blank" rel="noopener" style="color:inherit">'+E(t("class_card"))+' ↗</a></div><h3>'+E(sn(sp))+' <span class="mono">'+sgn(d.net)+'</span></h3><div class="sub">'+E(t("d_sub",{n:d.ch.length,b:d.n.buff,nw:d.n["new"],nf:d.n.nerf+d.n.removed,r:d.n.rework}))+'</div></div><div class="row"><div class="tabs" role="group"><button type="button" data-dview="list" aria-pressed="'+(pref.dview==="list")+'">'+E(t("lst"))+'</button><button type="button" data-dview="tree" aria-pressed="'+(pref.dview==="tree")+'">'+E(t("tree"))+'</button></div>'+(k?'<button class="btn sm" data-goweights="'+k+'" type="button">'+E(t("open_w"))+'</button>':'')+'<button class="btn sm" id="dCopy" type="button">'+E(t("copy_dc"))+'</button></div></div>';
+if(pref.dview==="tree"){$("#detail").innerHTML=head+renderTree(d.ch);return}
+$("#detail").innerHTML=head+'<div class="clist">'+(own.length?own.map(function(c){return chRow(c)}).join(""):'<p class="note" style="padding:10px 0">'+E(t("no_spec"))+'</p>')+'</div>'+
+(cw.length?'<details style="margin-top:10px"><summary class="note" style="cursor:pointer">'+E(t("cw_changes",{c:cn(cls),n:cw.length}))+'</summary><div class="clist">'+cw.map(function(c){return chRow(c)}).join("")+'</div></details>':'')}
+function renderTree(ch){var lanes={base:[],un:[]},r;for(r=1;r<=7;r++)lanes[r]=[];
+ch.forEach(function(c){if(c.b){lanes.base.push(c);return}var rw=rowOf(c);if(rw&&lanes[rw])lanes[rw].push(c);else lanes.un.push(c)});
+function node(c,sel){return'<div class="tn" style="--kc:'+KC[c.kind]+'"><b>'+E(c.name)+' '+impChip(c)+'</b><span class="note">'+E(kl(c.kind))+' · '+E(cl(effConf(c)))+'</span>'+(sel?'<label class="note">'+E(t("t_set"))+' <select data-row="'+E(c.id)+'" aria-label="'+E(t("t_set"))+'"><option value="">—</option>'+[1,2,3,4,5,6,7].map(function(n){return'<option'+(rowOf(c)===n?" selected":"")+'>'+n+'</option>'}).join("")+'</select></label>':'')+'</div>'}
+function lane(lbl,arr,sel){return'<div class="trow"><div class="rl">'+E(lbl)+'</div><div class="tcells">'+arr.map(function(c){return node(c,sel)}).join("")+'</div></div>'}
+var h='<p class="note" style="margin-top:10px">'+E(t("tree_note"))+'</p><div class="tree">'+lane(t("t_base"),lanes.base,false);
+for(r=1;r<=7;r++)h+=lane(t("t_row",{n:r}),lanes[r],true);
+return h+lane(t("t_un"),lanes.un,true)+'</div>'}
+function pkey(cls,spec){if(cls==="Druid"&&spec==="Feral")return"dru-bear";for(var i=0;i<PROF.length;i++)if(PROF[i].cls===cls&&PROF[i].spec===spec)return PROF[i].k;return null}
+
+/* ---------- patches ---------- */
+function renderPatches(list){var dates=[];list.forEach(function(c){if(c.date&&dates.indexOf(c.date)<0)dates.push(c.date)});dates.sort();
+if(!pref.pTo||dates.indexOf(pref.pTo)<0)pref.pTo=dates[dates.length-1];if(pref.pFrom==null||(pref.pFrom&&dates.indexOf(pref.pFrom)<0))pref.pFrom=dates.length>1?dates[dates.length-2]:"";
+$("#ptl").innerHTML=dates.map(function(d){var n=list.filter(function(c){return c.date===d&&vis(c)}).length,on=d>pref.pFrom&&d<=pref.pTo;return'<button type="button" class="dt'+(on?" on":"")+'" data-pdate="'+d+'"><b>'+sd(d)+'</b><span class="note">'+n+' '+E(t("p_n").toLowerCase())+'</span></button>'}).join("");
+$("#pFrom").innerHTML='<option value="">'+E(t("p_start"))+'</option>'+dates.map(function(d){return'<option value="'+d+'"'+(d===pref.pFrom?" selected":"")+'>'+sd(d)+'</option>'}).join("");
+$("#pTo").innerHTML=dates.map(function(d){return'<option value="'+d+'"'+(d===pref.pTo?" selected":"")+'>'+sd(d)+'</option>'}).join("");
+var inR=function(c){return c.date>pref.pFrom&&c.date<=pref.pTo};
+var rng=list.filter(function(c){return vis(c)&&inR(c)}),n={buff:0,"new":0,nerf:0,rework:0,removed:0,fix:0};rng.forEach(function(c){n[c.kind]++});
+$("#pSum").textContent=t("p_sum",{n:rng.length,b:n.buff,nw:n["new"],nf:n.nerf+n.removed,r:n.rework});
+var mv=[];ORDER.forEach(function(c){SPECS[c].forEach(function(s){var d=specData(c,s,list,inR);if(d.ch.length)mv.push({c:c,s:s,d:d})})});
+mv.sort(function(a,b){return Math.abs(b.d.net)-Math.abs(a.d.net)});var mx=mv.reduce(function(a,x){return Math.max(a,Math.abs(x.d.net))},0.01);
+$("#pMv").innerHTML=mv.length?mv.slice(0,12).map(function(x){var w=Math.min(50,Math.abs(x.d.net)/mx*50);return'<tr><td><button type="button" class="linkish" data-cell="'+x.c+'|'+x.s+'" data-jump="1" style="border:0;background:none;padding:0;text-align:left;color:inherit"><b style="color:color-mix(in srgb,'+CC[x.c]+' 62%,var(--text))">'+E(sn(x.s))+'</b> <span class="note">'+E(cn(x.c))+'</span></button></td><td class="mono">'+sgn(x.d.net)+'</td><td style="width:40%"><div class="hb"><i class="'+(x.d.net>=0?"up":"dn")+'" style="width:'+w+'%"></i></div></td><td class="mono">'+x.d.ch.length+'</td></tr>'}).join(""):'<tr><td colspan="4" class="note" style="padding:18px">'+E(t("p_none"))+'</td></tr>';
+var shown=rng.slice().sort(function(a,b){return Math.abs(score(b))-Math.abs(score(a))});
+$("#pList").innerHTML=shown.length?shown.slice(0,40).map(function(c){return'<div class="ci"><div class="tags"><span class="chip k-'+c.kind+'">'+E(kl(c.kind))+'</span></div><div><b>'+E(c.name)+'</b> '+impChip(c)+' <span class="note">· '+E(cn(c.cls))+(c.spec!=="All"?" "+E(sn(c.spec)):"")+'</span><p>'+E(ctext(c))+'</p></div></div>'}).join(""):'<p class="note">'+E(t("p_none"))+'</p>'}
+
+/* ---------- weights ---------- */
+function renderWeights(){var k=pref.wp,W=weights(k),p=PK[k];$("#wp").value=k;
+$$("[data-ctx]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.ctx===pref.ctx))});
+var rows=STATS.filter(function(s){return(W.v[s[0]]||0)>0.001||(W.f[s[0]]||0)>0.001}),capF=capFor(k,"f");
+$("#wtb").innerHTML=rows.map(function(s){var id=s[0],v=W.v[id]||0,f=W.f[id]||0,sh=shift(v,f),cls=sh.t==="new"?"nw":sh.p>0.005?"up":sh.p<-0.005?"dn":"",wd=Math.min(50,Math.abs(sh.p)*50);
+var sub=[];if(W.dr[id])sub.push(W.dr[id].join(" · "));if(id==="hit"&&capF!=null)sub.push(t("until_cap",{c:capF}));
+return'<tr><td>'+E(stl(id))+(sub.length?'<div class="note">'+E(sub.join(" · "))+'</div>':'')+'</td><td class="mono">'+(v?fmt(v):"—")+'</td><td><input type="number" step="0.01" min="0" id="wov-'+id+'" data-ov="'+id+'" value="'+(+f.toFixed(2))+'" class="'+(W.ov[id]!=null?"ov":"")+'" aria-label="Forever '+E(stl(id))+'"></td><td><span class="dl '+cls+'">'+(sh.t==="new"?E(t("new_chip")):sh.t||"—")+'</span></td><td style="width:34%"><div class="dv">'+(cls==="up"||cls==="nw"?'<i class="up" style="width:'+(cls==="nw"?50:wd)+'%"></i>':cls==="dn"?'<i class="dn" style="width:'+wd+'%"></i>':'')+'</div></td></tr>'}).join("");
+var n=Object.keys(W.ov).length;$("#wNote").textContent=(pref.ctx==="level"?t("w_note_lvl")+" ":"")+(n?t("ov_n",{n:n,s:plab(p)}):t("w_note"));
+var ms=modsFor(k);$("#mods").innerHTML=ms.length?ms.map(function(m){var below=(CONFR[m.conf]||4)>pref.floor,on=!ST.get().off[m.id];
+return'<label class="mod'+(below||!on?" dim":"")+'"><input type="checkbox" id="mod-'+m.id+'" data-mod="'+m.id+'"'+(on?" checked":"")+(below?" disabled":"")+'><span><span class="t">'+E(es()?m.te:m.t)+'</span> <span class="chip c-'+m.conf+'">'+E(cl(m.conf))+'</span><div class="d">'+E(es()?m.de:m.d)+(below?" "+E(t("below")):"")+'</div></span></label>'}).join(""):'<p class="note">'+E(t("nomods"))+'</p>';
+var c=caps();$("#caps").innerHTML='<span></span><span class="h">'+E(t("cap_melee"))+'</span><span class="h">'+E(t("cap_spell"))+'</span><span class="h">'+E(t("cap_ranged"))+'</span>'+
+["v","f"].map(function(era){return'<span class="h">'+(era==="v"?"Vanilla":"Forever")+'</span>'+["melee","spell","ranged"].map(function(ty){return'<input type="number" min="0" max="40" step="0.5" id="cap-'+era+'-'+ty+'" data-cap="'+era+'|'+ty+'" value="'+c[era][ty]+'" aria-label="'+era+' '+ty+' cap">'}).join("")}).join("")+(pref.ctx==="level"?'<span></span><span class="note" style="grid-column:2/-1">'+E(t("cap_lvl"))+'</span>':'')}
+
+/* ---------- roster ---------- */
+function renderRoster(list){$("#rgrid").innerHTML=R.map(function(r){var specs=r.specs.map(function(s){return{s:s,d:specData(r.cls,s,list)}});
+var pool=[];specs.forEach(function(x){x.d.ch.forEach(function(c){if(c.kind!=="fix"&&pool.indexOf(c)<0)pool.push(c)})});
+pool.sort(function(a,b){return Math.abs(score(b))-Math.abs(score(a))});var nn=pool.filter(isNew).length;
+var k=pkey(r.cls,r.specs[0]),W=weights(k),best=null;Object.keys(W.f).forEach(function(s){var sh=shift(W.v[s]||0,W.f[s]||0);if(!sh.t)return;var m=sh.t==="new"?0.04:Math.abs(sh.p);if(!best||m>best.m)best={s:s,m:m,t:sh.t==="new"?t("now_counts"):sh.t}});
+return'<div class="ch" style="--c:'+r.c+'"><header><b>'+E(r.name)+'</b><span class="note">'+E(es()?(ES.race[r.race]||r.race)+" · "+cn(r.cls):r.race+" "+r.cls)+'</span></header>'+(nn?'<span class="chip nw" style="justify-self:start">'+E(t("new_for",{n:nn}))+'</span>':'')+
+specs.map(function(x){var d=x.d;return'<div class="specrow"><span>'+E(sn(x.s))+'</span><span><span class="n" style="color:'+(d.net>0.05?"var(--ok)":d.net<-0.05?"var(--bad)":"var(--muted)")+'">'+sgn(d.net)+'</span> <button class="btn sm" data-cell="'+r.cls+'|'+x.s+'" data-jump="1" type="button">'+E(t("view"))+'</button></span></div>'}).join("")+
+'<ul>'+pool.slice(0,3).map(function(c){return'<li><b>'+E(c.name)+'</b> '+impChip(c)+': '+E(ctext(c))+'</li>'}).join("")+'</ul>'+
+(best?'<div class="shift">'+E(t("shift_for",{s:plab(PK[k])}))+' <b>'+E(stl(best.s))+' '+E(best.t)+'</b></div>':'')+'</div>'}).join("")}
+
+/* ---------- builds ---------- */
+function bdoc(k){var d=BLD.all().filter(function(x){return x.id===k})[0];return d||{id:k,pts:[0,0,0],link:"",keys:[],notes:""}}
+function renderBuilds(){var list=all();$("#bgrid").innerHTML=R.map(function(r){var d=bdoc(r.k),trees=SPECS[r.cls],u=(d.pts||[]).reduce(function(a,b){return a+(+b||0)},0),over=u-51;
+var tal=[];list.forEach(function(c){if(c.cls===r.cls&&!c.b&&c.spec!=="All"&&tal.indexOf(c.name)<0&&c.kind!=="fix")tal.push(c.name)});
+var chosen=d.keys||[],touched=list.filter(function(c){return c.cls===r.cls&&chosen.indexOf(c.name)>=0&&vis(c)}),tn=0,names=[];touched.forEach(function(c){tn+=score(c);if(names.indexOf(c.name)<0)names.push(c.name)});
+return'<div class="bd" style="--c:'+r.c+'"><header><b>'+E(r.name)+'</b><span class="note">'+E(cn(r.cls))+'</span></header>'+
+'<div class="pts">'+trees.map(function(tr,i){return'<label>'+E(sn(tr))+'<input type="number" min="0" max="51" id="pt-'+r.k+'-'+i+'" data-pts="'+r.k+'|'+i+'" value="'+(+((d.pts||[])[i])||0)+'"></label>'}).join("")+'</div>'+
+'<div class="row" style="justify-content:space-between"><span class="ptsum '+(over>0?"bad":u===51?"ok":"")+'">'+E(over>0?t("pts_over",{u:u,o:over}):t("pts_sum",{u:u}))+'</span><a class="note" href="'+REL.legacy[1]+'" target="_blank" rel="noopener">'+E(t("legacy_tip"))+' ↗</a></div>'+
+'<div class="row"><input type="text" id="bl-'+r.k+'" data-blink="'+r.k+'" value="'+E(d.link||"")+'" placeholder="'+E(t("link_ph"))+'" style="flex:1 1 160px">'+(/^https?:\/\//.test(d.link||"")?'<a class="btn sm" href="'+E(d.link)+'" target="_blank" rel="noopener">'+E(t("open_link"))+'</a>':'')+'</div>'+
+'<div><div class="note" style="margin-bottom:4px">'+E(t("key_t"))+'</div><div class="kchips">'+tal.map(function(n){return'<button type="button" data-key="'+r.k+'|'+E(n)+'" aria-pressed="'+(chosen.indexOf(n)>=0)+'">'+E(n)+'</button>'}).join("")+'</div></div>'+
+(names.length?'<div class="shift">'+E(t("touched",{n:names.length,x:sgn(tn)}))+'</div>':'')+
+'<textarea id="bn-'+r.k+'" data-bnotes="'+r.k+'" placeholder="'+E(t("notes_ph"))+'" aria-label="'+E(t("notes_ph"))+'">'+E(d.notes||"")+'</textarea></div>'}).join("")}
+function saveBuild(k,fn){var d=JSON.parse(JSON.stringify(bdoc(k)));fn(d);BLD.put(d)}
+
+/* ---------- gear: two items ---------- */
+function renderGear(){var k=pref.gp,W=weights(k);$("#gp").value=k;$("#gHit").value=gear.hit||0;
+var nmA=gear.a.name||t("ex_a"),nmB=gear.b.name||t("ex_b");
+$("#gtb").innerHTML='<tr><td>'+E(t("name"))+'</td><td class="nm"><input type="text" id="gnA" data-gname="a" value="'+E(nmA)+'" aria-label="'+E(t("item_a"))+'"></td><td class="nm"><input type="text" id="gnB" data-gname="b" value="'+E(nmB)+'" aria-label="'+E(t("item_b"))+'"></td><td></td><td></td></tr>'+
+STATS.map(function(s){var id=s[0],va=gear.a.s[id],vb=gear.b.s[id];return'<tr><td>'+E(stl(id))+'</td><td><input type="number" step="any" id="ga-'+id+'" data-g="a|'+id+'" value="'+(va!=null?va:"")+'" aria-label="A '+E(stl(id))+'"></td><td><input type="number" step="any" id="gb-'+id+'" data-g="b|'+id+'" value="'+(vb!=null?vb:"")+'" aria-label="B '+E(stl(id))+'"></td><td class="mono note">'+((W.v[id]||0)?fmt(W.v[id]):"—")+'</td><td class="mono">'+((W.f[id]||0)?fmt(W.f[id]):"—")+'</td></tr>'}).join("");
+renderGearScore()}
+function renderGearScore(){var k=pref.gp,W=weights(k),h=+gear.hit||0,va=sscore(gear.a.s,W.v,k,"v",h),vb=sscore(gear.b.s,W.v,k,"v",h),fa=sscore(gear.a.s,W.f,k,"f",h),fb=sscore(gear.b.s,W.f,k,"f",h);
+$("#gtf").innerHTML='<tr><td>'+E(t("van_score"))+'</td><td class="mono">'+va.toFixed(1)+'</td><td class="mono">'+vb.toFixed(1)+'</td><td></td><td></td></tr><tr><td>'+E(t("for_score"))+'</td><td class="mono">'+fa.toFixed(1)+'</td><td class="mono">'+fb.toFixed(1)+'</td><td></td><td></td></tr>';
+function win(x,y){if(Math.abs(x-y)<0.05)return{w:null,m:0};return x>y?{w:"a",m:y>0?(x-y)/y:1}:{w:"b",m:x>0?(y-x)/x:1}}
+var V=win(va,vb),F=win(fa,fb),nm={a:gear.a.name||t("ex_a"),b:gear.b.name||t("ex_b")};
+function line(lbl,x){return'<div>'+E(lbl)+': '+(x.w?'<b>'+E(nm[x.w])+'</b> '+E(t("by"))+' '+Math.round(x.m*100)+'%':E(t("tie")))+'</div>'}
+$("#gv").innerHTML='<div class="eyebrow">'+E(t("verdict_for",{s:plab(PK[k])}))+'</div>'+line(t("van_picks"),V)+line(t("for_picks"),F)+(V.w&&F.w&&V.w!==F.w?'<div class="flip">'+E(t("flips"))+'</div>':V.w&&F.w?'<div class="note">'+E(t("same"))+'</div>':'')}
+
+/* ---------- gear: whole character ---------- */
+function sheet(k){return SHT.all().filter(function(x){return x.id===k})[0]||null}
+function renderChar(){var r=R.filter(function(x){return x.k===pref.cchar})[0]||R[0];pref.cchar=r.k;
+$("#cChar").innerHTML=R.map(function(x){return'<option value="'+x.k+'"'+(x.k===r.k?" selected":"")+'>'+E(x.name)+'</option>'}).join("");
+var sh=sheet(r.k),k=(sh&&sh.prof&&PK[sh.prof])?sh.prof:pkey(r.cls,r.specs[0]);
+$("#cProf").innerHTML=PROF.filter(function(p){return p.cls===r.cls}).map(function(p){return'<option value="'+p.k+'"'+(p.k===k?" selected":"")+'>'+E(plab(p))+'</option>'}).join("");
+$("#cHit").value=sh&&sh.th!=null?sh.th:0;
+var items=(sh&&sh.items)||[];if(!items.length){$("#cTb").innerHTML='<tr><td colspan="6" class="note" style="padding:22px">'+E(t("c_empty",{c:r.name}))+'</td></tr>';$("#cTf").innerHTML="";$("#cSum").innerHTML="";$("#cHitLine").textContent="";return}
+var W=weights(k),th=+(sh.th||0),gearHit=items.reduce(function(a,it){return a+(+((it.s||{}).hit)||0)},0),totHit=th+gearHit;
+var rows=items.map(function(it,i){var ih=+((it.s||{}).hit)||0,base=totHit-ih,v=sscore(it.s,W.v,k,"v",base),f=sscore(it.s,W.f,k,"f",base);return{i:i,it:it,v:v,f:f,p:v>0?(f-v)/v:(f>0?1:0)}});
+var sorted=rows.slice().sort(function(a,b){return a.p-b.p}),lose=sorted.slice(0,3).filter(function(x){return x.p<-0.02}).map(function(x){return x.i}),gain=sorted.slice(-3).filter(function(x){return x.p>0.02}).map(function(x){return x.i});
+$("#cTb").innerHTML=rows.map(function(x){var cls=lose.indexOf(x.i)>=0?"lose":gain.indexOf(x.i)>=0?"gain":"",sh2=x.v>0||x.f>0?(x.p>=0?"+":"−")+Math.round(Math.abs(x.p)*100)+"%":"—";
+return'<tr class="'+cls+'"><td>'+E(slotl(x.it.slot||""))+'</td><td><b>'+E(x.it.name||"")+'</b><div class="note">'+E(Object.keys(x.it.s||{}).map(function(s){return"+"+x.it.s[s]+" "+stl(s)}).join(", "))+'</div></td><td class="mono">'+x.v.toFixed(1)+'</td><td class="mono">'+x.f.toFixed(1)+'</td><td><span class="dl '+(x.p>0.005?"up":x.p<-0.005?"dn":"")+'">'+sh2+'</span></td><td class="row" style="flex-wrap:nowrap"><button class="btn sm" type="button" data-cmp="'+x.i+'">'+E(t("compare"))+'</button><button class="btn sm" type="button" data-rmitem="'+x.i+'">'+E(t("remove"))+'</button></td></tr>'}).join("");
+var tv=items.reduce(function(a,it){var o={};Object.keys(it.s||{}).forEach(function(s){if(s!=="hit")o[s]=it.s[s]});return a+sscore(o,W.v,k,"v",0)},0),tf=items.reduce(function(a,it){var o={};Object.keys(it.s||{}).forEach(function(s){if(s!=="hit")o[s]=it.s[s]});return a+sscore(o,W.f,k,"f",0)},0);
+tv+=sscore({hit:gearHit},W.v,k,"v",th);tf+=sscore({hit:gearHit},W.f,k,"f",th);
+$("#cTf").innerHTML='<tr><td></td><td>'+E(t("total"))+'</td><td class="mono">'+tv.toFixed(1)+'</td><td class="mono">'+tf.toFixed(1)+'</td><td><span class="dl '+(tf>=tv?"up":"dn")+'">'+(tv>0?(tf>=tv?"+":"−")+Math.round(Math.abs((tf-tv)/tv)*100)+"%":"—")+'</span></td><td></td></tr>';
+var cap=capFor(k,"f");$("#cHitLine").innerHTML=cap==null?"":E(t("hit_from",{h:+totHit.toFixed(1),c:cap}))+(totHit>cap?'<span class="flip">'+E(t("over_cap",{o:+(totHit-cap).toFixed(1)}))+'</span>':'');
+$("#cSum").innerHTML='<div class="eyebrow">'+E(plab(PK[k]))+'</div>'+(lose.length?'<div><b>'+E(t("loses"))+':</b> '+lose.map(function(i){return E(items[i].name)}).join(", ")+'</div>':'')+(gain.length?'<div><b>'+E(t("gains"))+':</b> '+gain.map(function(i){return E(items[i].name)}).join(", ")+'</div>':'')+(sh.updated?'<div class="note">'+E(t("updated",{d:sdMs(sh.updated)}))+'</div>':'')}
+function saveSheet(k,fn){var d=JSON.parse(JSON.stringify(sheet(k)||{id:k,items:[],th:0}));fn(d);d.updated=Date.now();SHT.put(d)}
+
+/* ---------- feed ---------- */
+var feedCache=[];
+function renderFeed(list){var cl2=$("#fcl"),cur=cl2.value;cl2.innerHTML='<option value="">'+E(t("all_cls"))+'</option>'+["All"].concat(ORDER,["Racial"]).map(function(c){return'<option value="'+c+'"'+(c===cur?" selected":"")+'>'+E(c==="All"?t("every_cls"):cn(c))+'</option>'}).join("");
+var fk=$("#fk"),ck=fk.value;fk.innerHTML='<option value="">'+E(t("any_type"))+'</option>'+KINDS.map(function(k){return'<option value="'+k+'"'+(k===ck?" selected":"")+'>'+E(kl(k))+'</option>'}).join("");
+var fs=$("#fs"),cs=fs.value,srcs=[];list.forEach(function(c){if(srcs.indexOf(c.src)<0)srcs.push(c.src)});fs.innerHTML='<option value="">'+E(t("any_src"))+'</option>'+srcs.map(function(s){var c=list.filter(function(x){return x.src===s})[0];return'<option value="'+E(s)+'"'+(s===cs?" selected":"")+'>'+E(es()?c.srcEs||s:s)+'</option>'}).join("");
+$("#fo").innerHTML=["new","felt","imp"].map(function(o){return'<option value="'+o+'"'+(o===pref.fo?" selected":"")+'>'+E(t("s_"+o))+'</option>'}).join("");
+var q=$("#fq").value.toLowerCase(),fc=cl2.value,fkv=fk.value,fsv=fs.value;
+var v=list.filter(function(c){return vis(c)&&(!fc||c.cls===fc)&&(!fkv||c.kind===fkv)&&(!fsv||c.src===fsv)&&(!q||(c.name+" "+c.text+" "+(c.textEs||"")+" "+c.cls+" "+c.spec).toLowerCase().indexOf(q)>=0)});
+var felt=function(c){var x=IDX.v[c.id];return x?x.felt-x.meh*.5:0};
+v.sort(pref.fo==="felt"?function(a,b){return felt(b)-felt(a)||(b.date||"").localeCompare(a.date||"")}:pref.fo==="imp"?function(a,b){return Math.abs(score(b))-Math.abs(score(a))}:function(a,b){return(b.added-a.added)||ORDER.indexOf(a.cls)-ORDER.indexOf(b.cls)});
+feedCache=v;var shown=v.slice(0,pref.show);
+$("#ftb").innerHTML=shown.length?shown.map(function(c){return'<tr><td class="mono">'+E(sd(c.date))+(isNew(c)?'<div><span class="chip nw">'+E(t("new_chip"))+'</span></div>':'')+'</td><td class="who"><b style="color:color-mix(in srgb,'+(CC[c.cls]||"#999")+' 62%,var(--text))">'+E(cn(c.cls))+'</b><div class="note">'+E(sn(c.spec))+'</div></td><td class="cx"><b>'+E(c.name)+'</b> '+impChip(c)+relChip(c)+'<div>'+E(ctext(c))+'</div>'+gbar(c)+'</td><td><span class="chip k-'+c.kind+'">'+E(kl(c.kind))+'</span></td><td>'+confChip(c)+'</td><td class="note">'+E(es()?c.srcEs||c.src:c.src)+'</td><td>'+(c.base?'':'<button class="btn sm" data-del="'+E(c.id)+'" type="button">'+E(t("del"))+'</button>')+'</td></tr>'}).join(""):'<tr><td colspan="7" class="note" style="padding:22px">'+E(t("no_match"))+'</td></tr>';
+$("#fMore").innerHTML=v.length>shown.length?'<button class="btn" id="fAll" type="button">'+E(t("show_all",{n:v.length}))+'</button>':(v.length>60&&pref.show>60?'<button class="btn" id="fLess" type="button">'+E(t("show_less"))+'</button>':'<span class="note">'+E(t("shown",{n:v.length}))+'</span>')}
+
+/* ---------- selects ---------- */
+function profOpts(){return ORDER.map(function(c){return'<optgroup label="'+E(cn(c))+'">'+PROF.filter(function(p){return p.cls===c}).map(function(p){return'<option value="'+p.k+'">'+E(plab(p))+'</option>'}).join("")+'</optgroup>'}).join("")}
+function fillStaticSelects(){$("#wp").innerHTML=profOpts();$("#gp").innerHTML=profOpts();
+var mc=$("#mCls").value||"Warrior";$("#mCls").innerHTML=ORDER.concat(["All","Racial"]).map(function(c){return'<option value="'+c+'"'+(c===mc?" selected":"")+'>'+E(c==="All"?t("every_cls"):cn(c))+'</option>'}).join("");specOpts();
+var mk=$("#mKind").value||"buff";$("#mKind").innerHTML=KINDS.map(function(k){return'<option value="'+k+'"'+(k===mk?" selected":"")+'>'+E(kl(k))+'</option>'}).join("");
+var mf=$("#mConf").value||"off";$("#mConf").innerHTML=["off","cor","one","spec"].map(function(c){return'<option value="'+c+'"'+(c===mf?" selected":"")+'>'+E(cl(c))+'</option>'}).join("")}
+function specOpts(){var c=$("#mCls").value,o=c==="All"?["All"]:c==="Racial"?RACES:["All"].concat(SPECS[c]);$("#mSpec").innerHTML=o.map(function(s){return'<option value="'+E(s)+'">'+E(s==="All"&&c!=="All"?t("all_specs"):sn(s))+'</option>'}).join("")}
+
+function renderAll(){buildIdx();var list=all();renderHero();renderMap(list);renderDetail(list);renderPatches(list);renderWeights();renderRoster(list);renderBuilds();renderGearScore();renderChar();renderFeed(list)}
+function renderLang(){applyI18n();fillStaticSelects();renderGear();renderAll();$$("[data-gmode]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.gmode===pref.gmode))})}
+
+/* ---------- Pawn ---------- */
+function pawn(k){var W=weights(k),f=W.f,p=PK[k],out=[],isR=(k==="hun-bm"||k==="hun-mm");
+function put(n,v){if(v>0.001)out.push(n+"="+(+v.toFixed(2)))}
+put("Strength",f.str||0);put("Agility",f.agi||0);put("Stamina",f.sta||0);put("Intellect",f.int||0);put("Spirit",f.spi||0);
+if(isR){put("Rap",f.ap||0)}else put("Ap",f.ap||0);put("SpellDamage",f.sp||0);put("Healing",f.heal||0);put("Mp5",f.mp5||0);
+put("HitRating",f.hit||0);put("SpellHitRating",f.hit||0);put("CritRating",f.crit||0);put("SpellCritRating",f.crit||0);
+put("ExpertiseRating",f.exp||0);put("DefenseRating",f.def||0);put("BlockValue",f.block||0);put(isR?"RangedDps":"MeleeDps",f.wdps||0);
+return'( Pawn: v1: "Forever '+(p.lab||p.spec)+" "+p.cls+(pref.ctx==="level"?" leveling":"")+'": '+out.join(", ")+' )'}
+
+/* ---------- events ---------- */
+document.addEventListener("click",function(e){var tg=e.target;
+var fl=tg.closest("[data-floor]");if(fl){pref.floor=+fl.dataset.floor;savePref();renderAll();return}
+var cell=tg.closest("[data-cell]");if(cell){var p=cell.dataset.cell.split("|");pref.cls=p[0];pref.spec=p[1];savePref();var list=all();renderMap(list);renderDetail(list);if(cell.dataset.jump)$("#impact").scrollIntoView({behavior:"smooth"});return}
+var dv=tg.closest("[data-dview]");if(dv){pref.dview=dv.dataset.dview;savePref();renderDetail(all());return}
+var gw=tg.closest("[data-goweights]");if(gw){pref.wp=gw.dataset.goweights;savePref();renderWeights();$("#weights").scrollIntoView({behavior:"smooth"});return}
+var cx=tg.closest("[data-ctx]");if(cx){pref.ctx=cx.dataset.ctx;savePref();renderWeights();renderRoster(all());renderGear();renderChar();return}
+var gm=tg.closest("[data-gmode]");if(gm){pref.gmode=gm.dataset.gmode;savePref();$("#gTwo").hidden=pref.gmode!=="two";$("#gChar").hidden=pref.gmode!=="char";$$("[data-gmode]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.gmode===pref.gmode))});return}
+var pd=tg.closest("[data-pdate]");if(pd){var d=pd.dataset.pdate,dates=[];all().forEach(function(c){if(c.date&&dates.indexOf(c.date)<0)dates.push(c.date)});dates.sort();var i=dates.indexOf(d);pref.pTo=d;pref.pFrom=i>0?dates[i-1]:"";savePref();renderPatches(all());return}
+var vo=tg.closest("[data-vote]");if(vo){var a=vo.dataset.vote.split("|"),id=a[0]+"~"+myId,cur=VOT.all().filter(function(x){return x.id===id})[0];if(cur&&cur.v===a[1])VOT.del(id);else VOT.put({id:id,cid:a[0],uid:myId,v:a[1],at:Date.now()});return}
+var ve=tg.closest("[data-ver]");if(ve){var b=ve.dataset.ver.split("|"),vid=b[0]+"~"+myId+"~v",cv=VER.all().filter(function(x){return x.id===vid})[0];if(cv&&cv.v===b[1])VER.del(vid);else VER.put({id:vid,cid:b[0],uid:myId,v:b[1],date:new Date().toISOString().slice(0,10)});return}
+var kc=tg.closest("[data-key]");if(kc){var q=kc.dataset.key.split("|"),ck=q[0],nm=q.slice(1).join("|");saveBuild(ck,function(d){d.keys=d.keys||[];var i2=d.keys.indexOf(nm);if(i2>=0)d.keys.splice(i2,1);else d.keys.push(nm)});return}
+var cm=tg.closest("[data-cmp]");if(cm){var sh=sheet(pref.cchar),it=sh&&sh.items[+cm.dataset.cmp];if(it){gear.a={name:it.name,s:Object.assign({},it.s)};pref.gp=$("#cProf").value;pref.gmode="two";saveGear();savePref();$("#gTwo").hidden=false;$("#gChar").hidden=true;$$("[data-gmode]").forEach(function(b2){b2.setAttribute("aria-pressed",String(b2.dataset.gmode==="two"))});renderGear()}return}
+var rm=tg.closest("[data-rmitem]");if(rm){var ix=+rm.dataset.rmitem;saveSheet(pref.cchar,function(d){d.items.splice(ix,1)});return}
+if(tg.closest("#langBtn")){pref.lang=pref.lang==="en"?"es":"en";savePref();renderLang();return}
+if(tg.id==="markSeen"){prevSeen=Date.now();WF.lsSet("pna_seen",prevSeen);renderAll();WF.toast(t("t_seen"));return}
+if(tg.id==="dCopy"){var l2=all(),dd=specData(pref.cls,pref.spec,l2),k=pkey(pref.cls,pref.spec),W=k?weights(k):null;
+var o="**"+sn(pref.spec)+" · "+cn(pref.cls)+"** · Forever "+sgn(dd.net)+" ("+dd.ch.length+")\n"+dd.ch.filter(function(c){return c.kind!=="fix"}).sort(function(x,y){return Math.abs(score(y))-Math.abs(score(x))}).map(function(c){return"• "+kl(c.kind)+" "+c.name+" ("+(c.impact>0?"+":"")+c.impact+"): "+ctext(c)+" _("+cl(effConf(c))+")_"}).join("\n");
+if(W){var top=Object.keys(W.f).map(function(s){return{s:s,sh:shift(W.v[s]||0,W.f[s]||0)}}).filter(function(x){return x.sh.t&&x.sh.t!=="+0%"}).sort(function(x,y){return(y.sh.t==="new"?0.04:Math.abs(y.sh.p))-(x.sh.t==="new"?0.04:Math.abs(x.sh.p))}).slice(0,4);if(top.length)o+="\n"+t("shift")+": "+top.map(function(x){return stl(x.s)+" "+(x.sh.t==="new"?t("now_counts"):x.sh.t)}).join(", ")}
+WF.copy(o,t("t_copied_dc"));return}
+if(tg.id==="wCopy"){var k2=pref.wp,W2=weights(k2);WF.copy(plab(PK[k2])+" · Forever ("+t(pref.ctx==="level"?"ctx_lvl":"ctx_raid")+")\n"+STATS.filter(function(s){return(W2.f[s[0]]||0)>0.001}).map(function(s){return stl(s[0])+": "+fmt(W2.f[s[0]])+"  (vanilla "+((W2.v[s[0]]||0)?fmt(W2.v[s[0]]):"—")+")"}).join("\n"),t("t_copied_w"));return}
+if(tg.id==="wPawn"){WF.copy(pawn(pref.wp),t("t_pawn"));return}
+if(tg.id==="wReset"){ST.set(function(s){if(s.ov)delete s.ov[ovKey(pref.wp)]});WF.toast(t("t_ov"));return}
+if(tg.id==="fAll"){pref.show=9999;savePref();renderFeed(all());return}
+if(tg.id==="fLess"){pref.show=60;savePref();renderFeed(all());return}
+var del=tg.closest("[data-del]");if(del){if(del.dataset.armed){IMP.del(del.dataset.del);WF.toast(t("t_del"))}else{del.dataset.armed="1";del.textContent=t("confirm");setTimeout(function(){if(del.isConnected){delete del.dataset.armed;del.textContent=t("del")}},3000)}return}
+if(tg.id==="fMd"){WF.copy("# Forever\n\n"+feedCache.map(function(c){return"- "+sd(c.date)+" · "+cn(c.cls)+(c.spec!=="All"?" "+sn(c.spec):"")+" · **"+c.name+"** ("+kl(c.kind)+", "+(c.impact>0?"+":"")+c.impact+", "+cl(effConf(c))+"): "+ctext(c)}).join("\n"),t("t_md"));return}
+});
+document.addEventListener("change",function(e){var tg=e.target,d=tg.dataset;
+if(d.mod){var id=d.mod;ST.set(function(s){s.off=s.off||{};if(tg.checked)delete s.off[id];else s.off[id]=true});return}
+if(d.ov){var st=d.ov,k=pref.wp,W=weights(k),val=parseFloat(tg.value),ok=ovKey(k);ST.set(function(s){s.ov=s.ov||{};var o=s.ov[ok]||(s.ov[ok]={});if(isNaN(val)||Math.abs(val-(W.calc[st]||0))<0.005)delete o[st];else o[st]=Math.max(0,val);if(!Object.keys(o).length)delete s.ov[ok]});return}
+if(d.cap){var cp=d.cap.split("|"),cv=parseFloat(tg.value);ST.set(function(s){var c=caps();if(!isNaN(cv))c[cp[0]][cp[1]]=Math.max(0,cv);s.caps=c});return}
+if(d.row){var rid=d.row,rv=+tg.value||null;ST.set(function(s){s.rows=s.rows||{};if(rv)s.rows[rid]=rv;else delete s.rows[rid]});return}
+if(d.pts){var pp=d.pts.split("|");saveBuild(pp[0],function(b){b.pts=b.pts||[0,0,0];b.pts[+pp[1]]=Math.max(0,Math.min(51,Math.round(+tg.value||0)))});return}
+if(d.blink){saveBuild(d.blink,function(b){b.link=tg.value.trim().slice(0,400)});return}
+if(d.bnotes){saveBuild(d.bnotes,function(b){b.notes=tg.value.slice(0,1500)});WF.toast(t("t_saved"));return}
+if(d.pick!=null){parsed[+d.pick].pick=tg.checked;var ab=$("#iAdd");if(ab)ab.textContent=t("add_sel",{n:parsed.filter(function(c){return c.pick}).length});return}
+if(tg.id==="wp"){pref.wp=tg.value;savePref();renderWeights();return}
+if(tg.id==="gp"){pref.gp=tg.value;savePref();renderGear();return}
+if(tg.id==="pFrom"){pref.pFrom=tg.value;if(pref.pFrom&&pref.pTo<=pref.pFrom)pref.pTo=pref.pFrom;savePref();renderPatches(all());return}
+if(tg.id==="pTo"){pref.pTo=tg.value;savePref();renderPatches(all());return}
+if(tg.id==="fo"){pref.fo=tg.value;savePref();renderFeed(all());return}
+if(tg.id==="cChar"){pref.cchar=tg.value;savePref();renderChar();return}
+if(tg.id==="cProf"){var pv=tg.value;saveSheet(pref.cchar,function(s){s.prof=pv});return}
+if(tg.id==="cHit"){var hv=Math.max(0,+tg.value||0);saveSheet(pref.cchar,function(s){s.th=hv});return}
+if(tg.id==="mCls"){specOpts();return}
+if(["fcl","fk","fs"].indexOf(tg.id)>=0){renderFeed(all());return}
+});
+document.addEventListener("input",function(e){var tg=e.target;
+if(tg.dataset.g){var p=tg.dataset.g.split("|"),v=tg.value;if(v==="")delete gear[p[0]].s[p[1]];else gear[p[0]].s[p[1]]=+v;saveGear();renderGearScore();return}
+if(tg.dataset.gname){gear[tg.dataset.gname].name=tg.value;saveGear();renderGearScore();return}
+if(tg.id==="gHit"){gear.hit=Math.max(0,+tg.value||0);saveGear();renderGearScore();return}
+if(tg.id==="fq"){renderFeed(all());return}
+if(tg.id==="aName"){var n=encodeURIComponent(tg.value.trim());$("#aArm").href="https://worldofwarcraft.blizzard.com/en-us/search"+(n?"?q="+n:"");$("#aWh").href=n?"https://www.wowhead.com/search?q="+n:"https://www.wowhead.com/forever"}
+});
+$("#mf").addEventListener("submit",function(e){e.preventDefault();var n=$("#mName").value.trim(),tx=$("#mText").value.trim();if(!n||!tx){WF.toast(t("t_need"));return}
+IMP.put({id:WF.uid(),cls:$("#mCls").value,spec:$("#mSpec").value,name:n.slice(0,120),kind:$("#mKind").value,conf:$("#mConf").value,impact:+$("#mImp").value,text:tx.slice(0,300),text_es:$("#mTextEs").value.trim().slice(0,300),src:"Added by hand",src_es:"Agregado a mano",date:new Date().toISOString().slice(0,10),added:Date.now()});
+$("#mName").value="";$("#mText").value="";$("#mTextEs").value="";WF.toast(t("t_added"))});
+
+/* ---------- Claude ---------- */
+var smp=null,busy=false,parsed=[];
+(async function(){try{if(window.claude&&window.claude.use)smp=await window.claude.use("sample")}catch(e){smp=null}
+if(!smp){["#iParse","#gParse","#cParse"].forEach(function(s){$(s).hidden=true});$("#iMsg").textContent=t("no_claude");$("#gMsg").textContent=t("no_claude_g");$("#cMsg").textContent=t("no_claude_g")}})();
+function errMsg(e){var c=e&&e.code;return c==="not_granted"?t("e_grant"):c==="rate_limited"?t("e_rate"):t("e_gen")}
+var VALID=ORDER.concat(["All","Racial"]);
+function spin(el,msg){el.innerHTML='<span class="spin"></span> '+E(msg)}
+$("#iParse").addEventListener("click",async function(){if(!smp||busy)return;var txt=$("#iTxt").value.trim();if(txt.length<40){WF.toast(t("t_paste"));return}
+busy=true;var b=this;b.disabled=true;spin($("#iMsg"),t("reading"));
+var prompt="You convert World of Warcraft: Forever (Blizzard's Classic+ game, vanilla 1.12 base) patch notes into structured change records for a Dominican guild.\nReturn JSON only: {\"changes\":[{\"cls\":\"\",\"spec\":\"\",\"name\":\"\",\"kind\":\"\",\"conf\":\"\",\"impact\":0,\"row\":null,\"text\":\"\",\"text_es\":\"\"}]}.\nRules:\n- cls: Warrior, Paladin, Hunter, Rogue, Priest, Shaman, Mage, Warlock, Druid, All (every class: stats, items, systems) or Racial.\n- spec: exact talent tree (Arms, Fury, Protection, Holy, Retribution, Beast Mastery, Marksmanship, Survival, Assassination, Combat, Subtlety, Discipline, Shadow, Elemental, Enhancement, Restoration, Arcane, Fire, Frost, Affliction, Demonology, Destruction, Balance, Feral) or All for class-wide. For Racial, the race name.\n- kind: buff, nerf, new, removed, rework (no clear direction) or fix (bug fix, rename, tooltip).\n- conf: off for Blizzard's own notes; one for datamined or community reports.\n- impact: integer −3..3 for how much the change moves the spec's power in play. 3 = signature or capstone-level, 2 = clearly felt, 1 = minor, 0 = neutral or quality of life, negatives mirror that.\n- row: the talent tree row number only if the notes state it, else null.\n- text: one plain English sentence, max 180 characters, with numbers as old → new.\n- text_es: the same sentence in Dominican Spanish; keep ability names in English.\n- Skip quests, spawns, sounds, art, UI and gamepad items.\n\nNotes:\n"+txt;
+try{var res=await smp.json(prompt,{modelTier:"default"}),arr=(res&&res.changes)||[];
+parsed=arr.filter(function(c){return c&&VALID.indexOf(c.cls)>=0&&c.name&&c.text}).map(function(c){var sp=String(c.spec||"All");if(c.cls!=="All"&&c.cls!=="Racial"&&SPECS[c.cls].indexOf(sp)<0)sp="All";if(c.cls==="All")sp="All";var im=Math.max(-3,Math.min(3,Math.round(+c.impact||0)));
+return{cls:c.cls,spec:sp,name:String(c.name).slice(0,120),kind:KINDS.indexOf(c.kind)>=0?c.kind:"rework",conf:CONFW[c.conf]?c.conf:"off",impact:im,row:(+c.row>=1&&+c.row<=7)?+c.row:null,text:String(c.text).slice(0,300),text_es:String(c.text_es||"").slice(0,300),pick:c.kind!=="fix"}});
+$("#iMsg").textContent=parsed.length?t("found",{n:parsed.length}):t("none_found");renderPreview()}
+catch(e){$("#iMsg").textContent=errMsg(e)}finally{busy=false;b.disabled=false}});
+function renderPreview(){var p=$("#iPrev");if(!parsed.length){p.hidden=true;return}p.hidden=false;
+p.innerHTML='<div class="sh" style="margin-bottom:8px"><div><div class="eyebrow">'+E(t("review"))+'</div><h3 style="font-size:18px">'+E(t("from_claude",{n:parsed.length}))+'</h3></div><div class="row"><button class="btn" id="iNone" type="button">'+E(t("discard"))+'</button><button class="btn gold" id="iAdd" type="button">'+E(t("add_sel",{n:parsed.filter(function(c){return c.pick}).length}))+'</button></div></div>'+
+'<div class="tablewrap prev"><table><thead><tr><th>'+E(t("add"))+'</th><th>'+E(t("cls_spec"))+'</th><th>'+E(t("change"))+'</th><th>'+E(t("type"))+'</th><th>'+E(t("impact"))+'</th></tr></thead><tbody>'+parsed.map(function(c,i){return'<tr><td><input type="checkbox" id="pk-'+i+'" data-pick="'+i+'"'+(c.pick?" checked":"")+' aria-label="'+E(c.name)+'"></td><td class="who"><b>'+E(cn(c.cls))+'</b><div class="note">'+E(sn(c.spec))+'</div></td><td class="cx"><b>'+E(c.name)+'</b><div>'+E(es()&&c.text_es?c.text_es:c.text)+'</div></td><td><span class="chip k-'+c.kind+'">'+E(kl(c.kind))+'</span></td><td>'+impChip(c)+'</td></tr>'}).join("")+'</tbody></table></div>';
+$("#iAdd").onclick=function(){var src=$("#iSrc").value.trim()||"Imported notes",dt=$("#iDate").value||new Date().toISOString().slice(0,10),n=0;parsed.forEach(function(c){if(!c.pick)return;n++;IMP.put({id:WF.uid(),cls:c.cls,spec:c.spec,name:c.name,kind:c.kind,conf:c.conf,impact:c.impact,row:c.row,text:c.text,text_es:c.text_es,src:src.slice(0,60),date:dt,added:Date.now()})});parsed=[];renderPreview();$("#iTxt").value="";$("#iMsg").textContent=t("added_n",{n:n});WF.toast(t("added_n",{n:n}))};
+$("#iNone").onclick=function(){parsed=[];renderPreview();$("#iMsg").textContent=t("discarded")}}
+function statPrompt(max,withSlot){var keys=STATS.map(function(s){return s[0]+" ("+s[1]+")"}).join(", ");
+return"Extract World of Warcraft Classic item stats from the text below. Return JSON only: {\"items\":[{"+(withSlot?"\"slot\":\"\",":"")+"\"name\":\"\",\"s\":{}}]} with at most "+max+" items, in the order they appear.\n"+(withSlot?"slot: one of "+SLOTS.filter(function(s,i){return SLOTS.indexOf(s)===i}).join(", ")+".\n":"")+"Stat keys: "+keys+".\nUnits: hit, crit and exp as percent numbers (\"+1% to hit\" → hit:1). wdps is a weapon's damage per second. sp is bonus spell damage; heal is bonus healing. When one line grants healing plus a smaller matching damage bonus (WoW: Forever healing items), record only heal. \"+X Attack Power\" → ap, \"Restores X mana per 5 sec\" → mp5, \"Increased Defense +X\" → def, weapon skill lines → wskill, shield block value → block. Ignore armor, resistances, durability and set bonuses. Omit zero stats.\n\nText:\n"}
+function cleanStats(s){var o={};Object.keys(s||{}).forEach(function(k){if(SL[k]&&!isNaN(+s[k])&&+s[k]!==0)o[k]=+s[k]});return o}
+$("#gParse").addEventListener("click",async function(){if(!smp||busy)return;var txt=$("#gTxt").value.trim();if(txt.length<10){WF.toast(t("t_paste"));return}
+busy=true;var b=this;b.disabled=true;spin($("#gMsg"),t("reading"));
+try{var res=await smp.json(statPrompt(2,false)+txt,{modelTier:"quick"}),it=(res&&res.items)||[];if(!it.length)throw{code:"none"};
+["a","b"].forEach(function(slot,i){if(!it[i])return;gear[slot]={name:String(it[i].name||"").slice(0,80),s:cleanStats(it[i].s)}});
+saveGear();renderGear();$("#gMsg").textContent=t("filled",{n:Math.min(2,it.length)})}
+catch(e){$("#gMsg").textContent=e&&e.code==="none"?t("e_none"):errMsg(e)}finally{busy=false;b.disabled=false}});
+$("#cParse").addEventListener("click",async function(){if(!smp||busy)return;var txt=$("#cTxt").value.trim();if(txt.length<20){WF.toast(t("t_paste"));return}
+busy=true;var b=this;b.disabled=true;spin($("#cMsg"),t("reading"));var ck=pref.cchar,r=R.filter(function(x){return x.k===ck})[0];
+try{var res=await smp.json(statPrompt(19,true)+txt,{modelTier:"default"}),it=(res&&res.items)||[];if(!it.length)throw{code:"none"};
+var items=it.slice(0,19).map(function(x){return{slot:SLOTS.indexOf(x.slot)>=0?x.slot:"",name:String(x.name||"").slice(0,80),s:cleanStats(x.s)}});
+saveSheet(ck,function(d){d.items=items;if(!d.prof)d.prof=pkey(r.cls,r.specs[0])});$("#cTxt").value="";$("#cMsg").textContent=t("read_n",{n:items.length,c:r.name})}
+catch(e){$("#cMsg").textContent=e&&e.code==="none"?t("e_none"):errMsg(e)}finally{busy=false;b.disabled=false}});
+
+/* ---------- init ---------- */
+$("#iDate").value=new Date().toISOString().slice(0,10);
+$("#gTwo").hidden=pref.gmode!=="two";$("#gChar").hidden=pref.gmode!=="char";
+renderLang();
+})();
+</script>
+
+
+</body></html>

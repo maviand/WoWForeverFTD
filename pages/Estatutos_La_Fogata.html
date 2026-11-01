@@ -1,0 +1,188 @@
+<title>Estatutos La Fogata</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@300..900&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@400;600&display=swap"><style>:root{color-scheme:light dark;
+--void:#EDF1F8;--deep:#F7F9FD;--panel:#FFFFFF;--panel2:#F0F3FA;--line:#D3DBEA;--line2:#B7C3DC;
+--gold:#8F6300;--goldfill:#F2C14E;--azure:#2F62D6;--sky:#2B4E9E;
+--text:#101A33;--text2:#33415F;--muted:#586582;--ok:#1B7F4E;--warn:#A85A08;--bad:#B4303A;
+--wash:rgba(16,26,51,.045);--navbg:rgba(237,241,248,.88);--shadowc:rgba(16,26,51,.18);
+--sans:"Google Sans","Google Sans Flex",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+--mono:"Google Sans Code","Google Sans",ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-ff="light"]){
+--void:#070B14;--deep:#0C1220;--panel:#121B2E;--panel2:#182339;--line:#26324D;--line2:#33436A;
+--gold:#F2C14E;--azure:#3B7BFF;--sky:#9FB6E8;--text:#ECE7D8;--text2:#C5CEE3;--muted:#95A2BE;--ok:#6FD39A;--warn:#F0A04B;--bad:#F07A82;
+--wash:rgba(255,255,255,.035);--navbg:rgba(7,11,20,.86);--shadowc:rgba(0,0,0,.55)}}
+:root[data-theme="dark"],:root[data-ff="dark"]{
+--void:#070B14;--deep:#0C1220;--panel:#121B2E;--panel2:#182339;--line:#26324D;--line2:#33436A;
+--gold:#F2C14E;--azure:#3B7BFF;--sky:#9FB6E8;--text:#ECE7D8;--text2:#C5CEE3;--muted:#95A2BE;--ok:#6FD39A;--warn:#F0A04B;--bad:#F07A82;
+--wash:rgba(255,255,255,.035);--navbg:rgba(7,11,20,.86);--shadowc:rgba(0,0,0,.55)}
+:root[data-ff="light"]{--void:#EDF1F8;--deep:#F7F9FD;--panel:#FFFFFF;--panel2:#F0F3FA;--line:#D3DBEA;--line2:#B7C3DC;--gold:#8F6300;--azure:#2F62D6;--sky:#2B4E9E;--text:#101A33;--text2:#33415F;--muted:#586582;--ok:#1B7F4E;--warn:#A85A08;--bad:#B4303A;--wash:rgba(16,26,51,.045);--navbg:rgba(237,241,248,.88);--shadowc:rgba(16,26,51,.18)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-inline:20px}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+h1,h2,h3,h4{margin:0;text-wrap:balance}p{margin:0}
+.wrap{width:100%;max-width:1120px;margin-inline:auto}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:650}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;margin-inline:-20px;padding-inline:20px;background:var(--navbg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:10px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:750;letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:var(--gold);white-space:nowrap}
+.brand svg{width:22px;height:22px;flex:none}
+.nav nav{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none;min-width:0}
+.nav nav::-webkit-scrollbar{display:none}
+.nav nav a{color:var(--muted);text-decoration:none;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;padding:9px 10px;border-radius:999px;white-space:nowrap}
+.nav nav a:hover{color:var(--text);background:var(--wash)}
+.iconbtn{min-width:40px;min-height:40px;display:inline-grid;place-content:center;border-radius:10px;border:1px solid var(--line);background:var(--panel)}
+.iconbtn svg{width:18px;height:18px}
+.hero{position:relative;overflow:hidden;margin-inline:-20px;padding-inline:20px;border-bottom:1px solid var(--line);background:radial-gradient(120% 120% at 50% 0%,#14284f 0%,#0b1630 46%,#070B14 82%);color:#ECE7D8}
+.hero .wrap{position:relative;padding-block:52px 40px}.ridge{position:absolute;left:0;right:0;bottom:0;width:100%;height:52%;pointer-events:none}
+.hero .eyebrow{color:#F2C14E}
+.hero h1{font-size:clamp(30px,5.6vw,52px);line-height:1.04;font-weight:800;letter-spacing:-.02em;max-width:18ch;margin-top:10px;background:linear-gradient(180deg,#FFE9A8,#F2C14E 48%,#B98A2B);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{max-width:62ch;color:#C5CEE3;font-size:15.5px;margin-top:12px}
+.hero p.lede b{color:#ECE7D8}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid #33436A;border-radius:999px;background:rgba(12,18,32,.78);font-size:12.5px;color:#ECE7D8}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--c,#F2C14E)}
+section.blk{padding-block:40px 4px}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.sh h2{font-size:clamp(22px,3.2vw,30px);font-weight:750;letter-spacing:-.015em;margin-top:4px}
+.sh p{max-width:54ch;color:var(--muted);font-size:14px}
+.panel{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px;min-width:0}
+.panel.tight{padding:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:860px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:minmax(0,1fr)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:7px 14px;border-radius:10px;border:1px solid var(--line2);background:var(--panel);font-weight:600;font-size:13.5px}
+.btn:hover{border-color:var(--gold)}.btn.gold{background:var(--goldfill);border-color:var(--goldfill);color:#1a1200}
+.btn.sm{min-height:30px;padding:3px 10px;font-size:12.5px}.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=text],input[type=search],input[type=number],input[type=date],select,textarea{min-height:38px;padding:7px 11px;border-radius:10px;border:1px solid var(--line2);background:var(--deep);min-width:0;font-size:14px}
+textarea{width:100%;resize:vertical;min-height:80px}
+label.f{display:grid;gap:4px;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.chip{font-size:10.5px;padding:2px 8px;border-radius:99px;border:1px solid var(--line2);color:var(--text2);background:var(--wash);white-space:nowrap}
+.chip.off{border-color:var(--ok);color:var(--ok)}.chip.com{border-color:var(--sky);color:var(--sky)}.chip.inf{border-color:var(--warn);color:var(--warn)}.chip.bad{border-color:var(--bad);color:var(--bad)}
+.bar{height:8px;border-radius:99px;background:var(--wash);border:1px solid var(--line);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--goldfill);border-radius:99px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;font-weight:650}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}
+.check{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line)}.check:last-child{border-bottom:0}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--goldfill);flex:none}
+.check.done span{color:var(--muted);text-decoration:line-through}
+.note{font-size:12.5px;color:var(--muted)}
+.copybtn{flex:none;min-width:30px;min-height:30px;border-radius:8px;border:1px solid var(--line2);background:var(--deep);display:inline-grid;place-content:center;color:var(--muted)}
+.copybtn:hover{color:var(--text);border-color:var(--gold)}.copybtn svg{width:15px;height:15px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;background:var(--text);color:var(--void);padding:10px 16px;border-radius:12px;font-size:13.5px;max-width:calc(100% - 32px);box-shadow:0 10px 30px var(--shadowc);opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+.sync{font-size:11px;color:var(--muted);display:inline-flex;gap:6px;align-items:center}.sync i{width:7px;height:7px;border-radius:50%;background:var(--warn)}.sync.on i{background:var(--ok)}
+footer{margin-top:56px;padding-block:24px 56px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+
+.doc{max-width:760px;margin-inline:auto}
+.art{padding-block:26px;border-bottom:1px solid var(--line)}.art:last-of-type{border-bottom:0}
+.art .no{font-family:var(--mono);color:var(--gold);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.art h2{font-size:clamp(21px,3vw,26px);font-weight:750;margin:4px 0 10px;letter-spacing:-.01em}
+.art p,.art li{color:var(--text2);font-size:15px;max-width:66ch}.art ol,.art ul{margin:8px 0 0;padding-left:22px;display:grid;gap:6px}
+.opts{display:grid;gap:8px;margin-top:12px}.op{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:12px 14px;border:1px solid var(--line2);border-radius:12px;background:var(--panel);cursor:pointer}
+.op input{width:18px;height:18px;margin-top:3px;accent-color:var(--goldfill)}.op:has(input:checked){border-color:var(--gold);background:color-mix(in srgb,var(--goldfill) 12%,var(--panel))}.op b{font-size:14.5px}.op span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.op.lock{cursor:default;opacity:.75}
+.adopted{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--ok);background:color-mix(in srgb,var(--ok) 9%,var(--panel));font-size:14px;color:var(--text2)}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:600px){.ladder{grid-template-columns:minmax(0,1fr)}}
+.ladder div{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:12px}.ladder b{display:block;color:var(--gold);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.sign{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-top:12px}.sign input{min-width:220px}
+.sg{display:grid;gap:6px;margin-top:14px}.sg div{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:14px}.sg small{color:var(--muted)}
+</style>
+<script>(function(){"use strict";
+var W=window.WF={};
+W.esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+W.$=function(s,r){return(r||document).querySelector(s)};W.$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var tt;W.toast=function(m){var t=W.$("#toast");if(!t)return;t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("show")},1800)};
+W.copy=function(str,msg){function fb(){try{var a=document.createElement("textarea");a.value=str;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();document.execCommand("copy");document.body.removeChild(a);return true}catch(e){return false}}
+var ok=function(){W.toast(msg||"Copied")};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(str).then(ok).catch(function(){if(fb())ok()})}else if(fb())ok()};
+W.copyIcon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+W.uid=function(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)};
+function lsGet(k){try{var r=localStorage.getItem("wf_"+k);return r?JSON.parse(r):null}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem("wf_"+k,JSON.stringify(v))}catch(e){}}
+W.dbp=null;var dbReady=(async function(){try{if(window.claude&&window.claude.use){W.dbp=await window.claude.use("db")}}catch(e){}return W.dbp})();
+function sync(on){var s=W.$("#sync");if(s){s.className="sync"+(on?" on":"");s.lastChild.textContent=on?"Synced":"This device only"}}
+/* single-document state */
+W.store=function(key,init,onChange){var st=Object.assign({},init,lsGet(key)||{}),timer=null,ref=null,api={};
+api.get=function(){return st};
+api.set=function(fn){fn(st);lsSet(key,st);onChange&&onChange(st);if(ref){clearTimeout(timer);timer=setTimeout(function(){timer=null;ref.set({v:st}).catch(function(){})},700)}};
+api.reset=function(){api.set(function(s){Object.keys(s).forEach(function(k){delete s[k]});Object.assign(s,JSON.parse(JSON.stringify(init)))})};
+dbReady.then(function(db){if(!db){sync(false);return}try{ref=db.doc("state/"+key);ref.onSnapshot(function(s){sync(true);if(timer)return;if(s.exists){var d=s.data().v;if(d&&JSON.stringify(d)!==JSON.stringify(st)){st=Object.assign({},init,d);lsSet(key,st);onChange&&onChange(st)}}else if(JSON.stringify(st)!==JSON.stringify(init)){ref.set({v:st}).catch(function(){})}},function(){sync(false)})}catch(e){sync(false)}});
+return api};
+/* shared collection of docs */
+W.coll=function(name,onChange,seed){var items=lsGet("c_"+name),api={},col=null;if(!items){items={};(seed||[]).forEach(function(d){items[d.id]=d})}
+api.all=function(){return Object.keys(items).map(function(k){return items[k]})};
+api.get=function(id){return items[id]};
+api.put=function(d){items[d.id]=d;lsSet("c_"+name,items);onChange&&onChange();if(col)col.doc(d.id).set(d).catch(function(){})};
+api.del=function(id){delete items[id];lsSet("c_"+name,items);onChange&&onChange();if(col)col.doc(id).delete().catch(function(){})};
+dbReady.then(function(db){if(!db){sync(false);return}try{col=db.collection(name);col.onSnapshot(function(s){sync(true);if(s.empty&&Object.keys(items).length){api.all().forEach(function(d){col.doc(d.id).set(d).catch(function(){})});return}var n={};s.docs.forEach(function(x){n[x.id]=Object.assign({id:x.id},x.data())});items=n;lsSet("c_"+name,items);onChange&&onChange()},function(){sync(false)})}catch(e){sync(false)}});
+return api};
+W.R=[
+{k:"mage",cls:"Mage",name:"Pyrolord Emberspanner",race:"Gnome",role:"MAIN",specs:["Fire","Arcane"],profs:["Tailoring","Enchanting"],c:"#3FC7EB"},
+{k:"druid",cls:"Druid",name:"Maviand Swiftclaw",race:"Night Elf",role:"MAIN",specs:["Feral","Restoration"],profs:["Herbalism","Alchemy"],c:"#FF7D0A"},
+{k:"warrior",cls:"Warrior",name:"Legionaire Ironvow",race:"Human",role:"ALT",specs:["Fury","Protection"],profs:["Mining","Blacksmithing"],c:"#C79C6E"},
+{k:"hunter",cls:"Hunter",name:"Wildheart Thornstride",race:"Night Elf",role:"ALT",specs:["Beast Mastery","Survival"],profs:["Skinning","Leatherworking"],c:"#ABD473"},
+{k:"shaman",cls:"Shaman",name:"Thorgrim Thunderbringer",race:"Dwarf",role:"ALT",specs:["Enhancement","Elemental"],profs:["Mining","Engineering"],c:"#0070DE"},
+{k:"paladin",cls:"Paladin",name:"Aldric Dawnhammer",race:"Dwarf",role:"ALT",specs:["Protection","Retribution"],profs:["Mining","Blacksmithing"],c:"#F58CBA"},
+{k:"priest",cls:"Priest",name:"Seraphine Lightmender",race:"Night Elf",role:"ALT",specs:["Discipline","Holy"],profs:["Tailoring","Herbalism"],c:"#D9D9D9"},
+{k:"rogue",cls:"Rogue",name:"Vex Nightwhisper",race:"Human",role:"ALT",specs:["Combat","Assassination"],profs:["Engineering","Mining"],c:"#FFF569"},
+{k:"warlock",cls:"Warlock",name:"Malachai Hellbringer",race:"Gnome",role:"ALT",specs:["Demonology","Destruction"],profs:["Tailoring","Enchanting"],c:"#8788EE"}];
+W.T={launch:Date.UTC(2026,10,4,23,0,0),resOpen:Date.UTC(2026,9,27,20,0,0),resClose:Date.UTC(2026,10,4,7,59,0),betaEnd:Date.UTC(2026,9,23,17,0,0)};
+/* theme */
+var TH=[null,"light","dark"],ti=0;try{var sv=localStorage.getItem("wf_theme");ti=Math.max(0,TH.indexOf(sv))}catch(e){}
+function ico(m){if(m==="light")return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>';if(m==="dark")return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>';return'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>'}
+function ap(){var m=TH[ti],b=W.$("#themeBtn");if(m)document.documentElement.setAttribute("data-ff",m);else document.documentElement.removeAttribute("data-ff");if(b){b.innerHTML=ico(m);b.setAttribute("aria-label","Theme: "+(m||"auto"))}try{m?localStorage.setItem("wf_theme",m):localStorage.removeItem("wf_theme")}catch(e){}}
+document.addEventListener("DOMContentLoaded",function(){var b=W.$("#themeBtn");if(b)b.addEventListener("click",function(){ti=(ti+1)%3;ap()});ap()});
+/* countdown helper: target ms epoch */
+W.cd=function(ms){var d=ms-Date.now();if(d<=0)return"now";var D=Math.floor(d/864e5),H=Math.floor(d%864e5/36e5),M=Math.floor(d%36e5/6e4);return D+"d "+H+"h "+M+"m"};
+})();
+</script>
+<a href="../index.html" class="wf-home" style="position:fixed;left:14px;bottom:14px;z-index:60;padding:7px 12px;border-radius:999px;border:1px solid #33436A;background:rgba(12,18,32,.9);color:#F2C14E;font:600 12px/1 system-ui,sans-serif;letter-spacing:.06em;text-decoration:none;text-transform:uppercase">&larr; Hub</a><div class="nav"><div class="wrap"><div class="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 20 6.5v8L12 22 4 14.5v-8Z"/><path d="M12 7v8M8.5 10.5h7"/></svg><span>La Fogata</span></div><nav aria-label="Sections"><a href="#proposito">Propósito</a><a href="#conducta">Conducta</a><a href="#rangos">Rangos</a><a href="#loot">Loot</a><a href="#asistencia">Asistencia</a><a href="#sanciones">Sanciones</a><a href="#firmas">Firmas</a></nav><span class="sync" id="sync"><i></i><span>This device only</span></span><button type="button" class="iconbtn" id="themeBtn" aria-label="Theme"></button></div></div>
+
+
+
+
+<div class="hero"><svg class="ridge" viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="rg1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#132a57"/><stop offset="1" stop-color="#070B14"/></linearGradient><linearGradient id="rg2" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#0d1b3a"/><stop offset="1" stop-color="#070B14"/></linearGradient></defs><path d="M0 210 L90 150 L160 190 L260 100 L340 170 L430 120 L520 190 L640 90 L730 160 L820 110 L930 190 L1030 130 L1120 180 L1200 140 V300 H0Z" fill="url(#rg1)" opacity=".85"/><path d="M0 250 L110 200 L210 240 L330 180 L450 240 L560 200 L700 250 L820 190 L960 245 L1080 205 L1200 240 V300 H0Z" fill="url(#rg2)"/></svg><div class="wrap">
+<div class="eyebrow">La Fogata · estatutos del gremio</div>
+<h1>Reglas claras para que el gremio dure.</h1>
+<p class="lede">Un gremio casual y social también necesita acuerdos: cómo nos tratamos, cómo se reparte el loot, qué pasa si alguien falta. Los oficiales eligen las políticas y cada miembro firma que las conoce.</p>
+<div class="stats"><span class="pill" style="--c:#F2C14E"><i></i>Ruleset Normal</span><span class="pill" style="--c:#3B7BFF"><i></i>Casual y social</span><span class="pill" style="--c:#9FB6E8"><i></i><span id="nf">0 firmas</span></span></div>
+</div></div>
+<main class="wrap"><div class="doc">
+<article class="art" id="proposito"><div class="no">Artículo 1</div><h2>Propósito</h2><p>La Fogata es un gremio dominicano de WoW: Forever, casual y social primero. Jugamos para pasarla bien, mejorar juntos y llegar a los raids sin perder la amistad. Empezamos con diez jugadores y aspiramos a veinte.</p></article>
+<article class="art" id="conducta"><div class="no">Artículo 2</div><h2>Conducta</h2><ol><li>Respeto ante todo: cero burlas por el nivel, el gear o los errores de nadie.</li><li>Los conflictos se hablan en privado con un oficial, no en el chat del gremio ni durante el raid.</li><li>Nada de acoso, discriminación ni spam de publicidad.</li><li>Lo que se dice en las voces del gremio se queda en el gremio.</li></ol></article>
+<article class="art" id="rangos"><div class="no">Artículo 3</div><h2>Rangos</h2><ul><li><b>Líder:</b> decide en caso de empate y representa al gremio.</li><li><b>Oficial:</b> modera, invita, organiza raids y atiende conflictos.</li><li><b>Miembro:</b> participa en todo, vota en las decisiones abiertas.</li><li><b>Aspirante:</b> período de prueba de dos semanas antes de ser miembro.</li></ul></article>
+<article class="art" id="loot"><div class="no">Artículo 4 · decisión de los oficiales</div><h2>Reparto de loot</h2><p>Elige la política. Los cambios se guardan y todos ven la vigente.</p><div class="opts" id="lootOpts"></div><div class="adopted" id="lootAd"></div></article>
+<article class="art" id="asistencia"><div class="no">Artículo 5 · decisión de los oficiales</div><h2>Asistencia y ausencias</h2><p>Avisar es suficiente; no hay castigo por faltar con aviso. Elige con cuánta anticipación mínima se avisa.</p><div class="opts" id="absOpts"></div><div class="adopted" id="absAd"></div></article>
+<article class="art" id="banco"><div class="no">Artículo 6</div><h2>Banco del gremio</h2><ul><li>El banco es para consumibles y mats de raid, no para gear personal.</li><li>Quien saca algo lo anota en #bandeja-de-loot.</li><li>Las donaciones son voluntarias y se agradecen en público.</li></ul></article>
+<article class="art" id="sanciones"><div class="no">Artículo 7</div><h2>Sanciones</h2><p>Se aplican en orden y siempre con conversación previa.</p><div class="ladder"><div><b>Paso 1</b>Conversación con un oficial.</div><div><b>Paso 2</b>Advertencia por escrito y pérdida temporal de prioridad de loot.</div><div><b>Paso 3</b>Salida del gremio, decidida por la mayoría de oficiales.</div></div></article>
+<article class="art" id="firmas"><div class="no">Artículo 8</div><h2>Conformidad</h2><p>Al firmar confirmas que leíste los estatutos y aceptas cumplirlos. Puedes retirar tu firma cuando quieras.</p>
+<div class="sign"><label class="f">Tu nombre o apodo<input type="text" id="sn" placeholder="Ej.: Pedro"></label><button class="btn gold" id="sb">Firmar y aceptar</button><button class="btn" id="cp">Copiar resumen</button></div><div class="sg" id="sg"></div></article>
+</div></main>
+<footer class="wrap">Estatutos La Fogata · complemento de La Fogata. Las políticas solo las cambian quienes tengan permiso de edición sobre esta página; las firmas las agrega cualquier miembro.</footer>
+<script>
+(function(){var $=WF.$,E=WF.esc;
+var LOOT=[["consejo","Consejo de loot","Los oficiales asignan cada pieza según el aporte y la necesidad. Es la más flexible para un gremio pequeño."],["roll","Roll con prioridad","Necesidad primero (MS), luego secundaria (OS), luego desencantar. Se resuelve con roll, sin discusión."],["rotacion","Rotación","Cada raid le toca a alguien distinto; el turno pasa aunque la pieza no le sirva."]];
+var ABS=[["1","Una hora antes","Suficiente para casi todo; se avisa por Discord en #asistencia."],["3","Tres horas antes","Da tiempo a buscar un reemplazo el mismo día."],["24","Un día antes","Para raids grandes con tanques y sanadores contados."]];
+var S=WF.store("charter",{loot:"consejo",abs:"3"},render);
+var canEdit=true;(async function(){try{var u=window.claude&&await window.claude.use("user");if(u&&u.canEdit&&u.canEdit()===false){canEdit=false;render()}}catch(e){}})();
+var F=WF.coll("firmas",rf,[]);
+function opts(id,list,cur,key){$(id).innerHTML=list.map(function(o){return'<label class="op'+(canEdit?"":" lock")+'"><input type="radio" name="'+key+'" value="'+o[0]+'"'+(cur===o[0]?" checked":"")+(canEdit?"":" disabled")+'><div><b>'+o[1]+'</b><span>'+o[2]+'</span></div></label>'}).join("")}
+function render(){var s=S.get();opts("#lootOpts",LOOT,s.loot,"loot");opts("#absOpts",ABS,s.abs,"abs");
+var l=LOOT.filter(function(x){return x[0]===s.loot})[0],a=ABS.filter(function(x){return x[0]===s.abs})[0];
+$("#lootAd").innerHTML="<b>Política vigente:</b> "+l[1]+". "+l[2];$("#absAd").innerHTML="<b>Aviso mínimo vigente:</b> "+a[1]+". "+a[2]+(canEdit?"":" (Solo los oficiales pueden cambiar esto.)")}
+function rf(){var all=F.all().sort(function(a,b){return(a.d||"").localeCompare(b.d||"")});$("#nf").textContent=all.length+(all.length===1?" firma":" firmas");
+$("#sg").innerHTML=all.length?all.map(function(x){return'<div><span><b>'+E(x.n)+'</b> <small>'+E(x.d)+'</small></span><button class="btn sm" data-del="'+x.id+'" aria-label="Retirar firma de '+E(x.n)+'">Retirar</button></div>'}).join(""):'<p class="note">Todavía nadie ha firmado. La primera firma es la del liderazgo.</p>'}
+document.addEventListener("change",function(e){var t=e.target;if(t.name==="loot")S.set(function(s){s.loot=t.value});else if(t.name==="abs")S.set(function(s){s.abs=t.value})});
+document.addEventListener("click",function(e){var d=e.target.closest("[data-del]");if(d)F.del(d.dataset.del)});
+$("#sb").addEventListener("click",function(){var n=$("#sn").value.trim();if(!n){WF.toast("Escribe tu nombre");return}F.put({id:WF.uid(),n:n,d:new Date().toISOString().slice(0,10)});$("#sn").value="";WF.toast("Firma registrada")});
+$("#cp").addEventListener("click",function(){var s=S.get(),l=LOOT.filter(function(x){return x[0]===s.loot})[0],a=ABS.filter(function(x){return x[0]===s.abs})[0];
+WF.copy("ESTATUTOS DE LA FOGATA\n\n"+WF.$$(".art").map(function(x){var h=x.querySelector("h2").textContent;return h.toUpperCase()}).join("\n")+"\n\nLoot vigente: "+l[1]+" — "+l[2]+"\nAviso mínimo de ausencia: "+a[1]+" — "+a[2],"Resumen copiado")});
+render();rf()})();
+</script>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
